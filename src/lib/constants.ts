@@ -84,52 +84,58 @@ export const PRESCHOOL_LEVELS = [
 
 export const GROWING_THROUGH_PLAY_FEATURES = [
   {
-    id: "play-based",
-    title: "Play-based learning",
+    id: "play-discovery",
+    title: "Play & Discovery",
     description:
-      "Intentional play environments designed to spark natural curiosity, problem-solving, and imaginative roleplay.",
+      "Intentional sensory play spaces and interactive stations that spark children's natural curiosity, problem-solving, and joyful exploration.",
     iconName: "Gamepad2",
     accent: "mint",
+    badge: "Sensory & Tactile",
   },
   {
-    id: "arts-crafts",
-    title: "Creative arts and crafts",
+    id: "art-creativity",
+    title: "Art & Creativity",
     description:
-      "Painting, sculpting, coloring, and crafting that nurture fine motor skills and open-ended creative expression.",
+      "Hands-on finger painting, sculpting with clay, collage making, and open drawing that nurture fine motor skills and imaginative self-expression.",
     iconName: "Palette",
     accent: "coral",
+    badge: "Fine Motor Skills",
   },
   {
-    id: "stories-literacy",
-    title: "Stories, rhymes and early literacy",
+    id: "stories-rhymes",
+    title: "Stories & Rhymes",
     description:
-      "Enchanting storytime, cheerful rhymes, and phonemic awareness that foster a lifelong love for books.",
+      "Enchanting illustrated storybooks, cheerful nursery rhymes, and expressive circle reading that build early phonemic awareness and a lifelong love for books.",
     iconName: "BookOpen",
     accent: "sky",
+    badge: "Early Literacy",
   },
   {
-    id: "numbers-discovery",
-    title: "Numbers, shapes and discovery",
+    id: "puzzles-thinking",
+    title: "Puzzles & Thinking",
     description:
-      "Hands-on counting games, colorful puzzles, and spatial discovery that make early math intuitive and fun.",
+      "Colorful wooden shape sorters, counting puzzles, patterns, and spatial matching that make foundational numeracy intuitive, tangible, and fun.",
     iconName: "Shapes",
     accent: "sunshine",
+    badge: "Early Math & Logic",
   },
   {
-    id: "social-teamwork",
-    title: "Social skills and teamwork",
+    id: "music-movement",
+    title: "Music & Movement",
     description:
-      "Sharing, listening, empathy, and collaborative group games that build healthy social bonds and emotional resilience.",
-    iconName: "Users",
-    accent: "mint",
-  },
-  {
-    id: "movement-music",
-    title: "Movement, music and outdoor play",
-    description:
-      "Rhythm, active outdoor exploration, music, and physical coordination to support vibrant physical wellbeing.",
+      "Rhythm circles, joyful action songs, creative dance, and physical coordination games that nurture sensory harmony and lively confidence.",
     iconName: "Music",
-    accent: "coral",
+    accent: "lavender",
+    badge: "Gross Motor Fun",
+  },
+  {
+    id: "nature-exploration",
+    title: "Nature & Exploration",
+    description:
+      "Observing sprouting seedlings, discovering leaves and textures, and guided outdoor garden curiosity that connect young minds with the natural world.",
+    iconName: "Compass",
+    accent: "mint",
+    badge: "Eco Curiosity",
   },
 ];
 

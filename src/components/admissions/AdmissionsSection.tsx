@@ -4,38 +4,46 @@ import React from "react";
 import { SectionHeader } from "../ui/SectionHeader";
 import { EnquiryForm } from "./EnquiryForm";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { Calendar, Heart, Sparkles, Smile, PhoneCall, ShieldCheck } from "lucide-react";
+import { Send, School, Users, Sparkles, Heart, Smile, Phone, MapPin, Clock } from "lucide-react";
 import { SCHOOL_INFO } from "@/lib/constants";
 
 export function AdmissionsSection() {
   const steps = [
     {
       step: "01",
-      title: "Online Enquiry",
-      desc: "Share your child's name and class preference through our quick form below.",
-      icon: <Sparkles className="w-6 h-6 text-sky-600" />,
-      color: "from-sky-50 to-white border-sky-200",
+      title: "Send Enquiry",
+      desc: "Fill in our gentle online form below with your child's name and class preference (Nursery, Junior KG, or Senior KG).",
+      icon: <Send className="w-6 h-6 text-sky-600" />,
+      color: "from-sky-50 to-white border-sky-300",
+      badge: "Quick Step",
+      badgeColor: "bg-sky-100 text-sky-800 border-sky-200",
     },
     {
       step: "02",
-      title: "Campus Walkthrough",
-      desc: "Tour our colorful discovery rooms, outdoor play lawns, and meet our teachers.",
-      icon: <Calendar className="w-6 h-6 text-mint-600" />,
-      color: "from-mint-50 to-white border-mint-200",
+      title: "Visit School",
+      desc: "Take an in-person walkthrough of our discovery corners, creative arts space, and safe outdoor activity lawn.",
+      icon: <School className="w-6 h-6 text-mint-600" />,
+      color: "from-mint-50 to-white border-mint-300",
+      badge: "Campus Tour",
+      badgeColor: "bg-mint-100 text-mint-800 border-mint-200",
     },
     {
       step: "03",
-      title: "Child Interaction",
-      desc: "A warm, gentle readiness conversation designed to make your child feel at ease.",
-      icon: <Smile className="w-6 h-6 text-sunshine-600" />,
-      color: "from-sunshine-50 to-white border-sunshine-200",
+      title: "Meet the Teachers",
+      desc: "A warm, gentle conversation where our teachers get to know your child's personality, routines, and interests.",
+      icon: <Users className="w-6 h-6 text-amber-600" />,
+      color: "from-sunshine-50 to-white border-sunshine-300",
+      badge: "Friendly Chat",
+      badgeColor: "bg-sunshine-100 text-amber-800 border-sunshine-200",
     },
     {
       step: "04",
-      title: "Enrolment & Welcome",
-      desc: "Receive your welcome pack and join the Little Kingdom family of happy learners!",
-      icon: <Heart className="w-6 h-6 text-coral-600" />,
-      color: "from-coral-50 to-white border-coral-200",
+      title: "Begin Learning",
+      desc: "Receive your Little Kingdom welcome kit, meet your new friends, and step into the kingdom of happy discovery!",
+      icon: <Sparkles className="w-6 h-6 text-coral-600" />,
+      color: "from-coral-50 to-white border-coral-300",
+      badge: "Welcome Day",
+      badgeColor: "bg-coral-100 text-coral-800 border-coral-200",
     },
   ];
 
@@ -53,32 +61,38 @@ export function AdmissionsSection() {
           description="We welcome curious toddlers and enthusiastic young learners. Our admissions process is gentle, supportive, and designed around your family."
         />
 
-        {/* 4 Storybook Enrolment Steps */}
+        {/* 4 Friendly Illustrated Journey Steps */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {steps.map((item, index) => (
             <div
               key={index}
-              className={`storybook-card p-6 sm:p-7 flex flex-col justify-between bg-gradient-to-br ${item.color} border-2`}
+              className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between bg-gradient-to-br ${item.color} border-2 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 relative`}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-3xl font-black text-slate-800 font-heading">
+                  <span className="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-800 font-heading font-black text-sm shadow-2xs">
                     {item.step}
                   </span>
                   <div className="w-12 h-12 rounded-2xl bg-white shadow-xs border border-slate-200/80 flex items-center justify-center">
                     {item.icon}
                   </div>
                 </div>
-                <h4 className="text-lg font-extrabold text-slate-900 mb-2">
+
+                <span className={`storybook-sticker text-[10px] ${item.badgeColor} mb-2.5`}>
+                  {item.badge}
+                </span>
+
+                <h4 className="text-xl font-black text-slate-900 mb-2 font-heading">
                   {item.title}
                 </h4>
+
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   {item.desc}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-200/70 text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Step 0{index + 1}
+              <div className="pt-4 mt-4 border-t border-slate-200/70 text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
+                Step 0{index + 1} of 04
               </div>
             </div>
           ))}
@@ -96,51 +110,52 @@ export function AdmissionsSection() {
               <span className="storybook-sticker bg-sky-100 text-sky-800 border border-sky-200 mb-3">
                 Admissions Desk
               </span>
-              <h4 className="text-2xl font-black text-slate-900 mb-2">
+              <h4 className="text-2xl font-black text-slate-900 mb-2 font-heading">
                 We&apos;re Here to Help
               </h4>
               <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
-                Have questions about age readiness, classroom routines, or school hours? Our admissions coordinator is happy to assist.
+                Have questions about age criteria, daily routines, or walkthrough appointments? Our admissions team is happy to assist.
               </p>
 
-              <div className="space-y-4 pt-4 border-t border-slate-200 text-xs text-slate-700">
-                <div>
-                  <span className="text-slate-400 font-bold uppercase tracking-wider block mb-0.5">
-                    Phone Enquiry:
-                  </span>
-                  <span className="font-mono text-slate-900 font-extrabold text-sm">
-                    {SCHOOL_INFO.placeholders.phone}
-                  </span>
+              <div className="space-y-4 pt-4 border-t border-slate-200/80 text-xs text-slate-700">
+                <div className="flex items-start gap-3">
+                  <Clock className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-extrabold text-slate-900 block">Visiting Hours:</span>
+                    <span>{SCHOOL_INFO.placeholders.officeHours}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-slate-400 font-bold uppercase tracking-wider block mb-0.5">
-                    Admissions Hours:
-                  </span>
-                  <span className="text-slate-700 font-medium">
-                    {SCHOOL_INFO.placeholders.officeHours}
-                  </span>
-                </div>
-              </div>
 
-              <div className="mt-6">
-                <PlaceholderNotice label="Phone number to be updated by school management" />
+                <div className="flex items-start gap-3">
+                  <Phone className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-extrabold text-slate-900 block">Contact Desk:</span>
+                    <span className="text-slate-600">{SCHOOL_INFO.placeholders.phone}</span>
+                    <div className="mt-1">
+                      <PlaceholderNotice label="Verified phone pending" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-coral-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-extrabold text-slate-900 block">Campus Address:</span>
+                    <span className="text-slate-600">{SCHOOL_INFO.placeholders.address}</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* School Prospectus Box */}
-            <div className="p-8 rounded-4xl bg-gradient-to-br from-sunshine-50 to-sunshine-100/70 border-2 border-sunshine-200/90 text-slate-800 space-y-3 shadow-xs">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-sunshine-600" />
-                <h5 className="font-extrabold text-base text-slate-900">
-                  Preschool Information Guide
-                </h5>
+            {/* Reassurance Badge Box */}
+            <div className="p-6 rounded-3xl bg-mint-50/80 border-2 border-mint-200/90 shadow-2xs">
+              <div className="flex items-center gap-2.5 text-mint-900 font-extrabold text-sm mb-2">
+                <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
+                <span>Nurturing Gentle Transition</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                Our complete 2026–2027 information booklet detailing daily schedules and fee structures will be available upon verified client upload.
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We understand that starting preschool is a major family milestone. Our gentle settling-in period ensures every child feels safe, loved, and at home.
               </p>
-              <div className="pt-2">
-                <PlaceholderNotice label="Official 2026 prospectus booklet pending upload" />
-              </div>
             </div>
           </div>
         </div>

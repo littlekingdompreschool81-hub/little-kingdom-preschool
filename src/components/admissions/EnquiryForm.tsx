@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { type PreschoolEnquiryInput, type EnquirySubmissionResponse } from "@/lib/validation";
-import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, Heart } from "lucide-react";
+import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, Heart, Smile } from "lucide-react";
 
 export function EnquiryForm() {
   const [formData, setFormData] = useState<PreschoolEnquiryInput>({
@@ -31,6 +31,10 @@ export function EnquiryForm() {
         return next;
       });
     }
+  };
+
+  const handleClassSelect = (className: "Nursery" | "Junior KG" | "Senior KG") => {
+    setFormData((prev) => ({ ...prev, classInterestedIn: className }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,18 +80,54 @@ export function EnquiryForm() {
     }
   };
 
+  const classTiles = [
+    {
+      id: "Nursery" as const,
+      label: "Nursery",
+      tagline: "Play, explore and discover",
+      badge: "Level 1",
+      activeBg: "bg-mint-50/90 border-mint-500 text-mint-950 ring-2 ring-mint-300",
+      inactiveBg: "bg-white/80 border-slate-200 text-slate-700 hover:border-mint-300 hover:bg-mint-50/40",
+      badgeColor: "bg-mint-100 text-mint-800 border-mint-200",
+      checkColor: "bg-mint-500 text-white",
+    },
+    {
+      id: "Junior KG" as const,
+      label: "Junior KG",
+      tagline: "Build skills and confidence",
+      badge: "Level 2",
+      activeBg: "bg-sky-50/90 border-sky-500 text-sky-950 ring-2 ring-sky-300",
+      inactiveBg: "bg-white/80 border-slate-200 text-slate-700 hover:border-sky-300 hover:bg-sky-50/40",
+      badgeColor: "bg-sky-100 text-sky-800 border-sky-200",
+      checkColor: "bg-sky-500 text-white",
+    },
+    {
+      id: "Senior KG" as const,
+      label: "Senior KG",
+      tagline: "Grow, create and prepare",
+      badge: "Level 3",
+      activeBg: "bg-amber-50/90 border-amber-500 text-amber-950 ring-2 ring-amber-300",
+      inactiveBg: "bg-white/80 border-slate-200 text-slate-700 hover:border-amber-300 hover:bg-amber-50/40",
+      badgeColor: "bg-sunshine-100 text-amber-800 border-sunshine-200",
+      checkColor: "bg-amber-500 text-white",
+    },
+  ];
+
   return (
-    <div className="storybook-card p-8 sm:p-12 border-2 border-slate-200/90 bg-white shadow-xl">
+    <div className="rounded-4xl p-8 sm:p-12 border-2 border-slate-200/90 bg-gradient-to-br from-[#FFFDF8] via-white to-[#FAF6EE] shadow-xl relative overflow-hidden">
+      {/* Decorative Pastel Background Glow */}
+      <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-sunshine-100/40 blur-3xl pointer-events-none -z-10" />
+
       <div className="mb-8">
-        <div className="storybook-sticker bg-sunshine-100 text-sunshine-800 border border-sunshine-200 mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-sunshine-600" />
+        <div className="storybook-sticker bg-sunshine-100 text-amber-900 border border-sunshine-200 mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
           <span>Academic Session 2026–2027</span>
         </div>
-        <h3 className="text-3xl sm:text-4xl font-black text-slate-900 mb-2">
+        <h3 className="text-3xl sm:text-4xl font-black text-slate-900 mb-2 font-heading">
           Admission Enquiry Form
         </h3>
-        <p className="text-base text-slate-600 leading-relaxed font-normal">
-          Complete your details below to register prospective interest for Little Kingdom Preschool. Our team will reach out to schedule an in-person walkthrough.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+          Complete your details below to register interest for Little Kingdom Preschool. Our team will reach out to schedule an in-person walkthrough.
         </p>
       </div>
 
@@ -115,10 +155,10 @@ export function EnquiryForm() {
             {responseState.notificationSummary && (
               <div className="mt-3 pt-3 border-t border-slate-200/80 text-xs text-slate-600 space-y-1">
                 <p>
-                  <strong>Database Storage:</strong> Confirmed & Persisted in SQLite
+                  <strong>Database Storage:</strong> Confirmed & Persisted safely
                 </p>
                 <p>
-                  <strong>Gateway Status:</strong> {responseState.notificationSummary.details}
+                  <strong>Notification Gateway:</strong> {responseState.notificationSummary.details}
                 </p>
               </div>
             )}
@@ -139,10 +179,54 @@ export function EnquiryForm() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Parent/Guardian Name - Required */}
+        {/* 1. Large Styled Pastel Class Selection Tiles */}
+        <div>
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-800 mb-3">
+            Choose Class Level <span className="text-rose-500">*</span>
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            {classTiles.map((tile) => {
+              const isSelected = formData.classInterestedIn === tile.id;
+              return (
+                <div
+                  key={tile.id}
+                  onClick={() => handleClassSelect(tile.id)}
+                  className={`p-4 sm:p-5 rounded-3xl border-2 cursor-pointer transition-all duration-200 flex flex-col justify-between text-left relative ${
+                    isSelected ? tile.activeBg : tile.inactiveBg
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${tile.badgeColor}`}>
+                      {tile.badge}
+                    </span>
+                    <div
+                      className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${
+                        isSelected ? tile.checkColor : "border-slate-300 bg-white"
+                      }`}
+                    >
+                      {isSelected && <CheckCircle2 className="w-4 h-4" />}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="font-heading font-black text-lg text-slate-900 block">
+                      {tile.label}
+                    </span>
+                    <span className="text-xs text-slate-500 italic mt-0.5 block font-medium">
+                      &ldquo;{tile.tagline}&rdquo;
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2. Text Input Fields */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+          {/* Parent/Guardian Name */}
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
               Parent / Guardian Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -152,7 +236,7 @@ export function EnquiryForm() {
               placeholder="e.g. Rahul Sharma"
               value={formData.parentName}
               onChange={handleChange}
-              className={`w-full px-5 py-3.5 rounded-2xl bg-ivory-100 border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors ${
+              className={`w-full px-5 py-3.5 rounded-2xl bg-white border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors shadow-2xs ${
                 fieldErrors.parentName ? "border-rose-400 bg-rose-50/50" : "border-slate-200"
               }`}
             />
@@ -161,9 +245,9 @@ export function EnquiryForm() {
             )}
           </div>
 
-          {/* Student Name - Required */}
+          {/* Student Name */}
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
               Student Full Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -173,7 +257,7 @@ export function EnquiryForm() {
               placeholder="e.g. Aarav Sharma"
               value={formData.studentName}
               onChange={handleChange}
-              className={`w-full px-5 py-3.5 rounded-2xl bg-ivory-100 border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors ${
+              className={`w-full px-5 py-3.5 rounded-2xl bg-white border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors shadow-2xs ${
                 fieldErrors.studentName ? "border-rose-400 bg-rose-50/50" : "border-slate-200"
               }`}
             />
@@ -182,10 +266,10 @@ export function EnquiryForm() {
             )}
           </div>
 
-          {/* Contact Number - Required */}
+          {/* Contact Phone */}
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
-              Contact Number <span className="text-rose-500">*</span>
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+              Contact Phone <span className="text-rose-500">*</span>
             </label>
             <input
               type="tel"
@@ -194,7 +278,7 @@ export function EnquiryForm() {
               placeholder="+91 98000 00000"
               value={formData.phone}
               onChange={handleChange}
-              className={`w-full px-5 py-3.5 rounded-2xl bg-ivory-100 border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors ${
+              className={`w-full px-5 py-3.5 rounded-2xl bg-white border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors shadow-2xs ${
                 fieldErrors.phone ? "border-rose-400 bg-rose-50/50" : "border-slate-200"
               }`}
             />
@@ -205,7 +289,7 @@ export function EnquiryForm() {
 
           {/* Email Address - Optional */}
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
               Email Address <span className="text-slate-400 font-normal">(Optional)</span>
             </label>
             <input
@@ -214,7 +298,7 @@ export function EnquiryForm() {
               placeholder="parent@example.com"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-5 py-3.5 rounded-2xl bg-ivory-100 border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors ${
+              className={`w-full px-5 py-3.5 rounded-2xl bg-white border text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 transition-colors shadow-2xs ${
                 fieldErrors.email ? "border-rose-400 bg-rose-50/50" : "border-slate-200"
               }`}
             />
@@ -224,44 +308,10 @@ export function EnquiryForm() {
           </div>
         </div>
 
-        {/* Class Interested In - Required with exact 3 classes */}
-        <div>
-          <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2.5">
-            Class Interested In <span className="text-rose-500">*</span>
-          </label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { id: "Nursery", label: "Nursery", note: "Play, explore and discover", color: "border-mint-400 bg-mint-50/70" },
-              { id: "Junior KG", label: "Junior KG", note: "Build skills and confidence", color: "border-sky-400 bg-sky-50/70" },
-              { id: "Senior KG", label: "Senior KG", note: "Grow, create and prepare", color: "border-sunshine-400 bg-sunshine-50/70" },
-            ].map((option) => (
-              <label
-                key={option.id}
-                className={`p-4 rounded-3xl border-2 cursor-pointer flex flex-col items-center text-center transition-all ${
-                  formData.classInterestedIn === option.id
-                    ? `${option.color} text-slate-900 shadow-sm scale-102`
-                    : "bg-ivory-100 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="classInterestedIn"
-                  value={option.id}
-                  checked={formData.classInterestedIn === option.id}
-                  onChange={handleChange}
-                  className="sr-only"
-                />
-                <span className="font-black text-base">{option.label}</span>
-                <span className="text-xs text-slate-500 mt-0.5 italic font-medium">{option.note}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
         {/* Additional Message - Optional */}
         <div>
-          <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
-            Additional Message <span className="text-slate-400 font-normal">(Optional)</span>
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+            Additional Questions / Notes <span className="text-slate-400 font-normal">(Optional)</span>
           </label>
           <textarea
             name="message"
@@ -269,7 +319,7 @@ export function EnquiryForm() {
             placeholder="Tell us about your child's favorite activities or preferred walkthrough timing..."
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-5 py-3.5 rounded-2xl bg-ivory-100 border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 resize-none"
+            className="w-full px-5 py-3.5 rounded-2xl bg-white border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-200 resize-none shadow-2xs"
           />
         </div>
 
@@ -278,7 +328,7 @@ export function EnquiryForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-black text-base tracking-wide shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-50"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-2xl bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-black text-base tracking-wide shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-50"
           >
             {loading ? (
               <>
