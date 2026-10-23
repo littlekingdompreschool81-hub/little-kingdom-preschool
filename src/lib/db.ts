@@ -76,7 +76,6 @@ export async function saveEnquiry(record: EnquiryRecord): Promise<boolean> {
     }
     return true;
   } catch (err) {
-    // Safe error logging: no parent/student personal details exposed
     console.error("[Database Error] Failed to persist enquiry ID:", record.referenceId, (err as Error).message);
     throw err;
   }
@@ -103,5 +102,43 @@ export async function updateNotificationStatus(
     }
   } catch (err) {
     console.error("[Database Update Warning] Could not update status for:", referenceId, (err as Error).message);
+  }
+}
+
+/**
+ * Retrieves all stored enquiry records sorted by submission date (newest first)
+ */
+export async function getEnquiries(): Promise<EnquiryRecord[]> {
+  try {
+    if (sqliteDb) {
+      const rows = sqliteDb
+        .prepare(`
+          SELECT 
+            id,
+            reference_id AS referenceId,
+            parent_name AS parentName,
+            student_name AS studentName,
+            phone,
+            email,
+            class_interested_in AS classInterestedIn,
+            message,
+            created_at AS createdAt,
+            email_status AS emailNotificationStatus,
+            whatsapp_status AS whatsappNotificationStatus
+          FROM enquiries
+          ORDER BY created_at DESC
+        `)
+        .all();
+      return rows as EnquiryRecord[];
+    } else {
+      if (fs.existsSync(jsonFallbackPath)) {
+        const data = JSON.parse(fs.readFileSync(jsonFallbackPath, "utf8"));
+        return data.reverse();
+      }
+      return [];
+    }
+  } catch (err) {
+    console.error("[Database Read Error]", (err as Error).message);
+    return [];
   }
 }

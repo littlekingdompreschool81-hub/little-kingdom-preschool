@@ -110,6 +110,15 @@ export function Footer() {
               <p className="pt-2 text-slate-500 italic">
                 * Weekend admissions desk by prior appointment
               </p>
+              <div className="pt-3">
+                <Link
+                  href="/admin/enquiries"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-[11px] font-bold text-slate-700 border border-slate-200 transition-colors"
+                >
+                  <span>Staff Portal: View Enquiries</span>
+                  <span>&rarr;</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
