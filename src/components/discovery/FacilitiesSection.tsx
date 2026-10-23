@@ -1,58 +1,86 @@
 "use client";
 
 import React from "react";
-import { FACILITIES } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { Landmark, Compass, Award, Building2 } from "lucide-react";
+import { Sparkles, Sun, Heart, Smile } from "lucide-react";
 
 export function FacilitiesSection() {
-  const facilityIcons = [
-    <Landmark key="1" className="w-6 h-6 text-gold-400" />,
-    <Compass key="2" className="w-6 h-6 text-gold-400" />,
-    <Building2 key="3" className="w-6 h-6 text-gold-400" />,
-    <Award key="4" className="w-6 h-6 text-gold-400" />,
+  const preschoolSpaces = [
+    {
+      title: "Bright & Cheerful Activity Rooms",
+      category: "Learning Environment",
+      description:
+        "Well-ventilated, colorful classrooms equipped with child-height furniture, sensory learning corners, and safe tactile materials.",
+      badge: "Classroom Spaces",
+      icon: <Sun className="w-5 h-5 text-sunshine-600" />,
+    },
+    {
+      title: "Creative Arts & Messy Play Corner",
+      category: "Creative Expression",
+      description:
+        "Dedicated spaces for finger painting, clay sculpting, sensory trays, and craft projects that let little imaginations flourish.",
+      badge: "Art Corner",
+      icon: <Sparkles className="w-5 h-5 text-coral-600" />,
+    },
+    {
+      title: "Safe Indoor & Outdoor Play Zone",
+      category: "Physical Play",
+      description:
+        "Child-safe play equipment, soft-landing mats, and age-appropriate physical play structures for active coordination and group fun.",
+      badge: "Play Zone",
+      icon: <Smile className="w-5 h-5 text-mint-600" />,
+    },
+    {
+      title: "Cozy Story & Reading Circles",
+      category: "Early Literacy",
+      description:
+        "A quiet, comfortable nook with picture books, soft cushions, and puppets where teachers bring captivating tales to life.",
+      badge: "Reading Nook",
+      icon: <Heart className="w-5 h-5 text-sky-600" />,
+    },
   ];
 
   return (
-    <section id="facilities" className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-950 relative">
+    <section id="spaces" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          eyebrow="Campus Infrastructure"
-          title="World-Class Learning Environments"
-          description="Architecture purposefully conceived to inspire contemplation, scientific experimentation, physical wellbeing, and artistic performance."
+          eyebrow="Preschool Spaces"
+          eyebrowVariant="sky"
+          title="Safe, Inspiring Learning Spaces"
+          description="Designed to nurture curious little minds in a secure, hygienic, and joyous preschool environment."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {FACILITIES.map((facility, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          {preschoolSpaces.map((space, index) => (
             <div
               key={index}
-              className="glass-card rounded-xl p-8 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300"
+              className="soft-card p-6 sm:p-8 flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-lg bg-navy-850 border border-gold-500/30 flex items-center justify-center group-hover:border-gold-400 transition-colors">
-                    {facilityIcons[index % facilityIcons.length]}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-ivory-200 flex items-center justify-center">
+                    {space.icon}
                   </div>
-                  <span className="text-xs font-mono uppercase tracking-widest text-gold-400/80 bg-gold-500/10 px-3 py-1 rounded-full border border-gold-500/20">
-                    {facility.category}
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                    {space.badge}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-2xl font-bold text-ivory mb-3 group-hover:text-gold-200 transition-colors">
-                  {facility.title}
+                <h3 className="text-xl font-extrabold text-brand-heading mb-2 group-hover:text-sky-600 transition-colors">
+                  {space.title}
                 </h3>
 
-                <p className="text-sm sm:text-base text-ivory/70 leading-relaxed font-light mb-6">
-                  {facility.description}
+                <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
+                  {space.description}
                 </p>
               </div>
 
-              <div className="pt-6 border-t border-navy-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <span className="font-mono text-gold-400/90 font-medium">
-                  {facility.specs}
+              <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <span className="font-semibold text-slate-500">
+                  {space.category}
                 </span>
-                <PlaceholderNotice label="Facility Audit Pending" />
+                <PlaceholderNotice label="Facility details pending client audit" />
               </div>
             </div>
           ))}

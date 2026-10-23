@@ -1,51 +1,88 @@
 import { NextResponse } from "next/server";
-import { AdmissionEnquirySchema, type EnquirySubmissionResponse } from "@/lib/validation";
+import { PreschoolEnquirySchema, type EnquirySubmissionResponse, type EnquiryRecord } from "@/lib/validation";
+import { saveEnquiry, updateNotificationStatus } from "@/lib/db";
+import { sendEnquiryEmailNotification } from "@/lib/notifications/email";
+import { sendEnquiryWhatsAppNotification } from "@/lib/notifications/whatsapp";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const result = AdmissionEnquirySchema.safeParse(body);
+    const result = PreschoolEnquirySchema.safeParse(body);
 
     if (!result.success) {
       const formattedErrors = result.error.flatten().fieldErrors;
       const response: EnquirySubmissionResponse = {
         success: false,
-        message: "Validation failed. Please verify the highlighted fields.",
+        message: "Please check the highlighted fields and try again.",
         errors: formattedErrors as Record<string, string[]>,
       };
       return NextResponse.json(response, { status: 400 });
     }
 
     const data = result.data;
-    // Generate clean alphanumeric reference number
-    const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
-    const referenceId = `ADM-2026-${randomSuffix}`;
-    const timestamp = new Date().toISOString();
 
-    // Log internally for developer / server verification
-    console.info("[Admissions Enquiry Received]", {
+    // Honeypot check - reject spam silently or with 400
+    if (data.honeypot && data.honeypot.length > 0) {
+      return NextResponse.json(
+        { success: false, message: "Invalid submission detected." },
+        { status: 400 }
+      );
+    }
+
+    // Generate unique reference number for Little Kingdom Preschool
+    const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const referenceId = `LK-2026-${randomSuffix}`;
+    const timestamp = new Date().toISOString();
+    const recordId = `enq_${Date.now()}_${randomSuffix}`;
+
+    const newRecord: EnquiryRecord = {
+      id: recordId,
       referenceId,
-      student: data.studentName,
-      grade: data.gradeApplying,
-      email: data.email,
-      timestamp,
+      parentName: data.parentName,
+      studentName: data.studentName,
+      phone: data.phone,
+      email: data.email || null,
+      classInterestedIn: data.classInterestedIn,
+      message: data.message || null,
+      createdAt: timestamp,
+      emailNotificationStatus: "pending",
+      whatsappNotificationStatus: "pending",
+    };
+
+    // 1. Persist enquiry in real database FIRST
+    await saveEnquiry(newRecord);
+
+    // 2. Attempt notifications without exposing private data
+    const emailResult = await sendEnquiryEmailNotification(newRecord);
+    const whatsappResult = await sendEnquiryWhatsAppNotification(newRecord);
+
+    // 3. Update notification statuses in database
+    await updateNotificationStatus(referenceId, {
+      emailStatus: emailResult.status,
+      whatsappStatus: whatsappResult.status,
     });
 
     const response: EnquirySubmissionResponse = {
       success: true,
-      message: `Enquiry successfully logged for ${data.studentName}. Your application reference is ${referenceId}.`,
+      message: `Thank you, ${data.parentName}! Your admission enquiry for ${data.studentName} (${data.classInterestedIn}) has been recorded. Our admissions desk will reach out to you shortly.`,
       referenceId,
       timestamp,
-      devNotice:
-        "Server-side route validated with Zod and generated reference ID. To connect live email notifications and CRM/DB persistence, provision client SMTP and database credentials.",
+      notificationSummary: {
+        emailStatus: emailResult.status,
+        whatsappStatus: whatsappResult.status,
+        details:
+          emailResult.status === "sent" && whatsappResult.status === "sent"
+            ? "Notifications delivered to school management."
+            : "Enquiry securely saved in database. (Email/WhatsApp gateways active upon server environment credential configuration).",
+      },
     };
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
-    console.error("[Admissions Enquiry Error]", error);
+    console.error("[Admissions API Error]", (error as Error).message);
     const response: EnquirySubmissionResponse = {
       success: false,
-      message: "An internal server error occurred while processing your enquiry. Please try again shortly.",
+      message: "An internal server error occurred while saving your enquiry. Please try again or call the admissions desk directly.",
     };
     return NextResponse.json(response, { status: 500 });
   }

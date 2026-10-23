@@ -1,39 +1,56 @@
 import { z } from "zod";
 
-export const AdmissionEnquirySchema = z.object({
-  studentName: z
-    .string()
-    .min(2, "Student full name must be at least 2 characters")
-    .max(100, "Name must not exceed 100 characters"),
+export const PreschoolEnquirySchema = z.object({
   parentName: z
     .string()
-    .min(2, "Parent/Guardian name must be at least 2 characters")
+    .trim()
+    .min(2, "Parent/guardian name is required (minimum 2 characters)")
     .max(100, "Name must not exceed 100 characters"),
-  email: z
+  studentName: z
     .string()
-    .email("Please provide a valid email address"),
+    .trim()
+    .min(2, "Student name is required (minimum 2 characters)")
+    .max(100, "Name must not exceed 100 characters"),
   phone: z
     .string()
-    .min(7, "Phone number must be at least 7 digits")
-    .max(20, "Phone number must not exceed 20 digits")
-    .regex(/^[+0-9\s\-()]+$/, "Phone number format contains invalid characters"),
-  gradeApplying: z
+    .trim()
+    .min(7, "Contact number is required (minimum 7 digits)")
+    .max(20, "Contact number must not exceed 20 characters")
+    .regex(/^[+0-9\s\-()]+$/, "Please enter a valid phone number"),
+  email: z
     .string()
-    .min(1, "Please select the grade level you are applying for"),
-  academicYear: z
-    .string()
-    .min(1, "Please select the intended academic session"),
-  visitPreference: z
-    .enum(["in-person", "virtual", "undecided"])
-    .default("in-person"),
-  message: z
-    .string()
-    .max(1000, "Notes cannot exceed 1000 characters")
+    .trim()
+    .email("Please provide a valid email address")
     .optional()
     .or(z.literal("")),
+  classInterestedIn: z.enum(["Nursery", "Junior KG", "Senior KG"], {
+    errorMap: () => ({ message: "Please select a valid class: Nursery, Junior KG, or Senior KG" }),
+  }),
+  message: z
+    .string()
+    .trim()
+    .max(1000, "Message cannot exceed 1000 characters")
+    .optional()
+    .or(z.literal("")),
+  // Honeypot field for spam prevention - bots fill this in, humans leave empty
+  honeypot: z.string().max(0, "Spam detected").optional().or(z.literal("")),
 });
 
-export type AdmissionEnquiryInput = z.infer<typeof AdmissionEnquirySchema>;
+export type PreschoolEnquiryInput = z.infer<typeof PreschoolEnquirySchema>;
+
+export interface EnquiryRecord {
+  id: string;
+  referenceId: string;
+  parentName: string;
+  studentName: string;
+  phone: string;
+  email: string | null;
+  classInterestedIn: "Nursery" | "Junior KG" | "Senior KG";
+  message: string | null;
+  createdAt: string;
+  emailNotificationStatus: "pending" | "sent" | "not_configured" | "failed";
+  whatsappNotificationStatus: "pending" | "sent" | "not_configured" | "failed";
+}
 
 export interface EnquirySubmissionResponse {
   success: boolean;
@@ -41,5 +58,9 @@ export interface EnquirySubmissionResponse {
   referenceId?: string;
   errors?: Record<string, string[]>;
   timestamp?: string;
-  devNotice?: string;
+  notificationSummary?: {
+    emailStatus: "sent" | "not_configured" | "failed";
+    whatsappStatus: "sent" | "not_configured" | "failed";
+    details: string;
+  };
 }

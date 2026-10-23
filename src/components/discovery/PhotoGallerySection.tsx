@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { GALLERY_PHOTOS } from "@/lib/constants";
+import { PRESCHOOL_GALLERY } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { Camera, Maximize2, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Maximize2, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export function PhotoGallerySection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -13,37 +13,38 @@ export function PhotoGallerySection() {
 
   const categories = [
     "All",
-    "Campus Architecture",
-    "Academics",
-    "Facilities",
-    "Athletics",
-    "Arts & Culture",
+    "Learning Spaces",
+    "Arts & Expression",
+    "Early Literacy",
+    "Outdoor & Play",
+    "Music & Movement",
   ];
 
   const filteredPhotos =
     selectedCategory === "All"
-      ? GALLERY_PHOTOS
-      : GALLERY_PHOTOS.filter((p) => p.category === selectedCategory);
+      ? PRESCHOOL_GALLERY
+      : PRESCHOOL_GALLERY.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="gallery" className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-900 relative">
+    <section id="gallery" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          eyebrow="Visual Chronicle"
-          title="Campus Life in Motion"
-          description="A glimpse into daily academic discourse, scientific laboratories, athletic championships, and theatrical recitals across our campus."
+          eyebrow="Visual Moments"
+          eyebrowVariant="sunshine"
+          title="Glimpses of Little Kingdom"
+          description="Everyday moments of joy, artistic expression, active play, and curious exploration at our preschool."
         />
 
         {/* Category Filters */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                 selectedCategory === category
-                  ? "bg-gold-500 text-navy-950 font-bold shadow-md shadow-gold-500/20"
-                  : "bg-navy-850/80 text-ivory/70 hover:text-ivory border border-gold-500/15 hover:border-gold-500/35"
+                  ? "bg-sky-500 text-white shadow-xs"
+                  : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300"
               }`}
             >
               {category}
@@ -57,7 +58,7 @@ export function PhotoGallerySection() {
             <div
               key={photo.id}
               onClick={() => setActivePhotoIndex(index)}
-              className="group relative rounded-xl overflow-hidden aspect-[4/3] bg-navy-950 border border-gold-500/20 cursor-pointer shadow-lg hover:border-gold-400/60 transition-all duration-300"
+              className="group relative rounded-3xl overflow-hidden aspect-[4/3] bg-white border border-slate-200 shadow-xs cursor-pointer hover:shadow-md transition-all duration-300"
             >
               <Image
                 src={photo.imageUrl}
@@ -67,23 +68,23 @@ export function PhotoGallerySection() {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
 
-              {/* Dark Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity" />
 
               {/* Expand Icon */}
-              <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-navy-950/80 border border-gold-500/40 text-gold-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 text-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
                 <Maximize2 className="w-4 h-4" />
               </div>
 
-              {/* Photo Caption & Title */}
-              <div className="absolute bottom-4 inset-x-4">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-gold-400 block mb-1">
+              {/* Caption */}
+              <div className="absolute bottom-4 inset-x-4 text-white">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-sunshine-300 block mb-1">
                   {photo.category}
                 </span>
-                <h3 className="font-serif text-base font-bold text-ivory group-hover:text-gold-200 transition-colors">
+                <h3 className="text-base font-extrabold text-white leading-snug">
                   {photo.title}
                 </h3>
-                <p className="text-xs text-ivory/60 truncate font-mono mt-0.5">
+                <p className="text-xs text-white/80 truncate mt-0.5 font-normal">
                   {photo.caption}
                 </p>
               </div>
@@ -93,7 +94,7 @@ export function PhotoGallerySection() {
 
         {/* Client Photo Audit Notice */}
         <div className="mt-8 flex justify-center">
-          <PlaceholderNotice label="Official High-Resolution School Archives Pending Verification" />
+          <PlaceholderNotice label="Official preschool photos to be updated upon client supply" />
         </div>
       </div>
 
@@ -102,18 +103,18 @@ export function PhotoGallerySection() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-navy-950/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
         >
           <button
             onClick={() => setActivePhotoIndex(null)}
-            className="absolute top-6 right-6 p-2 rounded-full bg-navy-850 text-ivory hover:text-gold-400 border border-gold-500/30 focus:outline-none"
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors focus:outline-none"
             aria-label="Close photo preview"
           >
             <X className="w-6 h-6" />
           </button>
 
           <div className="relative max-w-4xl w-full flex flex-col items-center">
-            <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-gold-500/40 shadow-2xl">
+            <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
               <Image
                 src={filteredPhotos[activePhotoIndex].imageUrl}
                 alt={filteredPhotos[activePhotoIndex].title}
@@ -123,15 +124,15 @@ export function PhotoGallerySection() {
               />
             </div>
 
-            <div className="w-full mt-4 flex items-center justify-between text-ivory">
+            <div className="w-full mt-4 flex items-center justify-between text-white">
               <div>
-                <span className="text-xs font-mono text-gold-400 uppercase tracking-widest">
+                <span className="text-xs font-bold text-sunshine-300 uppercase tracking-wider">
                   {filteredPhotos[activePhotoIndex].category}
                 </span>
-                <h4 className="font-serif text-xl font-bold mt-1">
+                <h4 className="text-lg font-bold mt-0.5">
                   {filteredPhotos[activePhotoIndex].title}
                 </h4>
-                <p className="text-xs text-ivory/70 font-mono mt-1">
+                <p className="text-xs text-white/70 mt-0.5">
                   {filteredPhotos[activePhotoIndex].caption}
                 </p>
               </div>
@@ -143,7 +144,7 @@ export function PhotoGallerySection() {
                       (activePhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length
                     )
                   }
-                  className="p-2 rounded-md bg-navy-800 text-ivory hover:text-gold-400 border border-gold-500/20"
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
                   aria-label="Previous image"
                 >
                   <ChevronLeft className="w-5 h-5" />
@@ -152,7 +153,7 @@ export function PhotoGallerySection() {
                   onClick={() =>
                     setActivePhotoIndex((activePhotoIndex + 1) % filteredPhotos.length)
                   }
-                  className="p-2 rounded-md bg-navy-800 text-ivory hover:text-gold-400 border border-gold-500/20"
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
                   aria-label="Next image"
                 >
                   <ChevronRight className="w-5 h-5" />

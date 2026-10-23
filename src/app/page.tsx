@@ -3,8 +3,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { CampusHero } from "@/components/campus/CampusHero";
 import { LearningJourneySection } from "@/components/journey/LearningJourneySection";
 import { AcademicsSection } from "@/components/discovery/AcademicsSection";
-import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
 import { ActivitiesSection } from "@/components/discovery/ActivitiesSection";
+import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
 import { AchievementsSection } from "@/components/discovery/AchievementsSection";
 import { PhotoGallerySection } from "@/components/discovery/PhotoGallerySection";
 import { AdmissionsSection } from "@/components/admissions/AdmissionsSection";
@@ -13,38 +13,38 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col bg-navy-950 text-ivory selection:bg-gold-500 selection:text-navy-950">
-      {/* Navigation */}
+    <main className="min-h-screen flex flex-col bg-ivory-100 text-brand-text">
+      {/* 1. Accessible Preschool Navigation */}
       <Navbar />
 
-      {/* 1. Campus Reveal: Hero with cinematic visual and Explore Our School CTA */}
+      {/* 2. Hero: Official Logo, School Name, Motto, Welcoming Intro */}
       <CampusHero />
 
-      {/* 2. Learning Journey: Emerging 3D educational objects with graceful fallback */}
+      {/* 3. A Little World of Wonder (Interactive 3D / Fallback) */}
       <LearningJourneySection />
 
-      {/* 3. School Discovery: Academics */}
+      {/* 4. Little Steps, Big Milestones (Nursery, Junior KG, Senior KG) */}
       <AcademicsSection />
 
-      {/* 3. School Discovery: Facilities */}
-      <FacilitiesSection />
-
-      {/* 3. School Discovery: Activities & Co-Curricular */}
+      {/* 5. Growing Through Play (6 Preschool Pillars) */}
       <ActivitiesSection />
 
-      {/* 3. School Discovery: Achievements & Benchmarks */}
+      {/* 6. Safe, Inspiring Learning Spaces */}
+      <FacilitiesSection />
+
+      {/* 7. A Message from Our Principal (Mrs. Neeta Suresh Jadhav) */}
       <AchievementsSection />
 
-      {/* 3. School Discovery: Genuine School Photographs Gallery */}
+      {/* 8. Glimpses of Little Kingdom (Preschool Gallery) */}
       <PhotoGallerySection />
 
-      {/* 4. Admissions: Admissions Enquiry CTA and interactive form */}
+      {/* 9. Admissions & Validated Enquiry Form (Saved in Database) */}
       <AdmissionsSection />
 
-      {/* 5. Contact & Google Maps Integration */}
+      {/* 10. Contact Information & Google Maps Integration */}
       <ContactSection />
 
-      {/* Institutional Footer */}
+      {/* 11. Preschool Footer */}
       <Footer />
     </main>
   );

@@ -1,58 +1,55 @@
 "use client";
 
 import React from "react";
-import { SCHOOL_PLACEHOLDERS } from "@/lib/constants";
+import { SCHOOL_INFO } from "@/lib/constants";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { MapPin, Navigation, Car, Bus, ExternalLink } from "lucide-react";
+import { MapPin, Navigation, ExternalLink, Clock, Shield } from "lucide-react";
 
 export function MapPreview() {
   const addressQuery = encodeURIComponent(
-    `${SCHOOL_PLACEHOLDERS.address.line1}, ${SCHOOL_PLACEHOLDERS.address.city}, ${SCHOOL_PLACEHOLDERS.address.country}`
+    `${SCHOOL_INFO.name}, ${SCHOOL_INFO.placeholders.address}`
   );
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden border border-gold-500/30 flex flex-col h-full">
+    <div className="soft-card overflow-hidden border border-slate-200/90 flex flex-col h-full bg-white">
       {/* Map Header */}
-      <div className="p-6 bg-navy-950/80 border-b border-gold-500/20 flex flex-wrap items-center justify-between gap-4">
+      <div className="p-6 bg-ivory-100 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-xs uppercase tracking-widest text-gold-400 block mb-1">
-            Campus Geolocation
+          <span className="text-xs font-bold uppercase tracking-wider text-sky-700 block mb-1">
+            School Location & Directions
           </span>
-          <h4 className="font-serif text-lg font-bold text-ivory">
-            Google Maps & Transit Directions
+          <h4 className="text-lg font-extrabold text-brand-heading">
+            Google Maps & Campus Access
           </h4>
         </div>
-        <PlaceholderNotice label="Official GPS Pin Pending Client Verification" />
+        <PlaceholderNotice label="Official GPS Pin Pending School Verification" />
       </div>
 
       {/* Styled Map Container */}
-      <div className="relative w-full h-72 sm:h-80 bg-navy-950 overflow-hidden flex items-center justify-center">
-        {/* Decorative Grid Lines (Dark Cartographic Style) */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#162e52_1px,transparent_1px),linear-gradient(to_bottom,#162e52_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
+      <div className="relative w-full h-72 sm:h-80 bg-slate-50 overflow-hidden flex items-center justify-center border-b border-slate-200">
+        {/* Soft Grid Lines Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-60" />
 
-        {/* Ambient Map Glow */}
-        <div className="absolute w-48 h-48 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Ambient Pastel Glow */}
+        <div className="absolute w-60 h-60 bg-sky-100 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Interactive Pin Card */}
-        <div className="relative z-10 flex flex-col items-center text-center p-6 rounded-xl bg-navy-900/90 border border-gold-500/40 backdrop-blur-md shadow-2xl max-w-sm mx-4">
-          <div className="w-12 h-12 rounded-full bg-gold-500/20 border border-gold-400 flex items-center justify-center text-gold-400 mb-3 animate-bounce">
-            <MapPin className="w-6 h-6" />
+        {/* Location Pin Card */}
+        <div className="relative z-10 flex flex-col items-center text-center p-6 rounded-2xl bg-white/95 border border-slate-200 shadow-md max-w-sm mx-4">
+          <div className="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-3 shadow-xs">
+            <MapPin className="w-6 h-6 animate-bounce" />
           </div>
-          <h5 className="font-serif font-bold text-base text-ivory">
-            {SCHOOL_PLACEHOLDERS.institutionName}
+          <h5 className="font-extrabold text-base text-brand-heading">
+            {SCHOOL_INFO.name}
           </h5>
-          <p className="text-xs text-ivory/70 mt-1 font-mono">
-            {SCHOOL_PLACEHOLDERS.address.line1}
-          </p>
-          <p className="text-xs text-gold-400/90 font-mono">
-            {SCHOOL_PLACEHOLDERS.address.city}, {SCHOOL_PLACEHOLDERS.address.country}
+          <p className="text-xs text-slate-500 mt-1 font-mono">
+            {SCHOOL_INFO.placeholders.address}
           </p>
 
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${addressQuery}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-bold transition-all shadow-md"
+            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold transition-all shadow-xs"
           >
             <Navigation className="w-3.5 h-3.5" />
             <span>Open in Google Maps</span>
@@ -61,21 +58,21 @@ export function MapPreview() {
         </div>
       </div>
 
-      {/* Transit & Access Details */}
-      <div className="p-6 bg-navy-900/90 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-ivory/80">
+      {/* Visitor Notes */}
+      <div className="p-6 bg-white grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-600">
         <div className="flex items-start gap-3">
-          <Car className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+          <Shield className="w-4 h-4 text-mint-600 shrink-0 mt-0.5" />
           <div>
-            <strong className="block text-ivory font-semibold mb-0.5">Visitor Parking:</strong>
-            <span>Designated visitor bays available via North Security Gate. Valid photo ID required for gate pass.</span>
+            <strong className="block text-slate-800 font-bold mb-0.5">Visitor Security:</strong>
+            <span>Safe preschool perimeter with dedicated parent sign-in at front reception for child safety.</span>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <Bus className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+          <Clock className="w-4 h-4 text-sunshine-600 shrink-0 mt-0.5" />
           <div>
-            <strong className="block text-ivory font-semibold mb-0.5">Transit Connectivity:</strong>
-            <span>Conveniently connected via major arterial transit routes with dedicated institutional shuttle routes.</span>
+            <strong className="block text-slate-800 font-bold mb-0.5">Visiting Hours:</strong>
+            <span>{SCHOOL_INFO.placeholders.officeHours}</span>
           </div>
         </div>
       </div>

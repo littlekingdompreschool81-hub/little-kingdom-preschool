@@ -1,20 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SCHOOL_PLACEHOLDERS } from "@/lib/constants";
+import { SCHOOL_INFO } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `A Journey Into Learning | ${SCHOOL_PLACEHOLDERS.institutionName}`,
+  title: `${SCHOOL_INFO.name} | ${SCHOOL_INFO.motto}`,
   description:
-    "An immersive, cinematic introduction to academic rigour, world-class facilities, holistic development, and admissions at our institution.",
+    "A joyful, nurturing early childhood learning center for Nursery, Junior KG, and Senior KG. Little minds with big dreams begin their journey here.",
   keywords: [
-    "School Website",
-    "Admissions 2026",
-    "Academics",
-    "Campus Tour",
-    "STEM Education",
-    "Arts & Athletics",
+    "Little Kingdom Preschool",
+    "Preschool",
+    "Kindergarten",
+    "Nursery",
+    "Junior KG",
+    "Senior KG",
+    "Early Childhood Education",
+    "Little Mind Big Dreams",
   ],
-  authors: [{ name: SCHOOL_PLACEHOLDERS.institutionName }],
+  authors: [{ name: SCHOOL_INFO.name }],
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-navy-900 text-ivory antialiased selection:bg-gold-500 selection:text-navy-950 min-h-screen flex flex-col font-sans">
+      <body className="bg-ivory-100 text-brand-text antialiased selection:bg-sunshine-200 selection:text-sky-900 min-h-screen flex flex-col font-sans">
         {children}
       </body>
     </html>

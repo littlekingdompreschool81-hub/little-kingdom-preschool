@@ -1,98 +1,113 @@
 "use client";
 
 import React, { useState } from "react";
-import { ACADEMIC_STAGES } from "@/lib/constants";
+import { PRESCHOOL_LEVELS } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
-import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { CheckCircle2, BookMarked, ArrowUpRight } from "lucide-react";
+import { CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function AcademicsSection() {
-  const [activeStage, setActiveStage] = useState(0);
+  const [activeLevelIndex, setActiveLevelIndex] = useState(0);
+  const currentLevel = PRESCHOOL_LEVELS[activeLevelIndex];
 
   return (
-    <section id="academics" className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-900 relative">
+    <section id="learning" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white relative">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          eyebrow="Curricular Rigour"
-          title="Academic Framework & Progression"
-          description="Designed to challenge and elevate, our structured curriculum balances timeless humanistic inquiry with quantitative mastery and empirical research."
+          eyebrow="Preschool Learning Levels"
+          eyebrowVariant="mint"
+          title="Little Steps, Big Milestones"
+          description="Every developmental stage is thoughtfully paced to encourage confidence, joy, and independence through structured play and social interaction."
         />
 
-        {/* Stage Selector Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12">
-          {ACADEMIC_STAGES.map((item, index) => (
+        {/* Level Selector Tabs: Exactly Nursery -> Junior KG -> Senior KG */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+          {PRESCHOOL_LEVELS.map((item, index) => (
             <button
-              key={index}
-              onClick={() => setActiveStage(index)}
-              className={`px-5 py-3 rounded-lg text-sm sm:text-base font-serif transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-gold-400 ${
-                activeStage === index
-                  ? "bg-gold-500 text-navy-950 font-bold border-gold-400 shadow-lg shadow-gold-500/20"
-                  : "bg-navy-850/70 text-ivory/80 border-gold-500/20 hover:border-gold-500/40 hover:text-ivory"
+              key={item.id}
+              onClick={() => setActiveLevelIndex(index)}
+              className={`px-6 py-3 rounded-2xl text-base font-extrabold transition-all duration-200 border-2 focus:outline-none focus:ring-2 focus:ring-sky-400 ${
+                activeLevelIndex === index
+                  ? "bg-sky-500 text-white border-sky-500 shadow-md shadow-sky-500/20"
+                  : "bg-ivory-100 text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-ivory-200"
               }`}
             >
-              <span>{item.stage}</span>
+              <span>{item.level}</span>
             </button>
           ))}
         </div>
 
-        {/* Active Stage Details Card */}
-        <div className="glass-card rounded-2xl p-8 sm:p-12 relative overflow-hidden">
+        {/* Active Level Showcase Card */}
+        <div className="rounded-3xl p-8 sm:p-12 bg-ivory-100 border border-slate-200/90 shadow-sm relative overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="font-mono text-xs uppercase tracking-wider text-gold-400 bg-gold-500/10 px-3 py-1 rounded-full border border-gold-500/30">
-                  {ACADEMIC_STAGES[activeStage].grades}
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100 px-3 py-1 rounded-full border border-sky-200">
+                  {currentLevel.badge}
                 </span>
-                <PlaceholderNotice label="Official Syllabus Pending Audit" />
+                <span className="text-xs font-medium text-slate-500">
+                  Stage {activeLevelIndex + 1} of 3
+                </span>
               </div>
 
-              <h3 className="font-serif text-3xl sm:text-4xl font-bold text-ivory mb-4">
-                {ACADEMIC_STAGES[activeStage].stage}
+              <h3 className="text-3xl sm:text-4xl font-extrabold text-brand-heading mb-2">
+                {currentLevel.level}
               </h3>
 
-              <p className="text-base sm:text-lg text-ivory/80 leading-relaxed font-light mb-8">
-                {ACADEMIC_STAGES[activeStage].description}
+              {/* Exact Required Motto/Tagline */}
+              <p className="text-xl sm:text-2xl font-bold text-sky-600 mb-4">
+                &ldquo;{currentLevel.tagline}&rdquo;
+              </p>
+
+              <p className="text-base text-slate-600 leading-relaxed font-normal mb-8">
+                {currentLevel.description}
               </p>
 
               <div className="space-y-3 mb-8">
-                <h4 className="text-xs uppercase font-mono tracking-widest text-gold-400">
-                  Key Curriculum Focus Areas:
+                <h4 className="text-xs uppercase font-bold tracking-widest text-slate-500">
+                  Key Focus Areas (Illustrative Copy):
                 </h4>
-                {ACADEMIC_STAGES[activeStage].highlights.map((highlight, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-sm sm:text-base text-ivory/90">
-                    <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0" />
-                    <span>{highlight}</span>
+                {currentLevel.focus.map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3 text-sm sm:text-base text-slate-700 font-medium">
+                    <CheckCircle2 className="w-5 h-5 text-mint-600 shrink-0" />
+                    <span>{item}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="pt-6 border-t border-gold-500/20 flex flex-wrap items-center gap-4">
-                <a
+              <div className="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-4">
+                <Link
                   href="#admissions"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-gold-400 hover:text-gold-300 underline"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-sm shadow-sm transition-all"
                 >
-                  <span>Enquire for {ACADEMIC_STAGES[activeStage].stage}</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
+                  <span>Enquire for {currentLevel.level}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <span className="text-xs text-slate-500 italic">
+                  * Age and admission details to be confirmed with school desk
+                </span>
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-navy-950/70 p-6 sm:p-8 rounded-xl border border-gold-500/20 flex flex-col justify-between h-full">
+            {/* Level Visual Card */}
+            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between h-full">
               <div>
-                <div className="w-12 h-12 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center mb-6">
-                  <BookMarked className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-2xl bg-mint-100 text-mint-700 flex items-center justify-center mb-6">
+                  <Sparkles className="w-6 h-6" />
                 </div>
-                <h4 className="font-serif text-xl font-bold text-ivory mb-2">
-                  Academic Philosophy
+                <h4 className="text-xl font-extrabold text-brand-heading mb-2">
+                  Nurturing Early Joy
                 </h4>
-                <p className="text-sm text-ivory/70 leading-relaxed font-light">
-                  Every scholar is paired with dedicated faculty mentors to cultivate lifelong intellectual self-reliance, ethical reasoning, and scholarly poise.
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                  Each learning level provides engaging, developmentally attuned experiences designed to foster independence, fine motor skills, and happy peer friendships.
                 </p>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-navy-800 text-xs font-mono text-ivory/50 flex justify-between">
-                <span>Accreditation Standard</span>
-                <span className="text-gold-400">[Verified Board ID]</span>
+              <div className="mt-8 pt-6 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                <span className="font-semibold text-slate-700">Enrolment Status</span>
+                <span className="px-2.5 py-1 rounded-full bg-sunshine-100 text-sunshine-800 font-bold">
+                  2026–27 Open
+                </span>
               </div>
             </div>
           </div>

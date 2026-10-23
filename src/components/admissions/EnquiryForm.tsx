@@ -1,19 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { type AdmissionEnquiryInput, type EnquirySubmissionResponse } from "@/lib/validation";
-import { CheckCircle2, AlertCircle, Loader2, Send, FileText } from "lucide-react";
+import { type PreschoolEnquiryInput, type EnquirySubmissionResponse } from "@/lib/validation";
+import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, Heart } from "lucide-react";
 
 export function EnquiryForm() {
-  const [formData, setFormData] = useState<AdmissionEnquiryInput>({
-    studentName: "",
+  const [formData, setFormData] = useState<PreschoolEnquiryInput>({
     parentName: "",
-    email: "",
+    studentName: "",
     phone: "",
-    gradeApplying: "Foundation Stage (Pre-K to Gr 2)",
-    academicYear: "2026–2027",
-    visitPreference: "in-person",
+    email: "",
+    classInterestedIn: "Nursery",
     message: "",
+    honeypot: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,7 +24,6 @@ export function EnquiryForm() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear individual field error on edit
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
         const next = { ...prev };
@@ -57,22 +55,21 @@ export function EnquiryForm() {
         setResponseState(data);
       } else {
         setResponseState(data);
-        // Reset form on success
+        // Reset form upon verified database storage
         setFormData({
-          studentName: "",
           parentName: "",
-          email: "",
+          studentName: "",
           phone: "",
-          gradeApplying: "Foundation Stage (Pre-K to Gr 2)",
-          academicYear: "2026–2027",
-          visitPreference: "in-person",
+          email: "",
+          classInterestedIn: "Nursery",
           message: "",
+          honeypot: "",
         });
       }
     } catch {
       setResponseState({
         success: false,
-        message: "Failed to connect to admissions endpoint. Please try again.",
+        message: "Unable to connect to the enquiry service. Please try again or reach out to the school directly.",
       });
     } finally {
       setLoading(false);
@@ -80,213 +77,199 @@ export function EnquiryForm() {
   };
 
   return (
-    <div className="glass-card rounded-2xl p-6 sm:p-10 border border-gold-500/30">
+    <div className="soft-card p-6 sm:p-10 border border-slate-200/90 bg-white">
       <div className="mb-8">
-        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ivory mb-2">
-          Admission Enquiry (2026–2027)
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sunshine-100 text-sunshine-800 text-xs font-bold mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-sunshine-600" />
+          <span>Academic Session 2026–2027</span>
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-extrabold text-brand-heading mb-2">
+          Admission Enquiry Form
         </h3>
-        <p className="text-sm text-ivory/70 font-light">
-          Submit student details below to initiate prospective admission review and schedule a personalized campus walkthrough.
+        <p className="text-sm text-slate-600 leading-relaxed font-normal">
+          Fill in your details below to begin your child&apos;s joyful journey at Little Kingdom Preschool. Our team will contact you to schedule a school visit.
         </p>
       </div>
 
       {/* Response Alert */}
       {responseState && (
         <div
-          className={`mb-6 p-4 rounded-xl border flex items-start gap-3 ${
+          className={`mb-6 p-5 rounded-2xl border flex items-start gap-3.5 ${
             responseState.success
-              ? "bg-emerald-950/70 border-emerald-500/40 text-emerald-200"
-              : "bg-rose-950/70 border-rose-500/40 text-rose-200"
+              ? "bg-mint-50 border-mint-200 text-mint-900"
+              : "bg-rose-50 border-rose-200 text-rose-900"
           }`}
         >
           {responseState.success ? (
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+            <CheckCircle2 className="w-5 h-5 text-mint-600 shrink-0 mt-0.5" />
           ) : (
-            <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
           )}
           <div className="text-sm">
-            <p className="font-semibold">{responseState.message}</p>
+            <p className="font-bold">{responseState.message}</p>
             {responseState.referenceId && (
-              <p className="mt-1 font-mono text-xs text-gold-300">
-                Application Reference: <strong>{responseState.referenceId}</strong>
+              <p className="mt-1.5 font-mono text-xs text-sky-800 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-200 inline-block">
+                Enquiry Reference ID: <strong>{responseState.referenceId}</strong>
               </p>
             )}
-            {responseState.devNotice && (
-              <p className="mt-2 text-xs text-ivory/60 border-t border-emerald-500/20 pt-2 font-mono">
-                System Status: {responseState.devNotice}
-              </p>
+            {responseState.notificationSummary && (
+              <div className="mt-2.5 pt-2 border-t border-slate-200/60 text-xs text-slate-600 space-y-1">
+                <p>
+                  <strong>Database Storage:</strong> Confirmed & Persisted
+                </p>
+                <p>
+                  <strong>Gateway Status:</strong> {responseState.notificationSummary.details}
+                </p>
+              </div>
             )}
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Student Full Name */}
-          <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Student Full Name *
-            </label>
-            <input
-              type="text"
-              name="studentName"
-              required
-              placeholder="e.g. Eleanor Vance"
-              value={formData.studentName}
-              onChange={handleChange}
-              className={`w-full px-4 py-3 rounded-lg bg-navy-950/80 border text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:ring-2 focus:ring-gold-400 transition-colors ${
-                fieldErrors.studentName ? "border-rose-500" : "border-gold-500/25"
-              }`}
-            />
-            {fieldErrors.studentName && (
-              <p className="text-xs text-rose-400 mt-1">{fieldErrors.studentName[0]}</p>
-            )}
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Anti-Spam Honeypot Field (Hidden from real users) */}
+        <div className="hidden" aria-hidden="true">
+          <input
+            type="text"
+            name="honeypot"
+            value={formData.honeypot}
+            onChange={handleChange}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
 
-          {/* Parent/Guardian Name */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Parent/Guardian Name - Required */}
           <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Parent / Guardian Name *
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Parent / Guardian Name <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               name="parentName"
               required
-              placeholder="e.g. Dr. Arthur Vance"
+              placeholder="e.g. Rahul Sharma"
               value={formData.parentName}
               onChange={handleChange}
-              className={`w-full px-4 py-3 rounded-lg bg-navy-950/80 border text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:ring-2 focus:ring-gold-400 transition-colors ${
-                fieldErrors.parentName ? "border-rose-500" : "border-gold-500/25"
+              className={`w-full px-4 py-3 rounded-xl bg-ivory-100 border text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-colors ${
+                fieldErrors.parentName ? "border-rose-400" : "border-slate-200"
               }`}
             />
             {fieldErrors.parentName && (
-              <p className="text-xs text-rose-400 mt-1">{fieldErrors.parentName[0]}</p>
+              <p className="text-xs text-rose-500 mt-1 font-medium">{fieldErrors.parentName[0]}</p>
             )}
           </div>
 
-          {/* Contact Email */}
+          {/* Student Name - Required */}
           <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Email Address *
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Student Full Name <span className="text-rose-500">*</span>
             </label>
             <input
-              type="email"
-              name="email"
+              type="text"
+              name="studentName"
               required
-              placeholder="parent@example.com"
-              value={formData.email}
+              placeholder="e.g. Aarav Sharma"
+              value={formData.studentName}
               onChange={handleChange}
-              className={`w-full px-4 py-3 rounded-lg bg-navy-950/80 border text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:ring-2 focus:ring-gold-400 transition-colors ${
-                fieldErrors.email ? "border-rose-500" : "border-gold-500/25"
+              className={`w-full px-4 py-3 rounded-xl bg-ivory-100 border text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-colors ${
+                fieldErrors.studentName ? "border-rose-400" : "border-slate-200"
               }`}
             />
-            {fieldErrors.email && (
-              <p className="text-xs text-rose-400 mt-1">{fieldErrors.email[0]}</p>
+            {fieldErrors.studentName && (
+              <p className="text-xs text-rose-500 mt-1 font-medium">{fieldErrors.studentName[0]}</p>
             )}
           </div>
 
-          {/* Contact Phone */}
+          {/* Contact Number - Required */}
           <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Telephone / Mobile *
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Contact Number <span className="text-rose-500">*</span>
             </label>
             <input
               type="tel"
               name="phone"
               required
-              placeholder="+1 (555) 000-0000"
+              placeholder="+91 98000 00000"
               value={formData.phone}
               onChange={handleChange}
-              className={`w-full px-4 py-3 rounded-lg bg-navy-950/80 border text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:ring-2 focus:ring-gold-400 transition-colors ${
-                fieldErrors.phone ? "border-rose-500" : "border-gold-500/25"
+              className={`w-full px-4 py-3 rounded-xl bg-ivory-100 border text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-colors ${
+                fieldErrors.phone ? "border-rose-400" : "border-slate-200"
               }`}
             />
             {fieldErrors.phone && (
-              <p className="text-xs text-rose-400 mt-1">{fieldErrors.phone[0]}</p>
+              <p className="text-xs text-rose-500 mt-1 font-medium">{fieldErrors.phone[0]}</p>
             )}
           </div>
 
-          {/* Grade Level Applying */}
+          {/* Email Address - Optional */}
           <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Grade Level Applying For *
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Email Address <span className="text-slate-400 font-normal">(Optional)</span>
             </label>
-            <select
-              name="gradeApplying"
-              value={formData.gradeApplying}
+            <input
+              type="email"
+              name="email"
+              placeholder="parent@example.com"
+              value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-navy-950/80 border border-gold-500/25 text-ivory text-sm focus:outline-none focus:ring-2 focus:ring-gold-400"
-            >
-              <option value="Foundation Stage (Pre-K to Gr 2)">Foundation Stage (Pre-K to Gr 2)</option>
-              <option value="Middle Years (Gr 3 to Gr 5)">Middle Years Lower (Gr 3 to Gr 5)</option>
-              <option value="Middle Years (Gr 6 to Gr 8)">Middle Years Upper (Gr 6 to Gr 8)</option>
-              <option value="Senior Secondary (Gr 9 to Gr 10)">Senior Secondary (Gr 9 to Gr 10)</option>
-              <option value="Pre-University Baccalaureate (Gr 11 to Gr 12)">Pre-University Baccalaureate (Gr 11 to Gr 12)</option>
-            </select>
-          </div>
-
-          {/* Academic Session */}
-          <div>
-            <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-              Academic Session *
-            </label>
-            <select
-              name="academicYear"
-              value={formData.academicYear}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-navy-950/80 border border-gold-500/25 text-ivory text-sm focus:outline-none focus:ring-2 focus:ring-gold-400"
-            >
-              <option value="2026–2027">Session 2026–2027 (Immediate Term)</option>
-              <option value="2027–2028">Session 2027–2028 (Advance Registration)</option>
-            </select>
+              className={`w-full px-4 py-3 rounded-xl bg-ivory-100 border text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-colors ${
+                fieldErrors.email ? "border-rose-400" : "border-slate-200"
+              }`}
+            />
+            {fieldErrors.email && (
+              <p className="text-xs text-rose-500 mt-1 font-medium">{fieldErrors.email[0]}</p>
+            )}
           </div>
         </div>
 
-        {/* Visit Preference */}
+        {/* Class Interested In - Required with exact order */}
         <div>
-          <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-            Campus Walkthrough Preference
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Class Interested In <span className="text-rose-500">*</span>
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
-              { id: "in-person", label: "In-Person Guided Tour" },
-              { id: "virtual", label: "Virtual Admissions Session" },
-              { id: "undecided", label: "Decide Later" },
+              { id: "Nursery", label: "Nursery", note: "Play, explore and discover" },
+              { id: "Junior KG", label: "Junior KG", note: "Build skills and confidence" },
+              { id: "Senior KG", label: "Senior KG", note: "Grow, create and prepare" },
             ].map((option) => (
               <label
                 key={option.id}
-                className={`p-3 rounded-lg border cursor-pointer text-xs flex items-center justify-center text-center font-medium transition-all ${
-                  formData.visitPreference === option.id
-                    ? "bg-gold-500/20 border-gold-400 text-gold-300"
-                    : "bg-navy-950/60 border-gold-500/20 text-ivory/70 hover:border-gold-500/40"
+                className={`p-3.5 rounded-2xl border-2 cursor-pointer flex flex-col items-center text-center transition-all ${
+                  formData.classInterestedIn === option.id
+                    ? "bg-sky-50 border-sky-500 text-sky-900 shadow-xs"
+                    : "bg-ivory-100 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-ivory-200"
                 }`}
               >
                 <input
                   type="radio"
-                  name="visitPreference"
+                  name="classInterestedIn"
                   value={option.id}
-                  checked={formData.visitPreference === option.id}
+                  checked={formData.classInterestedIn === option.id}
                   onChange={handleChange}
                   className="sr-only"
                 />
-                <span>{option.label}</span>
+                <span className="font-extrabold text-sm">{option.label}</span>
+                <span className="text-[11px] text-slate-500 mt-0.5 italic">{option.note}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Specific Inquiries / Background Notes */}
+        {/* Additional Message - Optional */}
         <div>
-          <label className="block text-xs uppercase font-mono tracking-wider text-gold-400 mb-2">
-            Specific Inquiries or Academic Background
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Additional Message <span className="text-slate-400 font-normal">(Optional)</span>
           </label>
           <textarea
             name="message"
             rows={3}
-            placeholder="Share any special talents, linguistic backgrounds, or specific questions for the admissions committee..."
+            placeholder="Any specific questions, child's interests, or preferred walkthrough timings..."
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-navy-950/80 border border-gold-500/25 text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:ring-2 focus:ring-gold-400 resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-ivory-100 border border-slate-200 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-none"
           />
         </div>
 
@@ -295,12 +278,12 @@ export function EnquiryForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md bg-gold-500 hover:bg-gold-400 text-navy-950 font-bold text-sm tracking-wide shadow-lg shadow-gold-500/25 hover:shadow-gold-500/40 transition-all disabled:opacity-50"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-sm tracking-wide shadow-md shadow-sky-500/20 hover:shadow-sky-500/30 transition-all disabled:opacity-50"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Processing Application...</span>
+                <span>Recording Enquiry...</span>
               </>
             ) : (
               <>

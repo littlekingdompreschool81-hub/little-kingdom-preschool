@@ -2,26 +2,27 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "gold" | "navy" | "outline" | "success";
+  variant?: "mint" | "sky" | "sunshine" | "coral" | "neutral";
 }
 
 export function Badge({
   className,
-  variant = "gold",
+  variant = "sky",
   children,
   ...props
 }: BadgeProps) {
   const variantStyles = {
-    gold: "bg-gold-500/10 text-gold-400 border border-gold-500/30",
-    navy: "bg-navy-700/60 text-navy-200 border border-navy-600/50",
-    outline: "bg-transparent text-ivory/80 border border-ivory/20",
-    success: "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30",
+    mint: "bg-mint-100 text-mint-800 border border-mint-300",
+    sky: "bg-sky-100 text-sky-800 border border-sky-300",
+    sunshine: "bg-sunshine-100 text-sunshine-800 border border-sunshine-300",
+    coral: "bg-coral-100 text-coral-800 border border-coral-300",
+    neutral: "bg-ivory-300/80 text-brand-muted border border-slate-200",
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase",
+        "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide",
         variantStyles[variant],
         className
       )}

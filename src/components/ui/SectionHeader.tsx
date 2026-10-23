@@ -4,15 +4,16 @@ import { Badge } from "./Badge";
 
 interface SectionHeaderProps {
   eyebrow?: string;
+  eyebrowVariant?: "mint" | "sky" | "sunshine" | "coral" | "neutral";
   title: string;
   description?: string;
   align?: "left" | "center" | "right";
   className?: string;
-  dark?: boolean;
 }
 
 export function SectionHeader({
   eyebrow,
+  eyebrowVariant = "sky",
   title,
   description,
   align = "center",
@@ -27,16 +28,16 @@ export function SectionHeader({
   return (
     <div className={cn("flex flex-col max-w-3xl mb-12 lg:mb-16", alignClasses[align], className)}>
       {eyebrow && (
-        <Badge variant="gold" className="mb-4">
+        <Badge variant={eyebrowVariant} className="mb-3">
           {eyebrow}
         </Badge>
       )}
-      <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ivory leading-tight">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-brand-heading leading-tight">
         {title}
       </h2>
-      <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent my-4" />
+      <div className="w-14 h-1.5 bg-gradient-to-r from-sky-400 via-mint-400 to-sunshine-400 rounded-full my-4" />
       {description && (
-        <p className="text-ivory/70 text-base sm:text-lg font-normal leading-relaxed">
+        <p className="text-brand-muted text-base sm:text-lg font-normal leading-relaxed">
           {description}
         </p>
       )}
