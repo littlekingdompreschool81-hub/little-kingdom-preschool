@@ -3,7 +3,7 @@
 import React from "react";
 import { SCHOOL_INFO } from "@/lib/constants";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { MapPin, Navigation, ExternalLink, Clock, Shield } from "lucide-react";
+import { MapPin, Navigation, ExternalLink, Clock, ShieldCheck } from "lucide-react";
 
 export function MapPreview() {
   const addressQuery = encodeURIComponent(
@@ -11,37 +11,37 @@ export function MapPreview() {
   );
 
   return (
-    <div className="soft-card overflow-hidden border border-slate-200/90 flex flex-col h-full bg-white">
+    <div className="storybook-card overflow-hidden border-2 border-slate-200/90 flex flex-col h-full bg-white shadow-md">
       {/* Map Header */}
       <div className="p-6 bg-ivory-100 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-sky-700 block mb-1">
-            School Location & Directions
+          <span className="storybook-sticker bg-mint-100 text-mint-800 border border-mint-200 mb-1">
+            School Location
           </span>
-          <h4 className="text-lg font-extrabold text-brand-heading">
+          <h4 className="text-xl font-black text-slate-900 mt-1">
             Google Maps & Campus Access
           </h4>
         </div>
-        <PlaceholderNotice label="Official GPS Pin Pending School Verification" />
+        <PlaceholderNotice label="Official GPS Pin Pending Verification" />
       </div>
 
       {/* Styled Map Container */}
-      <div className="relative w-full h-72 sm:h-80 bg-slate-50 overflow-hidden flex items-center justify-center border-b border-slate-200">
+      <div className="relative w-full h-80 sm:h-96 bg-slate-50 overflow-hidden flex items-center justify-center border-b border-slate-200">
         {/* Soft Grid Lines Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-60" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] opacity-70" />
 
         {/* Ambient Pastel Glow */}
-        <div className="absolute w-60 h-60 bg-sky-100 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute w-72 h-72 bg-sky-100 rounded-full blur-3xl pointer-events-none" />
 
         {/* Location Pin Card */}
-        <div className="relative z-10 flex flex-col items-center text-center p-6 rounded-2xl bg-white/95 border border-slate-200 shadow-md max-w-sm mx-4">
-          <div className="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-3 shadow-xs">
-            <MapPin className="w-6 h-6 animate-bounce" />
+        <div className="relative z-10 flex flex-col items-center text-center p-8 rounded-3xl bg-white/95 border-2 border-slate-200 shadow-xl max-w-sm mx-4">
+          <div className="w-14 h-14 rounded-3xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4 shadow-xs">
+            <MapPin className="w-7 h-7 animate-bounce" />
           </div>
-          <h5 className="font-extrabold text-base text-brand-heading">
+          <h5 className="font-black text-lg text-slate-900">
             {SCHOOL_INFO.name}
           </h5>
-          <p className="text-xs text-slate-500 mt-1 font-mono">
+          <p className="text-xs text-slate-500 mt-1 font-mono font-medium">
             {SCHOOL_INFO.placeholders.address}
           </p>
 
@@ -49,11 +49,11 @@ export function MapPreview() {
             href={`https://www.google.com/maps/search/?api=1&query=${addressQuery}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold transition-all shadow-xs"
+            className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-black transition-all shadow-md hover:-translate-y-0.5"
           >
-            <Navigation className="w-3.5 h-3.5" />
+            <Navigation className="w-4 h-4" />
             <span>Open in Google Maps</span>
-            <ExternalLink className="w-3 h-3 ml-0.5" />
+            <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
           </a>
         </div>
       </div>
@@ -61,17 +61,17 @@ export function MapPreview() {
       {/* Visitor Notes */}
       <div className="p-6 bg-white grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-600">
         <div className="flex items-start gap-3">
-          <Shield className="w-4 h-4 text-mint-600 shrink-0 mt-0.5" />
+          <ShieldCheck className="w-5 h-5 text-mint-600 shrink-0 mt-0.5" />
           <div>
-            <strong className="block text-slate-800 font-bold mb-0.5">Visitor Security:</strong>
-            <span>Safe preschool perimeter with dedicated parent sign-in at front reception for child safety.</span>
+            <strong className="block text-slate-900 font-extrabold mb-0.5">Secure Perimeter:</strong>
+            <span>Safe preschool gates with visitor check-in at main reception to ensure child safety.</span>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <Clock className="w-4 h-4 text-sunshine-600 shrink-0 mt-0.5" />
+          <Clock className="w-5 h-5 text-sunshine-600 shrink-0 mt-0.5" />
           <div>
-            <strong className="block text-slate-800 font-bold mb-0.5">Visiting Hours:</strong>
+            <strong className="block text-slate-900 font-extrabold mb-0.5">Visiting Hours:</strong>
             <span>{SCHOOL_INFO.placeholders.officeHours}</span>
           </div>
         </div>

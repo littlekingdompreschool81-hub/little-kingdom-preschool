@@ -5,48 +5,48 @@ import { SCHOOL_INFO } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
 import { MapPreview } from "./MapPreview";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { MapPin, Phone, Mail, Clock, ShieldCheck, Heart } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, ShieldCheck, Heart, Sparkles } from "lucide-react";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative">
+    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          eyebrow="Get in Touch"
+          eyebrow="Connect With Us"
           eyebrowVariant="mint"
-          title="Contact & Location"
-          description="We welcome visits from prospective parents. Schedule a personalized walkthrough to experience the joyful environment at Little Kingdom Preschool."
+          title="School Office & Directions"
+          description="We warmly invite you to visit our classrooms, walk our safe play lawns, and meet our early childhood educators in person."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* Contact Details Card */}
-          <div className="lg:col-span-5 soft-card p-6 sm:p-8 flex flex-col justify-between bg-white border border-slate-200">
+          <div className="lg:col-span-5 storybook-card p-8 sm:p-10 flex flex-col justify-between bg-white border-2 border-slate-200">
             <div>
               <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
-                  School Office
+                <span className="storybook-sticker bg-sky-100 text-sky-800 border border-sky-200">
+                  Campus Secretariat
                 </span>
                 <PlaceholderNotice label="Verified Details Pending Client Supply" />
               </div>
 
-              <h3 className="text-2xl font-extrabold text-brand-heading mb-1">
+              <h3 className="text-3xl font-black text-slate-900 mb-1">
                 {SCHOOL_INFO.name}
               </h3>
-              <p className="text-xs font-semibold text-sunshine-600 mb-6 italic">
+              <p className="text-xs font-bold text-sunshine-600 mb-8 italic">
                 &ldquo;{SCHOOL_INFO.motto}&rdquo;
               </p>
 
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {/* Physical Address */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
-                    <MapPin className="w-5 h-5" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
+                    <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">
-                      Campus Address
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                      Campus Location
                     </h5>
-                    <p className="text-sm text-slate-700 leading-relaxed font-mono">
+                    <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-mono font-medium">
                       {SCHOOL_INFO.placeholders.address}
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5 font-mono">
@@ -56,45 +56,45 @@ export function ContactSection() {
                 </div>
 
                 {/* Telephone */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-mint-50 text-mint-600 border border-mint-200 flex items-center justify-center shrink-0">
-                    <Phone className="w-5 h-5" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-mint-50 text-mint-600 border border-mint-200 flex items-center justify-center shrink-0">
+                    <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">
-                      Telephone
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                      Telephone Enquiries
                     </h5>
-                    <p className="text-sm text-slate-800 font-mono font-bold">
+                    <p className="text-sm sm:text-base text-slate-900 font-mono font-extrabold">
                       {SCHOOL_INFO.placeholders.phone}
                     </p>
                   </div>
                 </div>
 
                 {/* Email */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-sunshine-50 text-sunshine-700 border border-sunshine-200 flex items-center justify-center shrink-0">
-                    <Mail className="w-5 h-5" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-sunshine-50 text-sunshine-700 border border-sunshine-200 flex items-center justify-center shrink-0">
+                    <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">
-                      Email Address
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                      Electronic Mail
                     </h5>
-                    <p className="text-sm text-sky-700 font-mono underline">
+                    <p className="text-sm sm:text-base text-sky-700 font-mono underline font-medium">
                       {SCHOOL_INFO.placeholders.email}
                     </p>
                   </div>
                 </div>
 
                 {/* Office Hours */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-coral-50 text-coral-600 border border-coral-200 flex items-center justify-center shrink-0">
-                    <Clock className="w-5 h-5" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-coral-50 text-coral-600 border border-coral-200 flex items-center justify-center shrink-0">
+                    <Clock className="w-6 h-6" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">
-                      Office Hours
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                      Visiting & Office Hours
                     </h5>
-                    <p className="text-sm text-slate-700 font-medium">
+                    <p className="text-sm sm:text-base text-slate-800 font-medium">
                       {SCHOOL_INFO.placeholders.officeHours}
                     </p>
                   </div>
@@ -102,9 +102,9 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="pt-6 mt-8 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
+            <div className="pt-6 mt-8 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-slate-500">
               <Heart className="w-4 h-4 text-coral-500 fill-coral-500 shrink-0" />
-              <span>Dedicated to joyful early years education</span>
+              <span>A loving preschool dedicated to happy beginnings</span>
             </div>
           </div>
 

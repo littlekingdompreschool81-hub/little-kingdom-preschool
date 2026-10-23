@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { CampusHero } from "@/components/campus/CampusHero";
-import { LearningJourneySection } from "@/components/journey/LearningJourneySection";
+import { ScrollStorytellingJourney } from "@/components/journey/ScrollStorytellingJourney";
 import { AcademicsSection } from "@/components/discovery/AcademicsSection";
 import { ActivitiesSection } from "@/components/discovery/ActivitiesSection";
 import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
@@ -14,19 +14,19 @@ import { Footer } from "@/components/layout/Footer";
 export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col bg-ivory-100 text-brand-text">
-      {/* 1. Accessible Preschool Navigation */}
+      {/* 1. Accessible Preschool Navigation with Official Logo */}
       <Navbar />
 
-      {/* 2. Hero: Official Logo, School Name, Motto, Welcoming Intro */}
+      {/* 2. Hero: Full-Screen Cinematic Storybook Kingdom with Parallax Depth */}
       <CampusHero />
 
-      {/* 3. A Little World of Wonder (Interactive 3D / Fallback) */}
-      <LearningJourneySection />
+      {/* 3. Dedicated Pinned Scroll-Driven 3D Storytelling Journey */}
+      <ScrollStorytellingJourney />
 
-      {/* 4. Little Steps, Big Milestones (Nursery, Junior KG, Senior KG) */}
+      {/* 4. Three Learning Worlds: Nursery, Junior KG, Senior KG */}
       <AcademicsSection />
 
-      {/* 5. Growing Through Play (6 Preschool Pillars) */}
+      {/* 5. Growing Through Play: 6 Early Childhood Learning Pillars */}
       <ActivitiesSection />
 
       {/* 6. Safe, Inspiring Learning Spaces */}
@@ -35,7 +35,7 @@ export default function HomePage() {
       {/* 7. A Message from Our Principal (Mrs. Neeta Suresh Jadhav) */}
       <AchievementsSection />
 
-      {/* 8. Glimpses of Little Kingdom (Preschool Gallery) */}
+      {/* 8. Glimpses of Little Kingdom (Polaroid-Style Photo Showcase) */}
       <PhotoGallerySection />
 
       {/* 9. Admissions & Validated Enquiry Form (Saved in Database) */}
@@ -44,7 +44,7 @@ export default function HomePage() {
       {/* 10. Contact Information & Google Maps Integration */}
       <ContactSection />
 
-      {/* 11. Preschool Footer */}
+      {/* 11. Storybook Footer */}
       <Footer />
     </main>
   );
