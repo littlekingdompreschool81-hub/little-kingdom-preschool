@@ -44,9 +44,17 @@ export function Footer() {
               Nurturing joyful, curious, and confident young learners. Our preschool provides a safe, welcoming foundation for Nursery, Junior KG, and Senior KG.
             </p>
 
-            <div className="pt-1 text-xs font-bold text-sky-700">
-              <span>{SCHOOL_INFO.principalTitle}: </span>
-              <span className="text-slate-800">{SCHOOL_INFO.principal}</span>
+            <div className="pt-1 text-xs font-bold text-sky-700 space-y-0.5">
+              <div>
+                <span>{SCHOOL_INFO.principalTitle}: </span>
+                <span className="text-slate-800">{SCHOOL_INFO.principal}</span>
+              </div>
+              <div>
+                <span>Admissions Helpline: </span>
+                <a href="tel:+919594681373" className="text-coral-600 hover:underline">
+                  Mrs. Kalpana Kadam (95946 81373)
+                </a>
+              </div>
             </div>
           </div>
 
@@ -75,6 +83,11 @@ export function Footer() {
               Classes
             </h4>
             <ul className="space-y-2 text-sm text-slate-600">
+              <li>
+                <Link href="#learning" className="hover:text-sky-600 transition-colors font-medium">
+                  Play Group (Foundation)
+                </Link>
+              </li>
               <li>
                 <Link href="#learning" className="hover:text-sky-600 transition-colors font-medium">
                   Nursery (Level 1)

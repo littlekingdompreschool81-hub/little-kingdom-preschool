@@ -189,24 +189,30 @@ export function ContactSection() {
           />
         </div>
 
-        {/* Operational Cohesion Banner */}
-        <div className="mt-12 p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6 text-amber-700" />
+        {/* Operational Cohesion & Verified Coordinator Banner */}
+        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-sunshine-100 text-amber-900 flex items-center justify-center shrink-0">
+              <Sparkles className="w-7 h-7 text-amber-700" />
             </div>
             <div>
-              <strong className="text-slate-900 text-sm font-extrabold block">
-                Unified Leadership & Safety Standards
+              <strong className="text-slate-900 text-base font-extrabold block">
+                Direct Admissions Helpline & Coordination
               </strong>
-              <p className="text-xs text-slate-600 mt-0.5">
-                Both branches of {SCHOOL_INFO.name} share the same certified curriculum, trained educators, and nurturing ethos under Principal {SCHOOL_INFO.principal}.
+              <p className="text-xs text-slate-600 mt-1 max-w-xl">
+                For admissions across both branches, reach out directly to Admissions Coordinator <strong>Mrs. Kalpana Kadam</strong> or Principal <strong>{SCHOOL_INFO.principal}</strong>.
               </p>
             </div>
           </div>
 
-          <div className="shrink-0">
-            <PlaceholderNotice label="Official Branch Addresses Pending Verification" />
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <a
+              href="tel:+919594681373"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-500 hover:bg-mint-600 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-mint-500/20 transition-all hover:scale-102"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call Kalpana Kadam: 95946 81373</span>
+            </a>
           </div>
         </div>
       </div>

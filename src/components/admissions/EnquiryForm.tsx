@@ -34,7 +34,7 @@ export function EnquiryForm() {
     }
   };
 
-  const handleClassSelect = (className: "Nursery" | "Junior KG" | "Senior KG") => {
+  const handleClassSelect = (className: "Play Group" | "Nursery" | "Junior KG" | "Senior KG") => {
     setFormData((prev) => ({ ...prev, classInterestedIn: className }));
   };
 
@@ -83,6 +83,16 @@ export function EnquiryForm() {
   };
 
   const classTiles = [
+    {
+      id: "Play Group" as const,
+      label: "Play Group",
+      tagline: "Sensory wonder & first steps",
+      badge: "Level 0",
+      activeBg: "bg-coral-50/90 border-coral-500 text-coral-950 ring-2 ring-coral-300",
+      inactiveBg: "bg-white/80 border-slate-200 text-slate-700 hover:border-coral-300 hover:bg-coral-50/40",
+      badgeColor: "bg-coral-100 text-coral-800 border-coral-200",
+      checkColor: "bg-coral-500 text-white",
+    },
     {
       id: "Nursery" as const,
       label: "Nursery",
@@ -186,7 +196,7 @@ export function EnquiryForm() {
           <label className="block text-xs font-black uppercase tracking-wider text-slate-800 mb-3">
             Choose Class Level <span className="text-rose-500">*</span>
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             {classTiles.map((tile) => {
               const isSelected = formData.classInterestedIn === tile.id;
               return (

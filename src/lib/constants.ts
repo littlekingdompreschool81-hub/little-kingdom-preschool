@@ -9,7 +9,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "About", href: "#about" },
   { label: "Learning", href: "#learning" },
   { label: "Features", href: "#features" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "Photos & Videos", href: "#gallery", badge: "Live" },
   { label: "Branches", href: "#branches", badge: "2 Locations" },
   { label: "Admissions", href: "#admissions", badge: "Open" },
   { label: "Contact", href: "#contact" },
@@ -74,9 +74,14 @@ export const SCHOOL_BRANCHES: SchoolBranch[] = [
 export const SCHOOL_INFO = {
   name: "Little Kingdom Preschool",
   motto: "Little Mind Big Dreams",
+  tagline: "Learning by doing",
   principal: "Mrs. Neeta Suresh Jadhav",
   principalTitle: "Principal, Little Kingdom Preschool",
   principalMessagePlaceholder: "Principal's message to be added after approval.",
+  coordinator: "Mrs. Kalpana Kadam",
+  coordinatorTitle: "Admissions Coordinator",
+  coordinatorPhone: "+91 9594681373",
+  coordinatorPhoneFormatted: "95946 81373",
   type: "Preschool / Kindergarten",
   logoUrl: "/images/logo.png",
   logoAlt: "Little Kingdom Preschool Logo - Little Mind Big Dreams",
@@ -85,7 +90,7 @@ export const SCHOOL_INFO = {
   placeholders: {
     address: "Operating across 2 convenient branches (Branch 1 & Branch 2)",
     cityState: "[City & State Placeholder]",
-    phone: "[School Contact Number Placeholder]",
+    phone: "+91 9594681373",
     email: "[School Official Email Placeholder]",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
     admissionsSession: "Academic Session 2026–2027",
@@ -94,6 +99,21 @@ export const SCHOOL_INFO = {
 };
 
 export const PRESCHOOL_LEVELS = [
+  {
+    id: "play-group",
+    level: "Play Group",
+    tagline: "Sensory wonder and joyful first steps.",
+    description:
+      "A warm, secure beginning where toddlers explore colors, tactile materials, rhythm, and gentle interactive play in a loving atmosphere.",
+    color: "coral",
+    badge: "Level 0",
+    focus: [
+      "Sensory & motor development",
+      "Gentle socialization through play",
+      "Action rhymes & cheerful music",
+      "Safe, caring & nurturing guidance",
+    ],
+  },
   {
     id: "nursery",
     level: "Nursery",
@@ -217,5 +237,62 @@ export const PRESCHOOL_GALLERY: GalleryPhoto[] = [
     imageUrl: "/images/gallery/janmashtami-celebration.jpg",
     isAuthentic: true,
     tag: "Authentic Campus Photograph",
+  },
+  {
+    id: 2,
+    title: "Official Admissions & Learning Programs",
+    category: "Campus & Admissions",
+    caption: "Official Little Kingdom Pre-School banner highlighting 'Learning by doing', Play Group, Nursery, Jr. KG, and Sr. KG programs, and verified coordinators.",
+    imageUrl: "/images/gallery/school-admission-banner.jpg",
+    isAuthentic: true,
+    tag: "Official Campus Banner",
+  },
+];
+
+export interface CampusVideo {
+  id: string;
+  title: string;
+  category: string;
+  duration: string;
+  caption: string;
+  thumbnailUrl: string;
+  videoUrl?: string;
+  tag: string;
+  accent: "coral" | "sky" | "sunshine" | "mint";
+}
+
+export const PRESCHOOL_VIDEOS: CampusVideo[] = [
+  {
+    id: "janmashtami-celebration",
+    title: "Janmashtami & Cultural Swings Celebration Reel",
+    category: "Festivals & Celebrations",
+    duration: "0:45 min",
+    caption: "Lively celebration reel at Little Kingdom Pre School featuring little Radha & Krishna, festive marigold swings, traditional attire, and pure festival joy.",
+    thumbnailUrl: "/images/gallery/janmashtami-celebration.jpg",
+    videoUrl: "/videos/janmashtami-celebration.mp4",
+    tag: "Festival Reel",
+    accent: "sunshine",
+  },
+  {
+    id: "learning-by-doing",
+    title: "Learning by Doing: Daily Discovery & Play Group",
+    category: "Classroom Activities",
+    duration: "1:15 min",
+    caption: "A joyful glimpse into our play-based learning, phonics fun, art & craft, and sensory exploration across Play Group and KG classrooms.",
+    thumbnailUrl: "/images/gallery/school-admission-banner.jpg",
+    videoUrl: "/videos/learning-by-doing.mp4",
+    tag: "Campus Experience",
+    accent: "sky",
+  },
+  {
+    id: "cultural-program",
+    title: "Annual Day & Cultural Dance Highlights",
+    category: "Cultural Programs",
+    duration: "2:00 min",
+    caption: "Little performers presenting group action songs, cheerful rhythm dances, and rhymes celebrating childhood milestones.",
+    thumbnailUrl: "/images/gallery/janmashtami-celebration.jpg",
+    videoUrl: "/videos/cultural-program.mp4",
+    tag: "Milestone Celebration",
+    accent: "coral",
   },
 ];
