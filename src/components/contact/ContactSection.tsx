@@ -1,116 +1,212 @@
 "use client";
 
-import React from "react";
-import { SCHOOL_INFO } from "@/lib/constants";
+import React, { useState } from "react";
+import { SCHOOL_INFO, SCHOOL_BRANCHES, type SchoolBranch } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
 import { MapPreview } from "./MapPreview";
 import { PlaceholderNotice } from "../ui/PlaceholderNotice";
-import { MapPin, Phone, Mail, Clock, ShieldCheck, Heart, Sparkles } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ShieldCheck,
+  Heart,
+  Sparkles,
+  School,
+  ExternalLink,
+  Navigation,
+  Compass,
+} from "lucide-react";
 
 export function ContactSection() {
+  const [selectedBranchId, setSelectedBranchId] = useState<string>(SCHOOL_BRANCHES[0].id);
+
+  const selectedBranch =
+    SCHOOL_BRANCHES.find((b) => b.id === selectedBranchId) || SCHOOL_BRANCHES[0];
+
   return (
-    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative overflow-hidden">
+    <section id="branches" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative overflow-hidden">
+      {/* Decorative Pastel Background Blobs */}
+      <div className="absolute top-10 right-10 w-96 h-96 rounded-full bg-sky-100/50 blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 rounded-full bg-mint-100/50 blur-3xl pointer-events-none -z-10" />
+
       <div className="max-w-7xl mx-auto">
-        <SectionHeader
-          eyebrow="Connect With Us"
-          eyebrowVariant="mint"
-          title="School Office & Directions"
-          description="We warmly invite you to visit our classrooms, walk our safe play lawns, and meet our early childhood educators in person."
-        />
+        <div id="contact" className="scroll-mt-24">
+          <SectionHeader
+            eyebrow="2 School Locations"
+            eyebrowVariant="mint"
+            title="Our 2 Campuses & Directions"
+            description="Little Kingdom Preschool proudly operates across two vibrant, thoughtfully designed branch campuses. Families can explore both locations below."
+          />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-          {/* Contact Details Card */}
-          <div className="lg:col-span-5 storybook-card p-8 sm:p-10 flex flex-col justify-between bg-white border-2 border-slate-200">
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <span className="storybook-sticker bg-sky-100 text-sky-800 border border-sky-200">
-                  Campus Secretariat
-                </span>
-                <PlaceholderNotice label="Verified Details Pending Client Supply" />
+        {/* 2-Branch Side-by-Side Comparison Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {SCHOOL_BRANCHES.map((branch, index) => {
+            const isSelected = branch.id === selectedBranchId;
+            const isBranch1 = index === 0;
+
+            return (
+              <div
+                key={branch.id}
+                onClick={() => setSelectedBranchId(branch.id)}
+                className={`storybook-card p-8 sm:p-10 flex flex-col justify-between border-2 cursor-pointer transition-all duration-300 relative ${
+                  isSelected
+                    ? isBranch1
+                      ? "bg-gradient-to-br from-sky-50 via-white to-sky-100/40 border-sky-400 shadow-xl ring-2 ring-sky-300 scale-[1.01]"
+                      : "bg-gradient-to-br from-mint-50 via-white to-mint-100/40 border-mint-400 shadow-xl ring-2 ring-mint-300 scale-[1.01]"
+                    : "bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-lg"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <span
+                      className={`storybook-sticker ${
+                        isBranch1
+                          ? "bg-sky-100 text-sky-900 border-sky-300"
+                          : "bg-mint-100 text-mint-900 border-mint-300"
+                      }`}
+                    >
+                      <School className="w-3.5 h-3.5" />
+                      {branch.badge}
+                    </span>
+
+                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
+                      Campus 0{index + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 font-heading">
+                    {branch.name}
+                  </h3>
+                  <p className="text-xs font-extrabold text-sky-700 mb-6 italic">
+                    &ldquo;{branch.tagline}&rdquo;
+                  </p>
+
+                  <div className="space-y-5 text-xs sm:text-sm text-slate-700">
+                    {/* Address */}
+                    <div className="flex items-start gap-3.5">
+                      <div
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
+                          isBranch1 ? "bg-sky-100 text-sky-700 border-sky-200" : "bg-mint-100 text-mint-700 border-mint-200"
+                        }`}
+                      >
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
+                          Campus Address
+                        </span>
+                        <p className="font-mono text-slate-800 font-medium leading-relaxed">
+                          {branch.address}
+                        </p>
+                        <p className="text-xs text-slate-500 font-mono mt-0.5">
+                          {branch.cityState} • {branch.landmark}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Telephone */}
+                    <div className="flex items-start gap-3.5">
+                      <div
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
+                          isBranch1 ? "bg-sky-100 text-sky-700 border-sky-200" : "bg-mint-100 text-mint-700 border-mint-200"
+                        }`}
+                      >
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
+                          Telephone Enquiries
+                        </span>
+                        <p className="font-mono font-extrabold text-slate-900">
+                          {branch.phone}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Office Hours */}
+                    <div className="flex items-start gap-3.5">
+                      <div
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
+                          isBranch1 ? "bg-sky-100 text-sky-700 border-sky-200" : "bg-mint-100 text-mint-700 border-mint-200"
+                        }`}
+                      >
+                        <Clock className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
+                          Visiting Hours
+                        </span>
+                        <p className="text-slate-800 font-medium">
+                          {branch.officeHours}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Bottom: Selection and Maps CTA */}
+                <div className="pt-6 mt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedBranchId(branch.id);
+                    }}
+                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black transition-all ${
+                      isSelected
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    }`}
+                  >
+                    <span>{isSelected ? "Currently Viewing on Map" : `View ${branch.shortName} on Map`}</span>
+                  </button>
+
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.name + ", " + branch.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1 text-xs font-extrabold text-sky-700 hover:text-sky-900 transition-colors"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Get Directions</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
+            );
+          })}
+        </div>
 
-              <h3 className="text-3xl font-black text-slate-900 mb-1">
-                {SCHOOL_INFO.name}
-              </h3>
-              <p className="text-xs font-bold text-sunshine-600 mb-8 italic">
-                &ldquo;{SCHOOL_INFO.motto}&rdquo;
-              </p>
+        {/* Interactive Google Map Preview for Active Branch */}
+        <div className="grid grid-cols-1 gap-8">
+          <MapPreview
+            selectedBranchId={selectedBranchId}
+            onBranchSelect={(id) => setSelectedBranchId(id)}
+          />
+        </div>
 
-              <div className="space-y-6">
-                {/* Physical Address */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                      Campus Location
-                    </h5>
-                    <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-mono font-medium">
-                      {SCHOOL_INFO.placeholders.address}
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5 font-mono">
-                      {SCHOOL_INFO.placeholders.cityState}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Telephone */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-mint-50 text-mint-600 border border-mint-200 flex items-center justify-center shrink-0">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                      Telephone Enquiries
-                    </h5>
-                    <p className="text-sm sm:text-base text-slate-900 font-mono font-extrabold">
-                      {SCHOOL_INFO.placeholders.phone}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-sunshine-50 text-sunshine-700 border border-sunshine-200 flex items-center justify-center shrink-0">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                      Electronic Mail
-                    </h5>
-                    <p className="text-sm sm:text-base text-sky-700 font-mono underline font-medium">
-                      {SCHOOL_INFO.placeholders.email}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Office Hours */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-coral-50 text-coral-600 border border-coral-200 flex items-center justify-center shrink-0">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                      Visiting & Office Hours
-                    </h5>
-                    <p className="text-sm sm:text-base text-slate-800 font-medium">
-                      {SCHOOL_INFO.placeholders.officeHours}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        {/* Operational Cohesion Banner */}
+        <div className="mt-12 p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
+              <Sparkles className="w-6 h-6 text-amber-700" />
             </div>
-
-            <div className="pt-6 mt-8 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-slate-500">
-              <Heart className="w-4 h-4 text-coral-500 fill-coral-500 shrink-0" />
-              <span>A loving preschool dedicated to happy beginnings</span>
+            <div>
+              <strong className="text-slate-900 text-sm font-extrabold block">
+                Unified Leadership & Safety Standards
+              </strong>
+              <p className="text-xs text-slate-600 mt-0.5">
+                Both branches of {SCHOOL_INFO.name} share the same certified curriculum, trained educators, and nurturing ethos under Principal {SCHOOL_INFO.principal}.
+              </p>
             </div>
           </div>
 
-          {/* Google Maps / Map Preview */}
-          <div className="lg:col-span-7">
-            <MapPreview />
+          <div className="shrink-0">
+            <PlaceholderNotice label="Official Branch Addresses Pending Verification" />
           </div>
         </div>
       </div>

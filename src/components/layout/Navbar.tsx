@@ -34,7 +34,7 @@ export function Navbar() {
         <Sparkles className="w-4 h-4 text-sunshine-600 animate-pulse shrink-0" />
         <span className="font-semibold">
           <strong className="text-sky-800">Admissions Open 2026–2027:</strong>{" "}
-          Now welcoming children for Nursery, Junior KG, and Senior KG.
+          Now welcoming children for Nursery, Junior KG, and Senior KG across our 2 branches.
         </span>
         <Link
           href="#admissions"

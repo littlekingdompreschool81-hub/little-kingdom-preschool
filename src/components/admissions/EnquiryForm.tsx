@@ -11,6 +11,7 @@ export function EnquiryForm() {
     phone: "",
     email: "",
     classInterestedIn: "Nursery",
+    preferredBranch: "Branch 1",
     message: "",
     honeypot: "",
   });
@@ -66,6 +67,7 @@ export function EnquiryForm() {
           phone: "",
           email: "",
           classInterestedIn: "Nursery",
+          preferredBranch: "Branch 1",
           message: "",
           honeypot: "",
         });
@@ -217,6 +219,46 @@ export function EnquiryForm() {
                     </span>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2. Campus Branch Selector (2 Branches) */}
+        <div>
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-800 mb-2.5">
+            Select Preferred Campus Branch <span className="text-rose-500">*</span>
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { id: "Branch 1", label: "Branch 1", sublabel: "Primary Campus", color: "border-sky-400 bg-sky-50/70" },
+              { id: "Branch 2", label: "Branch 2", sublabel: "Activity Campus", color: "border-mint-400 bg-mint-50/70" },
+              { id: "Either / Nearest Branch", label: "Either Campus", sublabel: "Nearest to Home", color: "border-purple-400 bg-purple-50/70" },
+            ].map((bOption) => {
+              const isSelected = formData.preferredBranch === bOption.id;
+              return (
+                <button
+                  key={bOption.id}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, preferredBranch: bOption.id }))}
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all flex flex-col justify-between ${
+                    isSelected
+                      ? `${bOption.color} text-slate-900 shadow-xs ring-2 ring-sky-300 font-extrabold`
+                      : "bg-white border-slate-200 text-slate-700 hover:border-slate-300"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-black">{bOption.label}</span>
+                    <span className={`w-4 h-4 rounded-full border flex items-center justify-center text-[10px] ${
+                      isSelected ? "bg-sky-600 text-white border-sky-600" : "border-slate-300 bg-white"
+                    }`}>
+                      {isSelected ? "✓" : ""}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    {bOption.sublabel}
+                  </span>
+                </button>
               );
             })}
           </div>

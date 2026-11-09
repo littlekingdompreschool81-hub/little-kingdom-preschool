@@ -101,16 +101,25 @@ export function Footer() {
           {/* Contact Summary */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
-              School Hours
+              Our 2 Branches
             </h4>
             <div className="space-y-2 text-xs text-slate-600">
-              <p className="font-semibold text-slate-800">
-                {SCHOOL_INFO.placeholders.officeHours}
+              <div className="p-2 rounded-xl bg-ivory-100 border border-slate-200">
+                <Link href="#branches" className="font-extrabold text-sky-800 hover:underline block">
+                  Branch 1 (Campus 1) &rarr;
+                </Link>
+                <span className="text-[11px] text-slate-500 block truncate">[Branch 1 Address Placeholder]</span>
+              </div>
+              <div className="p-2 rounded-xl bg-ivory-100 border border-slate-200">
+                <Link href="#branches" className="font-extrabold text-mint-800 hover:underline block">
+                  Branch 2 (Campus 2) &rarr;
+                </Link>
+                <span className="text-[11px] text-slate-500 block truncate">[Branch 2 Address Placeholder]</span>
+              </div>
+              <p className="pt-1 text-slate-500 italic text-[11px]">
+                * {SCHOOL_INFO.placeholders.officeHours}
               </p>
-              <p className="pt-2 text-slate-500 italic">
-                * Weekend admissions desk by prior appointment
-              </p>
-              <div className="pt-3">
+              <div className="pt-2">
                 <Link
                   href="/admin/login"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-[11px] font-bold text-slate-700 border border-slate-200 transition-colors"

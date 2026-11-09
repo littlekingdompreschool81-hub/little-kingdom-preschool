@@ -140,8 +140,23 @@ export function AdmissionsSection() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-coral-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-extrabold text-slate-900 block">Campus Address:</span>
-                    <span className="text-slate-600">{SCHOOL_INFO.placeholders.address}</span>
+                    <span className="font-extrabold text-slate-900 block">2 Campus Branches:</span>
+                    <div className="mt-1 space-y-1.5 font-mono text-[11px]">
+                      <div className="p-2 rounded-xl bg-white border border-slate-200">
+                        <strong className="text-sky-800 block">Branch 1:</strong>
+                        <span className="text-slate-600 block">[Branch 1 Campus Address]</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white border border-slate-200">
+                        <strong className="text-mint-800 block">Branch 2:</strong>
+                        <span className="text-slate-600 block">[Branch 2 Campus Address]</span>
+                      </div>
+                    </div>
+                    <a
+                      href="#branches"
+                      className="inline-block mt-2 text-[11px] font-extrabold text-sky-700 hover:underline"
+                    >
+                      View both branches on Google Maps &rarr;
+                    </a>
                   </div>
                 </div>
               </div>

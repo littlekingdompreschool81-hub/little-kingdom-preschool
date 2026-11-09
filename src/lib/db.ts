@@ -42,6 +42,12 @@ try {
       notes TEXT
     );
   `);
+
+  try {
+    sqliteDb.exec(`ALTER TABLE enquiries ADD COLUMN preferred_branch TEXT;`);
+  } catch {
+    // Column already exists
+  }
 } catch (err) {
   console.warn("[Database Notice] Native node:sqlite not initialized, using JSON store fallback:", (err as Error).message);
 }
@@ -277,8 +283,8 @@ export async function saveEnquiry(record: EnquiryRecord): Promise<boolean> {
       const stmt = sqliteDb.prepare(`
         INSERT INTO enquiries (
           id, reference_id, parent_name, student_name, phone, email,
-          class_interested_in, message, created_at, email_status, whatsapp_status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          class_interested_in, preferred_branch, message, created_at, email_status, whatsapp_status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
       stmt.run(
         record.id,
@@ -288,6 +294,7 @@ export async function saveEnquiry(record: EnquiryRecord): Promise<boolean> {
         record.phone,
         record.email || null,
         record.classInterestedIn,
+        record.preferredBranch || "Either / Nearest Branch",
         record.message || null,
         record.createdAt,
         record.emailNotificationStatus,
@@ -353,6 +360,7 @@ export async function getEnquiries(): Promise<EnquiryRecord[]> {
             phone,
             email,
             class_interested_in AS classInterestedIn,
+            COALESCE(preferred_branch, 'Either / Nearest Branch') AS preferredBranch,
             message,
             created_at AS createdAt,
             email_status AS emailNotificationStatus,

@@ -26,6 +26,11 @@ export const PreschoolEnquirySchema = z.object({
   classInterestedIn: z.enum(["Nursery", "Junior KG", "Senior KG"], {
     errorMap: () => ({ message: "Please select a valid class: Nursery, Junior KG, or Senior KG" }),
   }),
+  preferredBranch: z
+    .string()
+    .trim()
+    .optional()
+    .default("Either / Nearest Branch"),
   message: z
     .string()
     .trim()
@@ -46,6 +51,7 @@ export interface EnquiryRecord {
   phone: string;
   email: string | null;
   classInterestedIn: "Nursery" | "Junior KG" | "Senior KG";
+  preferredBranch?: string | null;
   message: string | null;
   createdAt: string;
   emailNotificationStatus: "pending" | "sent" | "not_configured" | "failed";

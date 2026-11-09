@@ -43,6 +43,7 @@ export async function POST(request: Request) {
       phone: data.phone,
       email: data.email || null,
       classInterestedIn: data.classInterestedIn,
+      preferredBranch: data.preferredBranch || "Either / Nearest Branch",
       message: data.message || null,
       createdAt: timestamp,
       emailNotificationStatus: "pending",

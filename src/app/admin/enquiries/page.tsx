@@ -434,6 +434,7 @@ export default function AdminEnquiriesPage() {
                     <th className="py-3.5 px-4 sm:px-6">Reference ID</th>
                     <th className="py-3.5 px-4">Student</th>
                     <th className="py-3.5 px-4">Class</th>
+                    <th className="py-3.5 px-4">Branch</th>
                     <th className="py-3.5 px-4">Parent / Guardian</th>
                     <th className="py-3.5 px-4">Contact</th>
                     <th className="py-3.5 px-4">Date</th>
@@ -465,6 +466,21 @@ export default function AdminEnquiriesPage() {
                           }`}
                         >
                           {item.classInterestedIn}
+                        </span>
+                      </td>
+
+                      {/* Preferred Branch Badge */}
+                      <td className="py-4 px-4 whitespace-nowrap">
+                        <span
+                          className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
+                            item.preferredBranch?.includes("Branch 1")
+                              ? "bg-sky-50 text-sky-800 border border-sky-300"
+                              : item.preferredBranch?.includes("Branch 2")
+                              ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
+                              : "bg-purple-50 text-purple-800 border border-purple-200"
+                          }`}
+                        >
+                          {item.preferredBranch || "Either Campus"}
                         </span>
                       </td>
 

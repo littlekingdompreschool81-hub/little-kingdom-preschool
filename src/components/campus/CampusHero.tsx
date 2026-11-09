@@ -212,9 +212,13 @@ export function CampusHero() {
             <Sparkles className="w-4 h-4 text-amber-600" />
             Play-Based Learning
           </span>
+          <span className="storybook-sticker bg-purple-100 text-purple-900 border border-purple-200 shadow-xs">
+            <ShieldCheck className="w-4 h-4 text-purple-600" />
+            2 Branch Campuses
+          </span>
           <span className="storybook-sticker bg-sky-100 text-sky-900 border border-sky-200 shadow-xs">
-            <ShieldCheck className="w-4 h-4 text-sky-600" />
-            Loving & Safe Preschool
+            <Heart className="w-4 h-4 text-coral-500 fill-coral-500" />
+            Loving & Safe Care
           </span>
         </div>
       </div>
