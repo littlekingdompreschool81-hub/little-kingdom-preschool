@@ -1,11 +1,21 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getEnquiries } from "@/lib/db";
 import { getServerStaffSession } from "@/lib/auth";
+import { globalRateLimiter, getClientIp } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const clientIp = getClientIp(req.headers);
+    const rateLimit = globalRateLimiter.check(`admin:export:${clientIp}`, 10, 60);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, message: "Export rate limit reached. Please wait a moment." },
+        { status: 429 }
+      );
+    }
+
     // 1. Strict Server-Side Authentication & Allowlist Check
     const session = await getServerStaffSession();
 
@@ -14,7 +24,7 @@ export async function GET() {
         {
           success: false,
           error: "unauthorized",
-          message: "Unauthorized: Sign-in required with an approved staff Google account.",
+          message: "Unauthorized: Sign-in required with an approved staff account.",
         },
         { status: 401 }
       );
@@ -40,7 +50,14 @@ export async function GET() {
       if (!val) return '""';
       // Prevent CSV formula injection (=, +, -, @)
       let cleaned = val.replace(/"/g, '""');
-      if (cleaned.startsWith("=") || cleaned.startsWith("+") || cleaned.startsWith("-") || cleaned.startsWith("@")) {
+      if (
+        cleaned.startsWith("=") ||
+        cleaned.startsWith("+") ||
+        cleaned.startsWith("-") ||
+        cleaned.startsWith("@") ||
+        cleaned.startsWith("\t") ||
+        cleaned.startsWith("\r")
+      ) {
         cleaned = "'" + cleaned;
       }
       return `"${cleaned}"`;
@@ -50,7 +67,7 @@ export async function GET() {
       escapeCsv(e.referenceId),
       escapeCsv(e.studentName),
       escapeCsv(e.classInterestedIn),
-      escapeCsv(e.preferredBranch || "Either / Nearest Branch"),
+      escapeCsv(e.preferredBranch || "Branch 1"),
       escapeCsv(e.parentName),
       escapeCsv(e.phone),
       escapeCsv(e.email),
@@ -69,6 +86,7 @@ export async function GET() {
         "Content-Type": "text/csv; charset=utf-8",
         "Content-Disposition": `attachment; filename="${filename}"`,
         "Cache-Control": "no-store, no-cache, must-revalidate",
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { type EnquiryRecord } from "../validation";
+import { type EnquiryRecord, escapeHtml } from "../validation";
 import nodemailer from "nodemailer";
 
 export interface EmailDispatchResult {
@@ -109,20 +109,20 @@ http://localhost:3000/admin/enquiries
         <table width="100%" style="margin-bottom: 24px; font-size: 14px;">
           <tr>
             <td width="35%" style="padding: 6px 0; color: #64748B;">Student Name:</td>
-            <td style="padding: 6px 0; font-weight: 800; color: #0F172A; font-size: 16px;">${record.studentName}</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #0F172A; font-size: 16px;">${escapeHtml(record.studentName)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: #64748B;">Program / Class:</td>
             <td style="padding: 6px 0;">
               <span style="display: inline-block; padding: 3px 10px; background-color: #FEF3C7; color: #92400E; font-weight: 800; border-radius: 8px; font-size: 13px;">
-                ${record.classInterestedIn}
+                ${escapeHtml(record.classInterestedIn)}
               </span>
             </td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: #64748B;">Preferred Campus:</td>
             <td style="padding: 6px 0; font-weight: 700; color: #0F172A;">
-              ${record.preferredBranch || "Either / Nearest Branch"}
+              ${escapeHtml(record.preferredBranch || "Either / Nearest Branch")}
             </td>
           </tr>
         </table>
@@ -134,19 +134,19 @@ http://localhost:3000/admin/enquiries
         <table width="100%" style="margin-bottom: 24px; font-size: 14px;">
           <tr>
             <td width="35%" style="padding: 6px 0; color: #64748B;">Parent Name:</td>
-            <td style="padding: 6px 0; font-weight: 700; color: #0F172A;">${record.parentName}</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0F172A;">${escapeHtml(record.parentName)}</td>
           </tr>
           <tr>
-            <td style="padding: 6px 0; color: #64748B;">Phone Number:</td>
+            <td width="35%" style="padding: 6px 0; color: #64748B;">Phone Number:</td>
             <td style="padding: 6px 0; font-weight: 800; color: #0284C7; font-size: 15px;">
-              <a href="tel:${record.phone}" style="color: #0284C7; text-decoration: none;">📞 ${record.phone}</a>
-              <a href="https://wa.me/${record.phone.replace(/[^0-9]/g, '')}" style="margin-left: 10px; font-size: 11px; color: #059669; text-decoration: underline;">Open WhatsApp</a>
+              <a href="tel:${escapeHtml(record.phone.replace(/[^0-9+]/g, ''))}" style="color: #0284C7; text-decoration: none;">📞 ${escapeHtml(record.phone)}</a>
+              <a href="https://wa.me/${encodeURIComponent(record.phone.replace(/[^0-9]/g, ''))}" style="margin-left: 10px; font-size: 11px; color: #059669; text-decoration: underline;">Open WhatsApp</a>
             </td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: #64748B;">Email Address:</td>
             <td style="padding: 6px 0; color: #0F172A;">
-              ${record.email ? `<a href="mailto:${record.email}" style="color: #0284C7; text-decoration: underline;">${record.email}</a>` : '<span style="color: #94A3B8; font-style: italic;">Not provided</span>'}
+              ${record.email ? `<a href="mailto:${escapeHtml(record.email)}" style="color: #0284C7; text-decoration: underline;">${escapeHtml(record.email)}</a>` : '<span style="color: #94A3B8; font-style: italic;">Not provided</span>'}
             </td>
           </tr>
         </table>
@@ -156,7 +156,7 @@ http://localhost:3000/admin/enquiries
           📝 Message / Notes
         </h2>
         <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; font-size: 13px; color: #334155; line-height: 1.6; font-style: ${record.message ? 'normal' : 'italic'};">
-          ${record.message ? record.message : "No additional note was entered by the parent."}
+          ${record.message ? escapeHtml(record.message) : "No additional note was entered by the parent."}
         </div>
 
         <!-- Call to Action -->

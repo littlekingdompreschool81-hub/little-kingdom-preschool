@@ -13,6 +13,8 @@ import {
   ArrowLeft,
   KeyRound,
   CheckCircle2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { SCHOOL_INFO } from "@/lib/constants";
 
@@ -23,8 +25,10 @@ function LoginContent() {
   const [checkingSession, setCheckingSession] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Local/Dev sign-in state
+  // Staff sign-in state
   const [devEmail, setDevEmail] = useState("");
+  const [devPasscode, setDevPasscode] = useState("");
+  const [showPasscode, setShowPasscode] = useState(false);
   const [devLoading, setDevLoading] = useState(false);
   const [devError, setDevError] = useState<string | null>(null);
 
@@ -68,7 +72,10 @@ function LoginContent() {
 
   const handleDevLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!devEmail) return;
+    if (!devEmail || !devPasscode) {
+      setDevError("Please enter both your approved email and staff access passcode.");
+      return;
+    }
     setDevLoading(true);
     setDevError(null);
 
@@ -76,7 +83,7 @@ function LoginContent() {
       const res = await fetch("/api/auth/dev-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: devEmail }),
+        body: JSON.stringify({ email: devEmail, passcode: devPasscode }),
       });
 
       const data = await res.json();
@@ -86,7 +93,7 @@ function LoginContent() {
         router.push("/admin/enquiries");
       }
     } catch {
-      setDevError("Network error while verifying staff email.");
+      setDevError("Network error while verifying staff credentials.");
     } finally {
       setDevLoading(false);
     }
@@ -181,7 +188,7 @@ function LoginContent() {
         </span>
       </div>
 
-      {/* Dev / Authorized Email Tester (Always server-checked against allowlist!) */}
+      {/* Authorized Staff Sign-in (Server-verified against allowlist + cryptographic passcode check) */}
       <form onSubmit={handleDevLogin} className="space-y-4">
         <div>
           <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
@@ -191,14 +198,42 @@ function LoginContent() {
             <input
               type="email"
               required
-              placeholder="e.g. principal@littlekingdom.com"
+              autoComplete="email"
+              placeholder="e.g. littlekingdompreschool81@gmail.com"
               value={devEmail}
               onChange={(e) => setDevEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-ivory-100 border border-slate-200 text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
             />
           </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider">
+              Staff Access Passcode
+            </label>
+          </div>
+          <div className="relative">
+            <input
+              type={showPasscode ? "text" : "password"}
+              required
+              autoComplete="current-password"
+              placeholder="Enter school security passcode"
+              value={devPasscode}
+              onChange={(e) => setDevPasscode(e.target.value)}
+              className="w-full px-4 py-3 pr-10 rounded-xl bg-ivory-100 border border-slate-200 text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPasscode(!showPasscode)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+              tabIndex={-1}
+            >
+              {showPasscode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
           <p className="text-[11px] text-slate-500 mt-1">
-            Checks against the server allowlist. Unlisted accounts are rejected with 403 Forbidden.
+            Protected by brute-force rate limiting &amp; timing-safe allowlist verification.
           </p>
         </div>
 

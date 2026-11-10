@@ -18,7 +18,13 @@ try {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { DatabaseSync } = require("node:sqlite");
   sqliteDb = new DatabaseSync(dbPath);
+
+  // Harden SQLite with Write-Ahead Logging & atomic crash safety
   sqliteDb.exec(`
+    PRAGMA journal_mode = WAL;
+    PRAGMA synchronous = NORMAL;
+    PRAGMA foreign_keys = ON;
+
     CREATE TABLE IF NOT EXISTS enquiries (
       id TEXT PRIMARY KEY,
       reference_id TEXT NOT NULL UNIQUE,

@@ -3,9 +3,42 @@ import { PreschoolEnquirySchema, type EnquirySubmissionResponse, type EnquiryRec
 import { saveEnquiry, updateNotificationStatus } from "@/lib/db";
 import { sendEnquiryEmailNotification } from "@/lib/notifications/email";
 import { sendEnquiryWhatsAppNotification } from "@/lib/notifications/whatsapp";
+import { globalRateLimiter, getClientIp } from "@/lib/rate-limit";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getClientIp(request.headers);
+
+    // 1. Sliding Window Rate Limiting (5 enquiries per 10 minutes per IP, 15 min lockout on abuse)
+    const rateLimit = globalRateLimiter.check(`enquiry:${clientIp}`, 5, 600, 900);
+    if (!rateLimit.allowed) {
+      const waitMinutes = Math.ceil(rateLimit.resetSeconds / 60);
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Too many submissions from this connection. For security reasons, please wait ${waitMinutes} minute(s) before trying again or call us directly at 7039015296.`,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimit.resetSeconds),
+            "X-RateLimit-Remaining": "0",
+          },
+        }
+      );
+    }
+
+    // 2. Strict Payload Size Check (Max 32KB to prevent memory exhaustion)
+    const contentLength = request.headers.get("content-length");
+    if (contentLength && parseInt(contentLength, 10) > 32 * 1024) {
+      return NextResponse.json(
+        { success: false, message: "Payload too large." },
+        { status: 413 }
+      );
+    }
+
     const body = await request.json();
     const result = PreschoolEnquirySchema.safeParse(body);
 
@@ -21,7 +54,7 @@ export async function POST(request: Request) {
 
     const data = result.data;
 
-    // Honeypot check - reject spam silently or with 400
+    // 3. Honeypot check - reject spam bots silently or with 400
     if (data.honeypot && data.honeypot.length > 0) {
       return NextResponse.json(
         { success: false, message: "Invalid submission detected." },
@@ -29,7 +62,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate unique reference number for Little Kingdom Preschool
+    // 4. Generate cryptographically strong unique reference number
     const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
     const referenceId = `LK-2026-${randomSuffix}`;
     const timestamp = new Date().toISOString();
@@ -43,21 +76,21 @@ export async function POST(request: Request) {
       phone: data.phone,
       email: data.email || null,
       classInterestedIn: data.classInterestedIn,
-      preferredBranch: data.preferredBranch || "Either / Nearest Branch",
+      preferredBranch: data.preferredBranch || "Branch 1",
       message: data.message || null,
       createdAt: timestamp,
       emailNotificationStatus: "pending",
       whatsappNotificationStatus: "pending",
     };
 
-    // 1. Persist enquiry in real database FIRST
+    // 5. Persist enquiry in real database FIRST
     await saveEnquiry(newRecord);
 
-    // 2. Attempt notifications without exposing private data
+    // 6. Attempt notifications without exposing private server data
     const emailResult = await sendEnquiryEmailNotification(newRecord);
     const whatsappResult = await sendEnquiryWhatsAppNotification(newRecord);
 
-    // 3. Update notification statuses in database
+    // 7. Update notification statuses in database
     await updateNotificationStatus(referenceId, {
       emailStatus: emailResult.status,
       whatsappStatus: whatsappResult.status,
@@ -83,12 +116,18 @@ export async function POST(request: Request) {
       },
     };
 
-    return NextResponse.json(response, { status: 200 });
+    return NextResponse.json(response, {
+      status: 200,
+      headers: {
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+      },
+    });
   } catch (error) {
+    // Log internally but never leak server internals, paths or stacks to public client
     console.error("[Admissions API Error]", (error as Error).message);
     const response: EnquirySubmissionResponse = {
       success: false,
-      message: "An internal server error occurred while saving your enquiry. Please try again or call the admissions desk directly.",
+      message: "An internal server error occurred while saving your enquiry. Please try again or call the admissions desk directly at 7039015296.",
     };
     return NextResponse.json(response, { status: 500 });
   }
