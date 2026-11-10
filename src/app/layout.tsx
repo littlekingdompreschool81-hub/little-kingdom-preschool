@@ -9,7 +9,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://littlekingdompreschool.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://littlekingdomedu.com"),
   title: {
     default: `${SCHOOL_INFO.name} — ${SCHOOL_INFO.motto}`,
     template: `%s | ${SCHOOL_INFO.name}`,
