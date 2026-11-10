@@ -75,8 +75,72 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Preschool",
+        "@id": "https://littlekingdomedu.com/#organization",
+        "name": SCHOOL_INFO.name,
+        "alternateName": "Little Kingdom Pre-School",
+        "url": "https://littlekingdomedu.com",
+        "logo": "https://littlekingdomedu.com/images/logo.png",
+        "telephone": "+917039015296",
+        "email": "littlekingdompreschool81@gmail.com",
+        "slogan": SCHOOL_INFO.motto,
+        "description":
+          "Joyful, nurturing early childhood education center for Play Group, Nursery, Junior KG, and Senior KG across 2 campuses in Dombivli West.",
+        "founder": {
+          "@type": "Person",
+          "name": SCHOOL_INFO.principal,
+          "jobTitle": "Principal",
+        },
+        "department": [
+          {
+            "@type": "EducationalOrganization",
+            "name": SCHOOL_INFO.branches[0].name,
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": SCHOOL_INFO.branches[0].address,
+              "addressLocality": "Dombivli, Kalyan",
+              "addressRegion": "Maharashtra",
+              "postalCode": "421202",
+              "addressCountry": "IN",
+            },
+            "telephone": "+917039015296",
+            "hasMap": SCHOOL_INFO.branches[0].googleMapsUrl,
+          },
+          {
+            "@type": "EducationalOrganization",
+            "name": SCHOOL_INFO.branches[1].name,
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": SCHOOL_INFO.branches[1].address,
+              "addressLocality": "Dombivli, Kalyan",
+              "addressRegion": "Maharashtra",
+              "postalCode": "421202",
+              "addressCountry": "IN",
+            },
+            "telephone": "+917039015296",
+            "hasMap": SCHOOL_INFO.branches[1].googleMapsUrl,
+          },
+        ],
+        "sameAs": [
+          SCHOOL_INFO.branches[0].googleMapsUrl,
+          SCHOOL_INFO.branches[1].googleMapsUrl,
+        ],
+      },
+    ],
+  };
+
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-ivory-100 text-brand-text antialiased selection:bg-sunshine-200 selection:text-sky-900 min-h-screen flex flex-col font-sans">
         {children}
       </body>
