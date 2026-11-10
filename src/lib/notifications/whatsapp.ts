@@ -25,20 +25,20 @@ export async function sendEnquiryWhatsAppNotification(
   });
 
   const formattedWhatsAppText =
-`🏰 *LITTLE KINGDOM PRESCHOOL* 🏰
-*New Admission Enquiry Received!*
+`🌈 LITTLE KINGDOM PRESCHOOL 🌈
+🎉 New Admission Enquiry Received!
 
-📋 *Ref ID:* ${record.referenceId}
-👶 *Student:* ${record.studentName}
-🎒 *Class:* ${record.classInterestedIn}
-🏫 *Branch:* ${record.preferredBranch || "Either / Nearest Branch"}
+🆔 Ref ID: ${record.referenceId}
+👧 Student: ${record.studentName}
+📚 Class: ${record.classInterestedIn}
+🏫 Branch: ${record.preferredBranch || "Branch 1"}
 
-👤 *Parent:* ${record.parentName}
-📞 *Phone:* ${record.phone}
-✉️ *Email:* ${record.email || "Not provided"}
+👨‍👩‍👧 Parent: ${record.parentName}
+📞 Phone: ${record.phone}
+📧 Email: ${record.email || "Not provided"}
 
-📝 *Note:* ${record.message || "None"}
-⏰ *Time:* ${submissionTime} (IST)`;
+📝 Note: ${record.message || "None"}
+🕒 Time: ${submissionTime} (IST)`;
 
   const directWhatsAppUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(formattedWhatsAppText)}`;
 

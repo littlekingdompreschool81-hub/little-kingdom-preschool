@@ -104,7 +104,7 @@ http://localhost:3000/admin/enquiries
       <td style="padding: 28px 32px;">
         <!-- Student Info -->
         <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #0284C7; font-weight: 800; margin: 0 0 12px 0; border-bottom: 1px solid #E2E8F0; padding-bottom: 6px;">
-          👶 Student & Class Details
+          👧 Student & Class Details
         </h2>
         <table width="100%" style="margin-bottom: 24px; font-size: 14px;">
           <tr>
@@ -129,7 +129,7 @@ http://localhost:3000/admin/enquiries
 
         <!-- Parent Info -->
         <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #059669; font-weight: 800; margin: 0 0 12px 0; border-bottom: 1px solid #E2E8F0; padding-bottom: 6px;">
-          👤 Parent / Guardian Details
+          👨‍👩‍👧 Parent / Guardian Details
         </h2>
         <table width="100%" style="margin-bottom: 24px; font-size: 14px;">
           <tr>

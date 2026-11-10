@@ -491,13 +491,24 @@ export default function AdminEnquiriesPage() {
 
                       {/* Contact Phone & Email */}
                       <td className="py-4 px-4 whitespace-nowrap space-y-1">
-                        <a
-                          href={`tel:${item.phone}`}
-                          className="flex items-center gap-1.5 text-slate-700 hover:text-sky-600 font-semibold"
-                        >
-                          <Phone className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{item.phone}</span>
-                        </a>
+                        <div className="flex items-center gap-2">
+                          <a
+                            href={`tel:${item.phone}`}
+                            className="flex items-center gap-1.5 text-slate-700 hover:text-sky-600 font-semibold"
+                          >
+                            <Phone className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{item.phone}</span>
+                          </a>
+                          <a
+                            href={`https://wa.me/${item.phone.replace(/[^0-9]/g, "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Chat with parent on WhatsApp"
+                            className="px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-[10px] font-bold border border-emerald-200"
+                          >
+                            WA
+                          </a>
+                        </div>
                         {item.email && (
                           <a
                             href={`mailto:${item.email}`}
