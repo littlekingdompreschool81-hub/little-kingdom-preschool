@@ -9,9 +9,9 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "About", href: "#about" },
   { label: "Learning", href: "#learning" },
   { label: "Features", href: "#features" },
-  { label: "Photos & Videos", href: "#gallery", badge: "Live" },
-  { label: "Branches", href: "#branches", badge: "2 Locations" },
-  { label: "Admissions", href: "#admissions", badge: "Open" },
+  { label: "Photos & Videos", href: "#gallery" },
+  { label: "Branches", href: "#branches" },
+  { label: "Admissions", href: "#admissions" },
   { label: "Contact", href: "#contact" },
 ];
 

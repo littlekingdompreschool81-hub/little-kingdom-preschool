@@ -12,7 +12,7 @@ export function AchievementsSection() {
       <div className="absolute top-1/2 left-0 w-80 h-80 rounded-full bg-sunshine-100/50 blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-10 right-0 w-80 h-80 rounded-full bg-sky-100/50 blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <SectionHeader
           eyebrow="School Leadership"
           eyebrowVariant="sky"
@@ -21,8 +21,8 @@ export function AchievementsSection() {
         />
 
         {/* Storybook Editorial Feature Box */}
-        <div className="storybook-card p-8 sm:p-12 lg:p-16 border-2 border-sky-100 bg-gradient-to-br from-white via-ivory-100 to-sky-50/40 relative overflow-hidden shadow-xl">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
+        <div className="storybook-card p-8 sm:p-12 lg:p-14 border-2 border-sky-100 bg-gradient-to-br from-white via-ivory-100 to-sky-50/40 relative overflow-hidden shadow-xl">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12">
             {/* Principal Visual Frame */}
             <div className="flex flex-col items-center shrink-0">
               <div className="relative group">
@@ -51,7 +51,7 @@ export function AchievementsSection() {
             </div>
 
             {/* Principal Identification & Approved Message */}
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 w-full text-center lg:text-left">
               <div className="mb-4">
                 <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-heading">
                   {SCHOOL_INFO.principal}
@@ -64,8 +64,8 @@ export function AchievementsSection() {
                 </p>
               </div>
 
-              {/* Official Principal Message Body */}
-              <div className="relative my-6 p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+              {/* Official Principal Message Body - Expanded Length Rectangle */}
+              <div className="relative my-6 p-7 sm:p-10 lg:p-12 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 w-full">
                 <Quote className="w-10 h-10 text-sky-200 absolute -top-5 left-6 fill-sky-100" />
 
                 {PRINCIPAL_MESSAGE.paragraphs.map((para, idx) => (
@@ -82,7 +82,7 @@ export function AchievementsSection() {
                 ))}
 
                 {/* Sign-off */}
-                <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div className="pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="text-slate-700 font-bold">
                     <p className="italic text-slate-500">{PRINCIPAL_MESSAGE.signOff}</p>
                     <p className="font-extrabold text-slate-900 text-sm mt-0.5">{PRINCIPAL_MESSAGE.signOffRole}</p>

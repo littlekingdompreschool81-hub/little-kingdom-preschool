@@ -86,7 +86,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-3.5 py-2 text-sm text-slate-700 hover:text-sky-600 font-extrabold transition-colors rounded-xl hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                  className="px-3.5 py-2 text-sm text-slate-700 hover:text-sky-600 font-extrabold transition-colors rounded-xl hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-400 whitespace-nowrap"
                 >
                   {item.label}
                   {item.badge && (
