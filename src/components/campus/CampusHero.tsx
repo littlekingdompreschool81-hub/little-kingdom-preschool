@@ -185,7 +185,7 @@ export function CampusHero() {
         {/* Prominent Call to Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-9">
           <Link
-            href="#journey"
+            href="#learning"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 hover:from-sky-600 hover:to-sky-800 text-white font-black text-base tracking-wide shadow-xl shadow-sky-500/30 hover:shadow-sky-500/40 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-sky-200"
           >
             <Compass className="w-5 h-5 text-sky-200" />
@@ -206,7 +206,7 @@ export function CampusHero() {
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm font-extrabold text-slate-700">
           <span className="storybook-sticker bg-mint-100 text-mint-900 border border-mint-200 shadow-xs">
             <Smile className="w-4 h-4 text-mint-600" />
-            Nursery • Junior KG • Senior KG
+            Play Group • Nursery • Jr. KG • Sr. KG
           </span>
           <span className="storybook-sticker bg-sunshine-100 text-amber-900 border border-sunshine-200 shadow-xs">
             <Sparkles className="w-4 h-4 text-amber-600" />
@@ -214,7 +214,7 @@ export function CampusHero() {
           </span>
           <span className="storybook-sticker bg-purple-100 text-purple-900 border border-purple-200 shadow-xs">
             <ShieldCheck className="w-4 h-4 text-purple-600" />
-            2 Branch Campuses
+            2 Branch Campuses (Dombivli W)
           </span>
           <span className="storybook-sticker bg-sky-100 text-sky-900 border border-sky-200 shadow-xs">
             <Heart className="w-4 h-4 text-coral-500 fill-coral-500" />
@@ -228,12 +228,12 @@ export function CampusHero() {
         {/* Scroll Cue */}
         <div className="flex flex-col items-center justify-center pb-3">
           <Link
-            href="#journey"
+            href="#learning"
             className="flex flex-col items-center gap-1.5 text-slate-500 hover:text-sky-700 transition-colors group focus:outline-none"
-            aria-label="Scroll down to begin the storybook journey"
+            aria-label="Scroll down to begin exploring learning levels"
           >
             <span className="text-xs font-bold text-slate-600 group-hover:text-sky-700 tracking-wide">
-              Scroll to Enter the Kingdom
+              Scroll to Explore Learning Stages
             </span>
             <div className="w-6 h-10 rounded-full border-2 border-slate-400 group-hover:border-sky-500 flex items-start justify-center p-1 transition-colors bg-white/80">
               <div className="w-1.5 h-2.5 rounded-full bg-sky-500 animate-bounce" />

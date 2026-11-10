@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { SCHOOL_INFO } from "@/lib/constants";
+import { SCHOOL_INFO, PRINCIPAL_MESSAGE } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
-import { UserCheck, Sparkles, Quote, Heart, Sun } from "lucide-react";
-import { PlaceholderNotice } from "../ui/PlaceholderNotice";
+import { UserCheck, Sparkles, Quote, Heart, Sun, Phone, CheckCircle2 } from "lucide-react";
 
 export function AchievementsSection() {
   return (
@@ -17,12 +16,12 @@ export function AchievementsSection() {
         <SectionHeader
           eyebrow="School Leadership"
           eyebrowVariant="sky"
-          title="A Message from Our Principal"
+          title={PRINCIPAL_MESSAGE.title}
           description="Guiding early childhood development with dedication, warmth, and an unwavering belief in every child's potential."
         />
 
         {/* Storybook Editorial Feature Box */}
-        <div className="storybook-card p-8 sm:p-14 lg:p-16 border-2 border-sky-100 bg-gradient-to-br from-white via-ivory-100 to-sky-50/40 relative overflow-hidden shadow-xl">
+        <div className="storybook-card p-8 sm:p-12 lg:p-16 border-2 border-sky-100 bg-gradient-to-br from-white via-ivory-100 to-sky-50/40 relative overflow-hidden shadow-xl">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
             {/* Principal Visual Frame */}
             <div className="flex flex-col items-center shrink-0">
@@ -35,38 +34,65 @@ export function AchievementsSection() {
                 </div>
               </div>
 
-              <div className="mt-4 text-center">
-                <span className="storybook-sticker bg-sky-100 text-sky-800 border border-sky-200">
+              <div className="mt-4 text-center space-y-2">
+                <span className="storybook-sticker bg-mint-100 text-mint-900 border border-mint-200 text-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-mint-700" />
                   Preschool Head
                 </span>
+
+                <a
+                  href={`tel:${SCHOOL_INFO.principalPhone}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-900 font-extrabold text-xs transition-colors"
+                >
+                  <Phone className="w-3.5 h-3.5 text-sky-700" />
+                  <span>{SCHOOL_INFO.principalPhoneFormatted}</span>
+                </a>
               </div>
             </div>
 
-            {/* Principal Identification & Approved Quote Area */}
+            {/* Principal Identification & Approved Message */}
             <div className="flex-1 text-center md:text-left">
               <div className="mb-4">
-                <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-heading">
                   {SCHOOL_INFO.principal}
                 </h3>
                 <p className="text-lg font-extrabold text-sky-700 mt-1">
                   {SCHOOL_INFO.principalTitle}
                 </p>
                 <p className="text-xs font-bold text-sunshine-600 tracking-wide mt-0.5">
-                  &ldquo;{SCHOOL_INFO.motto}&rdquo;
+                  &ldquo;{SCHOOL_INFO.motto}&rdquo; • {SCHOOL_INFO.tagline}
                 </p>
               </div>
 
-              {/* Exact Unapproved Quote Rule: Do not invent quotation; use editable placeholder */}
-              <div className="relative my-6 p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm">
+              {/* Official Principal Message Body */}
+              <div className="relative my-6 p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4">
                 <Quote className="w-10 h-10 text-sky-200 absolute -top-5 left-6 fill-sky-100" />
-                <p className="text-slate-700 font-medium italic leading-relaxed text-base sm:text-lg">
-                  &ldquo;{SCHOOL_INFO.principalMessagePlaceholder}&rdquo;
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <span className="text-slate-400 font-semibold">
-                    Official address to be uploaded following administrative review
+
+                {PRINCIPAL_MESSAGE.paragraphs.map((para, idx) => (
+                  <p
+                    key={idx}
+                    className={`text-slate-700 leading-relaxed ${
+                      idx === 0
+                        ? "text-base sm:text-lg font-bold text-slate-900"
+                        : "text-sm sm:text-base font-normal"
+                    }`}
+                  >
+                    {para}
+                  </p>
+                ))}
+
+                {/* Sign-off */}
+                <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                  <div className="text-slate-700 font-bold">
+                    <p className="italic text-slate-500">{PRINCIPAL_MESSAGE.signOff}</p>
+                    <p className="font-extrabold text-slate-900 text-sm mt-0.5">{PRINCIPAL_MESSAGE.signOffRole}</p>
+                    <p className="text-sky-700">{PRINCIPAL_MESSAGE.signOffSchool}</p>
+                  </div>
+
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sunshine-100 text-amber-900 font-bold text-[11px] self-start sm:self-auto border border-sunshine-200">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    Verified Leadership Message
                   </span>
-                  <PlaceholderNotice label="Principal's message pending approval" />
                 </div>
               </div>
 
@@ -74,15 +100,15 @@ export function AchievementsSection() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs text-slate-700 font-bold">
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-center gap-2.5 shadow-2xs">
                   <Heart className="w-4 h-4 text-coral-500 fill-coral-500 shrink-0" />
-                  <span>Loving Atmosphere</span>
+                  <span>Warm & Safe Care</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-center gap-2.5 shadow-2xs">
                   <Sparkles className="w-4 h-4 text-sunshine-500 shrink-0" />
-                  <span>Playful Learning</span>
+                  <span>Creativity & Play</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-center gap-2.5 shadow-2xs">
                   <UserCheck className="w-4 h-4 text-sky-500 shrink-0" />
-                  <span>Dedicated Mentors</span>
+                  <span>Curious Young Minds</span>
                 </div>
               </div>
             </div>

@@ -107,7 +107,7 @@ export function ContactSection() {
                       </div>
                     </div>
 
-                    {/* Telephone */}
+                    {/* Contact Person & Telephone */}
                     <div className="flex items-start gap-3.5">
                       <div
                         className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
@@ -118,11 +118,14 @@ export function ContactSection() {
                       </div>
                       <div>
                         <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
-                          Telephone Enquiries
+                          Contact Details ({branch.contactPerson})
                         </span>
-                        <p className="font-mono font-extrabold text-slate-900">
-                          {branch.phone}
-                        </p>
+                        <a
+                          href={`tel:${branch.phone}`}
+                          className="font-mono font-extrabold text-slate-900 hover:text-sky-700 transition-colors inline-flex items-center gap-1.5"
+                        >
+                          <span>{branch.contactPerson} - {branch.phone}</span>
+                        </a>
                       </div>
                     </div>
 
@@ -207,11 +210,18 @@ export function ContactSection() {
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <a
+              href="tel:+917039015296"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-sky-600/20 transition-all hover:scale-102"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call Neeta Jadhav: 70390 15296</span>
+            </a>
+            <a
               href="tel:+919594681373"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-500 hover:bg-mint-600 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-mint-500/20 transition-all hover:scale-102"
             >
               <Phone className="w-4 h-4" />
-              <span>Call Kalpana Kadam: 95946 81373</span>
+              <span>Kalpana Kadam: 95946 81373</span>
             </a>
           </div>
         </div>

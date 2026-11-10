@@ -1,7 +1,6 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { CampusHero } from "@/components/campus/CampusHero";
-import { ScrollStorytellingJourney } from "@/components/journey/ScrollStorytellingJourney";
 import { AcademicsSection } from "@/components/discovery/AcademicsSection";
 import { ActivitiesSection } from "@/components/discovery/ActivitiesSection";
 import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
@@ -20,31 +19,28 @@ export default function HomePage() {
       {/* 2. Hero: Full-Screen Cinematic Storybook Kingdom with Parallax Depth */}
       <CampusHero />
 
-      {/* 3. Dedicated Pinned Scroll-Driven 3D Storytelling Journey */}
-      <ScrollStorytellingJourney />
-
-      {/* 4. Three Learning Worlds: Nursery, Junior KG, Senior KG */}
+      {/* 3. Three Learning Worlds: Play Group, Nursery, Junior KG, Senior KG */}
       <AcademicsSection />
 
-      {/* 5. Growing Through Play: 6 Early Childhood Learning Pillars */}
+      {/* 4. Growing Through Play: Early Childhood Learning Pillars */}
       <ActivitiesSection />
 
-      {/* 6. Safe, Inspiring Learning Spaces */}
+      {/* 5. Safe, Inspiring Learning Spaces */}
       <FacilitiesSection />
 
-      {/* 7. A Message from Our Principal (Mrs. Neeta Suresh Jadhav) */}
+      {/* 6. A Message from Our Principal (Mrs. Neeta Suresh Jadhav) */}
       <AchievementsSection />
 
-      {/* 8. Glimpses of Little Kingdom (Polaroid-Style Photo Showcase) */}
+      {/* 7. Glimpses of Little Kingdom (Authentic Photos & Video Reels) */}
       <PhotoGallerySection />
 
-      {/* 9. Admissions & Validated Enquiry Form (Saved in Database) */}
+      {/* 8. Admissions & Validated Enquiry Form (Saved in Database) */}
       <AdmissionsSection />
 
-      {/* 10. Contact Information & Google Maps Integration */}
+      {/* 9. Contact Information & 2 Campus Locations with Maps */}
       <ContactSection />
 
-      {/* 11. Storybook Footer */}
+      {/* 10. Storybook Footer */}
       <Footer />
     </main>
   );

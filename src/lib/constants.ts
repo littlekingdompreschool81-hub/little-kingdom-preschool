@@ -26,6 +26,7 @@ export interface SchoolBranch {
   cityState: string;
   landmark: string;
   phone: string;
+  contactPerson: string;
   email: string;
   officeHours: string;
   googleMapsQuery: string;
@@ -41,16 +42,17 @@ export const SCHOOL_BRANCHES: SchoolBranch[] = [
     shortName: "Branch 1",
     branchNumber: "01",
     badge: "Branch 01",
-    tagline: "Primary Learning & Discovery Campus",
-    address: "[Branch 1 Campus Address Placeholder, to be verified by school management]",
-    cityState: "[City & State Placeholder]",
-    landmark: "Central neighborhood access & safe pedestrian entrance",
-    phone: "[Branch 1 Contact Number Placeholder]",
-    email: "[branch1@littlekingdom.example.com]",
+    tagline: "Ambika Nagar Campus",
+    address: "Subhash Chandra Bose Rd, behind S Raju Photo Studio, Ambika Nagar, Dombivli West",
+    cityState: "Dombivli, Kalyan, Maharashtra 421202",
+    landmark: "Behind S Raju Photo Studio",
+    phone: "+91 7039015296",
+    contactPerson: "Neeta Jadhav",
+    email: "admissions@littlekingdompreschool.com",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
-    googleMapsQuery: "Little Kingdom Preschool Branch 1",
+    googleMapsQuery: "Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli, Ambika Nagar, Dombivli West, Dombivali, Kalyan, Maharashtra 421202",
     themeColor: "sky",
-    highlights: ["Sensory Play Studios", "Creative Arts Corner", "Child-Safe Discovery Lawn"],
+    highlights: ["Sensory Play Studios", "Creative Arts Corner", "Child-Safe Discovery Rooms"],
   },
   {
     id: "branch-2",
@@ -58,18 +60,32 @@ export const SCHOOL_BRANCHES: SchoolBranch[] = [
     shortName: "Branch 2",
     branchNumber: "02",
     badge: "Branch 02",
-    tagline: "Spacious Activity & Storybook Campus",
-    address: "[Branch 2 Campus Address Placeholder, to be verified by school management]",
-    cityState: "[City & State Placeholder]",
-    landmark: "Convenient transit access with dedicated drop-off bay",
-    phone: "[Branch 2 Contact Number Placeholder]",
-    email: "[branch2@littlekingdom.example.com]",
+    tagline: "Rajvaibhav NX Campus",
+    address: "Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli West",
+    cityState: "Dombivli, Kalyan, Maharashtra 421202",
+    landmark: "Near Rajvaibhav NX, Kathe Chawl",
+    phone: "+91 7039015296",
+    contactPerson: "Neeta Jadhav",
+    email: "admissions@littlekingdompreschool.com",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
-    googleMapsQuery: "Little Kingdom Preschool Branch 2",
+    googleMapsQuery: "Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli, Dombivli West, Dombivli, Kalyan, Maharashtra 421202",
     themeColor: "mint",
-    highlights: ["Story & Reading Nook", "Indoor Motor Activity Hall", "Outdoor Nature Garden"],
+    highlights: ["Story & Reading Nook", "Indoor Motor Activity Space", "Interactive Learning Corners"],
   },
 ];
+
+export const PRINCIPAL_MESSAGE = {
+  title: "A Message from the Principal",
+  paragraphs: [
+    "Welcome to Little Kingdom Preschool, where every little step leads to a brighter future!",
+    "We believe that childhood is a beautiful journey of discovery, learning, and growth. Our vision is to create a warm, safe, and stimulating environment where every child feels valued, encouraged, and inspired to explore their potential.",
+    "With a perfect blend of care, creativity, and meaningful learning experiences, we strive to nurture confident, curious, and compassionate young minds.",
+    "We look forward to partnering with parents in shaping a joyful and enriching foundation for every child's future.",
+  ],
+  signOff: "Warm Regards,",
+  signOffRole: "Principal",
+  signOffSchool: "Little Kingdom Preschool",
+};
 
 export const SCHOOL_INFO = {
   name: "Little Kingdom Preschool",
@@ -77,7 +93,11 @@ export const SCHOOL_INFO = {
   tagline: "Learning by doing",
   principal: "Mrs. Neeta Suresh Jadhav",
   principalTitle: "Principal, Little Kingdom Preschool",
-  principalMessagePlaceholder: "Principal's message to be added after approval.",
+  principalPhone: "+91 7039015296",
+  principalPhoneFormatted: "70390 15296",
+  principalMessage: PRINCIPAL_MESSAGE,
+  principalMessagePlaceholder:
+    "Welcome to Little Kingdom Preschool, where every little step leads to a brighter future! We believe that childhood is a beautiful journey of discovery, learning, and growth.",
   coordinator: "Mrs. Kalpana Kadam",
   coordinatorTitle: "Admissions Coordinator",
   coordinatorPhone: "+91 9594681373",
@@ -87,11 +107,13 @@ export const SCHOOL_INFO = {
   logoAlt: "Little Kingdom Preschool Logo - Little Mind Big Dreams",
   branchesCount: 2,
   branches: SCHOOL_BRANCHES,
+  cityState: "Dombivli West, Kalyan, Maharashtra 421202",
+  phone: "+91 7039015296",
   placeholders: {
-    address: "Operating across 2 convenient branches (Branch 1 & Branch 2)",
-    cityState: "[City & State Placeholder]",
-    phone: "+91 9594681373",
-    email: "[School Official Email Placeholder]",
+    address: "Branch 1: Subhash Chandra Bose Rd, Ambika Nagar | Branch 2: Rajvaibhav NX, Dombivli West",
+    cityState: "Dombivli, Kalyan, Maharashtra 421202",
+    phone: "+91 7039015296",
+    email: "admissions@littlekingdompreschool.com",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
     admissionsSession: "Academic Session 2026–2027",
     googleMapsEmbedUrl: "", // Ready for verified client Google Maps Embed URL

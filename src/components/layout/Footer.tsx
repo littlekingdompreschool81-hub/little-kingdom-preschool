@@ -44,15 +44,17 @@ export function Footer() {
               Nurturing joyful, curious, and confident young learners. Our preschool provides a safe, welcoming foundation for Nursery, Junior KG, and Senior KG.
             </p>
 
-            <div className="pt-1 text-xs font-bold text-sky-700 space-y-0.5">
+            <div className="pt-1 text-xs font-bold text-sky-700 space-y-1">
               <div>
                 <span>{SCHOOL_INFO.principalTitle}: </span>
-                <span className="text-slate-800">{SCHOOL_INFO.principal}</span>
+                <a href={`tel:${SCHOOL_INFO.principalPhone}`} className="text-slate-900 hover:text-sky-700 hover:underline">
+                  {SCHOOL_INFO.principal} ({SCHOOL_INFO.principalPhoneFormatted})
+                </a>
               </div>
               <div>
                 <span>Admissions Helpline: </span>
-                <a href="tel:+919594681373" className="text-coral-600 hover:underline">
-                  Mrs. Kalpana Kadam (95946 81373)
+                <a href={`tel:${SCHOOL_INFO.coordinatorPhone}`} className="text-coral-600 hover:underline">
+                  {SCHOOL_INFO.coordinator} ({SCHOOL_INFO.coordinatorPhoneFormatted})
                 </a>
               </div>
             </div>
@@ -117,17 +119,27 @@ export function Footer() {
               Our 2 Branches
             </h4>
             <div className="space-y-2 text-xs text-slate-600">
-              <div className="p-2 rounded-xl bg-ivory-100 border border-slate-200">
-                <Link href="#branches" className="font-extrabold text-sky-800 hover:underline block">
-                  Branch 1 (Campus 1) &rarr;
+              <div className="p-2.5 rounded-xl bg-ivory-100 border border-slate-200">
+                <Link href="#branches" className="font-extrabold text-sky-800 hover:underline block text-xs">
+                  Branch 1: Ambika Nagar &rarr;
                 </Link>
-                <span className="text-[11px] text-slate-500 block truncate">[Branch 1 Address Placeholder]</span>
+                <span className="text-[11px] text-slate-600 block line-clamp-2 mt-0.5">
+                  Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli West (421202)
+                </span>
+                <a href="tel:+917039015296" className="text-[11px] font-bold text-sky-700 hover:underline block mt-1">
+                  📞 Neeta Jadhav: 70390 15296
+                </a>
               </div>
-              <div className="p-2 rounded-xl bg-ivory-100 border border-slate-200">
-                <Link href="#branches" className="font-extrabold text-mint-800 hover:underline block">
-                  Branch 2 (Campus 2) &rarr;
+              <div className="p-2.5 rounded-xl bg-ivory-100 border border-slate-200">
+                <Link href="#branches" className="font-extrabold text-mint-800 hover:underline block text-xs">
+                  Branch 2: Rajvaibhav NX &rarr;
                 </Link>
-                <span className="text-[11px] text-slate-500 block truncate">[Branch 2 Address Placeholder]</span>
+                <span className="text-[11px] text-slate-600 block line-clamp-2 mt-0.5">
+                  Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli West (421202)
+                </span>
+                <a href="tel:+917039015296" className="text-[11px] font-bold text-mint-700 hover:underline block mt-1">
+                  📞 Neeta Jadhav: 70390 15296
+                </a>
               </div>
               <p className="pt-1 text-slate-500 italic text-[11px]">
                 * {SCHOOL_INFO.placeholders.officeHours}

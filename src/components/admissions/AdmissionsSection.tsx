@@ -128,12 +128,20 @@ export function AdmissionsSection() {
 
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
+                  <div className="space-y-1">
                     <span className="font-extrabold text-slate-900 block">Contact Desk:</span>
-                    <span className="text-slate-600">{SCHOOL_INFO.placeholders.phone}</span>
-                    <div className="mt-1">
-                      <PlaceholderNotice label="Verified phone pending" />
-                    </div>
+                    <a
+                      href="tel:+917039015296"
+                      className="font-bold text-sky-800 hover:underline block text-xs"
+                    >
+                      📞 Neeta Jadhav: 70390 15296
+                    </a>
+                    <a
+                      href="tel:+919594681373"
+                      className="font-bold text-mint-800 hover:underline block text-xs"
+                    >
+                      📞 Kalpana Kadam: 95946 81373
+                    </a>
                   </div>
                 </div>
 
@@ -142,13 +150,13 @@ export function AdmissionsSection() {
                   <div>
                     <span className="font-extrabold text-slate-900 block">2 Campus Branches:</span>
                     <div className="mt-1 space-y-1.5 font-mono text-[11px]">
-                      <div className="p-2 rounded-xl bg-white border border-slate-200">
-                        <strong className="text-sky-800 block">Branch 1:</strong>
-                        <span className="text-slate-600 block">[Branch 1 Campus Address]</span>
+                      <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                        <strong className="text-sky-800 block font-bold">Branch 1 (Ambika Nagar):</strong>
+                        <span className="text-slate-600 block text-[11px]">Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli West</span>
                       </div>
-                      <div className="p-2 rounded-xl bg-white border border-slate-200">
-                        <strong className="text-mint-800 block">Branch 2:</strong>
-                        <span className="text-slate-600 block">[Branch 2 Campus Address]</span>
+                      <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                        <strong className="text-mint-800 block font-bold">Branch 2 (Rajvaibhav NX):</strong>
+                        <span className="text-slate-600 block text-[11px]">Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli West</span>
                       </div>
                     </div>
                     <a
