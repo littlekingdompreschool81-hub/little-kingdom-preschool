@@ -29,6 +29,7 @@ export interface SchoolBranch {
   contactPerson: string;
   email: string;
   officeHours: string;
+  googleMapsUrl: string;
   googleMapsQuery: string;
   googleMapsEmbedUrl?: string;
   themeColor: "sky" | "mint";
@@ -50,6 +51,7 @@ export const SCHOOL_BRANCHES: SchoolBranch[] = [
     contactPerson: "Neeta Jadhav",
     email: "admissions@littlekingdompreschool.com",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
+    googleMapsUrl: "https://maps.app.goo.gl/4mX2vCcCt8hJozg76",
     googleMapsQuery: "Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli, Ambika Nagar, Dombivli West, Dombivali, Kalyan, Maharashtra 421202",
     themeColor: "sky",
     highlights: ["Sensory Play Studios", "Creative Arts Corner", "Child-Safe Discovery Rooms"],
@@ -68,6 +70,7 @@ export const SCHOOL_BRANCHES: SchoolBranch[] = [
     contactPerson: "Neeta Jadhav",
     email: "admissions@littlekingdompreschool.com",
     officeHours: "Monday to Friday: 8:30 AM – 1:30 PM (Saturday by appointment)",
+    googleMapsUrl: "https://maps.app.goo.gl/QgijPuHY1JnmmWry7",
     googleMapsQuery: "Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli, Dombivli West, Dombivli, Kalyan, Maharashtra 421202",
     themeColor: "mint",
     highlights: ["Story & Reading Nook", "Indoor Motor Activity Space", "Interactive Learning Corners"],

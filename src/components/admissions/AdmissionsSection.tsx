@@ -153,10 +153,26 @@ export function AdmissionsSection() {
                       <div className="p-2.5 rounded-xl bg-white border border-slate-200">
                         <strong className="text-sky-800 block font-bold">Branch 1 (Ambika Nagar):</strong>
                         <span className="text-slate-600 block text-[11px]">Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli West</span>
+                        <a
+                          href={SCHOOL_INFO.branches[0].googleMapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 text-[10px] font-extrabold text-sky-700 hover:underline inline-flex items-center gap-1"
+                        >
+                          <span>Open in Google Maps &rarr;</span>
+                        </a>
                       </div>
                       <div className="p-2.5 rounded-xl bg-white border border-slate-200">
                         <strong className="text-mint-800 block font-bold">Branch 2 (Rajvaibhav NX):</strong>
                         <span className="text-slate-600 block text-[11px]">Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli West</span>
+                        <a
+                          href={SCHOOL_INFO.branches[1].googleMapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 text-[10px] font-extrabold text-mint-700 hover:underline inline-flex items-center gap-1"
+                        >
+                          <span>Open in Google Maps &rarr;</span>
+                        </a>
                       </div>
                     </div>
                     <a

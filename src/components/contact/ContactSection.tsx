@@ -168,7 +168,7 @@ export function ContactSection() {
                   </button>
 
                   <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.name + ", " + branch.address)}`}
+                    href={branch.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}

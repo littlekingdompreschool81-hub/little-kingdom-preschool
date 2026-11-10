@@ -120,9 +120,19 @@ export function Footer() {
             </h4>
             <div className="space-y-2 text-xs text-slate-600">
               <div className="p-2.5 rounded-xl bg-ivory-100 border border-slate-200">
-                <Link href="#branches" className="font-extrabold text-sky-800 hover:underline block text-xs">
-                  Branch 1: Ambika Nagar &rarr;
-                </Link>
+                <div className="flex items-center justify-between">
+                  <Link href="#branches" className="font-extrabold text-sky-800 hover:underline block text-xs">
+                    Branch 1: Ambika Nagar &rarr;
+                  </Link>
+                  <a
+                    href={SCHOOL_INFO.branches[0].googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-extrabold text-sky-600 hover:underline"
+                  >
+                    Maps ↗
+                  </a>
+                </div>
                 <span className="text-[11px] text-slate-600 block line-clamp-2 mt-0.5">
                   Subhash Chandra Bose Rd, behind S Raju Photo Studio, Dombivli West (421202)
                 </span>
@@ -131,9 +141,19 @@ export function Footer() {
                 </a>
               </div>
               <div className="p-2.5 rounded-xl bg-ivory-100 border border-slate-200">
-                <Link href="#branches" className="font-extrabold text-mint-800 hover:underline block text-xs">
-                  Branch 2: Rajvaibhav NX &rarr;
-                </Link>
+                <div className="flex items-center justify-between">
+                  <Link href="#branches" className="font-extrabold text-mint-800 hover:underline block text-xs">
+                    Branch 2: Rajvaibhav NX &rarr;
+                  </Link>
+                  <a
+                    href={SCHOOL_INFO.branches[1].googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-extrabold text-mint-600 hover:underline"
+                  >
+                    Maps ↗
+                  </a>
+                </div>
                 <span className="text-[11px] text-slate-600 block line-clamp-2 mt-0.5">
                   Bhagwan, Kathe Chawl, Rajvaibhav NX, Dombivli West (421202)
                 </span>

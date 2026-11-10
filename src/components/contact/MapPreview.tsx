@@ -93,13 +93,13 @@ export function MapPreview({ selectedBranchId, onBranchSelect }: MapPreviewProps
           </p>
 
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${addressQuery}`}
+            href={activeBranch.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-black transition-all shadow-md hover:-translate-y-0.5"
           >
             <Navigation className="w-4 h-4" />
-            <span>Open {activeBranch.shortName} in Maps</span>
+            <span>Open {activeBranch.shortName} in Google Maps</span>
             <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
           </a>
         </div>
