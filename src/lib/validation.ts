@@ -68,5 +68,6 @@ export interface EnquirySubmissionResponse {
     emailStatus: "sent" | "not_configured" | "failed";
     whatsappStatus: "sent" | "not_configured" | "failed";
     details: string;
+    directWhatsAppUrl?: string;
   };
 }

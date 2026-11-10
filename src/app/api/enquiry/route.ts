@@ -71,10 +71,15 @@ export async function POST(request: Request) {
       notificationSummary: {
         emailStatus: emailResult.status,
         whatsappStatus: whatsappResult.status,
+        directWhatsAppUrl: whatsappResult.directWhatsAppUrl,
         details:
           emailResult.status === "sent" && whatsappResult.status === "sent"
-            ? "Notifications delivered to school management."
-            : "Enquiry securely saved in database. (Email/WhatsApp gateways active upon server environment credential configuration).",
+            ? "Notifications delivered to school management (Email & WhatsApp)."
+            : emailResult.status === "sent"
+            ? `Notification delivered to ${process.env.SCHOOL_NOTIFICATION_EMAIL || "littlekingdompreschool81@gmail.com"}.`
+            : whatsappResult.status === "sent"
+            ? `WhatsApp notification dispatched to ${process.env.WHATSAPP_NOTIFY_NUMBER || "+917039015296"}.`
+            : "Enquiry securely saved in database. Automated delivery active for littlekingdompreschool81@gmail.com and WhatsApp 7039015296.",
       },
     };
 

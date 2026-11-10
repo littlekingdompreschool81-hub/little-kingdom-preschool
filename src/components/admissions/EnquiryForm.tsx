@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { type PreschoolEnquiryInput, type EnquirySubmissionResponse } from "@/lib/validation";
-import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, Heart, Smile } from "lucide-react";
+import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, Heart, Smile, MessageCircle } from "lucide-react";
 
 export function EnquiryForm() {
   const [formData, setFormData] = useState<PreschoolEnquiryInput>({
@@ -170,7 +170,24 @@ export function EnquiryForm() {
                   <strong>Database Storage:</strong> Confirmed & Persisted safely
                 </p>
                 <p>
-                  <strong>Notification Gateway:</strong> {responseState.notificationSummary.details}
+                  <strong>Notification Dispatch:</strong> {responseState.notificationSummary.details}
+                </p>
+              </div>
+            )}
+
+            {responseState.notificationSummary?.directWhatsAppUrl && (
+              <div className="mt-4 pt-3 border-t border-slate-200/80">
+                <a
+                  href={responseState.notificationSummary.directWhatsAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all hover:scale-102"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Send Details Directly on WhatsApp (70390 15296)</span>
+                </a>
+                <p className="text-[11px] text-slate-500 mt-1.5">
+                  Click to open WhatsApp with your enquiry details pre-filled to chat directly with Mrs. Neeta Jadhav.
                 </p>
               </div>
             )}
