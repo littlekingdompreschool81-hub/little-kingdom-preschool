@@ -1,25 +1,72 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SCHOOL_INFO } from "@/lib/constants";
 
+export const viewport: Viewport = {
+  themeColor: "#0284C7",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: `${SCHOOL_INFO.name} | ${SCHOOL_INFO.motto}`,
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://littlekingdompreschool.com"),
+  title: {
+    default: `${SCHOOL_INFO.name} — ${SCHOOL_INFO.motto}`,
+    template: `%s | ${SCHOOL_INFO.name}`,
+  },
   description:
-    "A joyful, nurturing early childhood learning center for Nursery, Junior KG, and Senior KG. Little minds with big dreams begin their journey here.",
+    "Little Kingdom Preschool in Dombivli West. A joyful, nurturing early childhood learning center for Play Group, Nursery, Junior KG, and Senior KG. Learning by doing.",
   keywords: [
     "Little Kingdom Preschool",
-    "Preschool",
-    "Kindergarten",
-    "Nursery",
-    "Junior KG",
-    "Senior KG",
-    "Early Childhood Education",
+    "Preschool in Dombivli",
+    "Preschool in Dombivli West",
+    "Best Preschool Dombivli",
+    "Nursery Admission Dombivli",
+    "Play Group Dombivli",
+    "Junior KG Dombivli",
+    "Senior KG Dombivli",
     "Little Mind Big Dreams",
+    "Neeta Jadhav",
   ],
-  authors: [{ name: SCHOOL_INFO.name }],
+  authors: [{ name: `${SCHOOL_INFO.name} - Principal ${SCHOOL_INFO.principal}` }],
+  creator: SCHOOL_INFO.name,
+  publisher: SCHOOL_INFO.name,
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/",
+    siteName: SCHOOL_INFO.name,
+    title: `${SCHOOL_INFO.name} — ${SCHOOL_INFO.motto}`,
+    description:
+      "A joyful, nurturing early childhood center for Play Group, Nursery, Junior KG, and Senior KG across 2 campuses in Dombivli West. Admissions open for 2026–2027.",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 800,
+        height: 800,
+        alt: `${SCHOOL_INFO.name} Logo`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SCHOOL_INFO.name} — ${SCHOOL_INFO.motto}`,
+    description:
+      "Play Group, Nursery, Jr. KG & Sr. KG admissions open across 2 campuses in Dombivli West.",
+    images: ["/images/logo.png"],
+  },
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: [
+      { url: "/images/logo.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/logo.png", type: "image/png" },
+    ],
   },
 };
 

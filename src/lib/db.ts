@@ -2,15 +2,44 @@ import fs from "fs";
 import path from "path";
 import { type EnquiryRecord } from "./validation";
 
-const dataDir = path.join(process.cwd(), "data");
+function resolveDataDirectory(): string {
+  const isServerless = Boolean(
+    process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.NETLIFY
+  );
+
+  let targetDir = path.join(process.cwd(), "data");
+
+  if (isServerless) {
+    targetDir = path.join(process.platform === "win32" ? process.cwd() : "/tmp", "littlekingdom-data");
+  }
+
+  try {
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+    return targetDir;
+  } catch {
+    // If current directory is read-only (e.g. AWS Lambda / Vercel), fallback to OS temp dir
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const os = require("os");
+    const fallback = path.join(os.tmpdir(), "littlekingdom-data");
+    try {
+      if (!fs.existsSync(fallback)) {
+        fs.mkdirSync(fallback, { recursive: true });
+      }
+      return fallback;
+    } catch {
+      return targetDir;
+    }
+  }
+}
+
+const dataDir = resolveDataDirectory();
 const dbPath = path.join(dataDir, "enquiries.db");
 const jsonFallbackPath = path.join(dataDir, "enquiries.json");
 const allowlistFallbackPath = path.join(dataDir, "allowlist.json");
-
-// Ensure data directory exists
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
 
 let sqliteDb: any = null;
 
