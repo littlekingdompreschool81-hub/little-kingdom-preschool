@@ -185,16 +185,20 @@ http://localhost:3000/admin/enquiries
   // 1. Try Nodemailer / Gmail SMTP if credentials provided
   if (smtpPass) {
     try {
+      const cleanPass = smtpPass.trim().replace(/\s+/g, "");
+      const activeUser = (smtpUser || "littlekingdompreschool81@gmail.com").trim();
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: smtpUser || "littlekingdompreschool81@gmail.com",
-          pass: smtpPass,
+          user: activeUser,
+          pass: cleanPass,
         },
+        connectionTimeout: 10000,
       });
 
       await transporter.sendMail({
-        from: `Little Kingdom Preschool <${smtpUser || "littlekingdompreschool81@gmail.com"}>`,
+        from: `Little Kingdom Preschool <${activeUser}>`,
         to: recipient,
         replyTo: record.email || undefined,
         subject,
