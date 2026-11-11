@@ -135,13 +135,11 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
+      <body className="bg-ivory-100 text-brand-text antialiased selection:bg-sunshine-200 selection:text-sky-900 min-h-screen flex flex-col font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className="bg-ivory-100 text-brand-text antialiased selection:bg-sunshine-200 selection:text-sky-900 min-h-screen flex flex-col font-sans">
         {children}
       </body>
     </html>

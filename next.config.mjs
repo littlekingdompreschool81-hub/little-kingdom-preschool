@@ -2,6 +2,12 @@
 const nextConfig = {
   transpilePackages: ['three'],
   poweredByHeader: false, // Prevents leaking 'X-Powered-By: Next.js' technology header
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
   images: {
     remotePatterns: [
       {

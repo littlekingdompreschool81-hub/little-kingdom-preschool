@@ -451,7 +451,6 @@ export const PRESCHOOL_VIDEOS: CampusVideo[] = [
     duration: "Live Tour",
     caption: "Live campus walk-through and auspicious opening ceremony of our second branch at Rajvaibhav NX, Dombivli West.",
     thumbnailUrl: "/images/gallery/branch-opening-inauguration-1.jpg",
-    videoUrl: "/videos/branch2-opening-ceremony.mov",
     embedUrl: "https://drive.google.com/file/d/1OP1u-yuFPK5HSnQF0KRR2Gx0c7qdkBLO/preview",
     tag: "Grand Opening Tour",
     accent: "coral",
