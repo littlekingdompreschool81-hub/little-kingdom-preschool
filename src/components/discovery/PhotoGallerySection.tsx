@@ -450,22 +450,31 @@ export function PhotoGallerySection() {
 
             {/* Video Player Container */}
             <div className="relative aspect-[16/9] max-h-[65vh] w-full rounded-2xl overflow-hidden bg-black mx-auto flex items-center justify-center">
-              {/* HTML5 Video with graceful fallback animated preview */}
-              <video
-                src={activeVideo.videoUrl}
-                poster={activeVideo.thumbnailUrl}
-                controls
-                autoPlay
-                playsInline
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  // Fallback if video file is not yet deployed: show interactive celebration preview
-                  const target = e.currentTarget;
-                  target.style.display = "none";
-                  const fallback = document.getElementById("video-fallback-preview");
-                  if (fallback) fallback.style.display = "flex";
-                }}
-              />
+              {activeVideo.embedUrl ? (
+                <iframe
+                  src={activeVideo.embedUrl}
+                  title={activeVideo.title}
+                  allow="autoplay; fullscreen"
+                  className="w-full h-full border-0 rounded-2xl"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={activeVideo.videoUrl}
+                  poster={activeVideo.thumbnailUrl}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    // Fallback if video file is not yet deployed: show interactive celebration preview
+                    const target = e.currentTarget;
+                    target.style.display = "none";
+                    const fallback = document.getElementById("video-fallback-preview");
+                    if (fallback) fallback.style.display = "flex";
+                  }}
+                />
+              )}
 
               {/* Animated Celebration Video Fallback Preview (when raw file is pending) */}
               <div

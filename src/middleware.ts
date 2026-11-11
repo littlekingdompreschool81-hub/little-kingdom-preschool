@@ -82,7 +82,7 @@ export function middleware(request: NextRequest) {
     img-src 'self' data: blob: https://images.unsplash.com https://*.google.com https://*.googleusercontent.com https://*.google.co.in https://maps.gstatic.com;
     media-src 'self' blob:;
     connect-src 'self' https://*.googleapis.com https://*.google-analytics.com https://api.callmebot.com https://graph.facebook.com https://api.twilio.com;
-    frame-src 'self' https://www.google.com https://maps.google.com;
+    frame-src 'self' https://www.google.com https://maps.google.com https://drive.google.com;
     frame-ancestors 'none';
     form-action 'self' https://wa.me https://accounts.google.com;
     base-uri 'self';

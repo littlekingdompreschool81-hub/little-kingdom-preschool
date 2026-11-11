@@ -426,6 +426,7 @@ export interface CampusVideo {
   caption: string;
   thumbnailUrl: string;
   videoUrl?: string;
+  embedUrl?: string;
   tag: string;
   accent: "coral" | "sky" | "sunshine" | "mint";
 }
@@ -439,6 +440,7 @@ export const PRESCHOOL_VIDEOS: CampusVideo[] = [
     caption: "Lively celebration reel at Little Kingdom Pre School featuring little Radha & Krishna, festive marigold swings, traditional attire, and pure festival joy.",
     thumbnailUrl: "/images/gallery/janmashtami-radha-krishna-1.jpg",
     videoUrl: "/videos/janmashtami-celebration-reel.mp4",
+    embedUrl: "https://drive.google.com/file/d/1ACmJ4P2Ul8u0WLMVRFl__XeIJ4Gk7h07/preview",
     tag: "Festival Reel",
     accent: "sunshine",
   },
@@ -450,7 +452,20 @@ export const PRESCHOOL_VIDEOS: CampusVideo[] = [
     caption: "Live campus walk-through and auspicious opening ceremony of our second branch at Rajvaibhav NX, Dombivli West.",
     thumbnailUrl: "/images/gallery/branch-opening-inauguration-1.jpg",
     videoUrl: "/videos/branch2-opening-ceremony.mov",
+    embedUrl: "https://drive.google.com/file/d/1OP1u-yuFPK5HSnQF0KRR2Gx0c7qdkBLO/preview",
     tag: "Grand Opening Tour",
     accent: "coral",
+  },
+  {
+    id: "learning-celebration-highlights",
+    title: "Preschool Learning & Festive Day Highlights",
+    category: "Campus Life & Activities",
+    duration: "Highlights",
+    caption: "Experience joyful learning moments, festive days, and creative development at Little Kingdom Preschool.",
+    thumbnailUrl: "/images/gallery/celebration-activity-6.jpg",
+    embedUrl: "https://drive.google.com/file/d/1ACmJ4P2Ul8u0WLMVRFl__XeIJ4Gk7h07/preview",
+    videoUrl: "/videos/janmashtami-celebration-reel.mp4",
+    tag: "Campus Highlights",
+    accent: "mint",
   },
 ];
