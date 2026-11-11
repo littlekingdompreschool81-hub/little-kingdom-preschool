@@ -1,7 +1,9 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://littlekingdomedu.com";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://littlekingdomedu.com";
+  const withProtocol = raw.startsWith("http://") || raw.startsWith("https://") ? raw : `https://${raw}`;
+  const siteUrl = withProtocol.replace(/\/+$/, "");
   const now = new Date();
 
   return [

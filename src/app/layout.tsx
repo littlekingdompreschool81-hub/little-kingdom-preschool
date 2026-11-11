@@ -8,8 +8,19 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+function getValidSiteUrl(): URL {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return new URL("https://littlekingdomedu.com");
+  const withProtocol = raw.startsWith("http://") || raw.startsWith("https://") ? raw : `https://${raw}`;
+  try {
+    return new URL(withProtocol);
+  } catch {
+    return new URL("https://littlekingdomedu.com");
+  }
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://littlekingdomedu.com"),
+  metadataBase: getValidSiteUrl(),
   title: {
     default: `${SCHOOL_INFO.name} — ${SCHOOL_INFO.motto}`,
     template: `%s | ${SCHOOL_INFO.name}`,
