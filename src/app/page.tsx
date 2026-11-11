@@ -1,13 +1,13 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { CampusHero } from "@/components/campus/CampusHero";
+import { AchievementsSection } from "@/components/discovery/AchievementsSection";
 import { AcademicsSection } from "@/components/discovery/AcademicsSection";
 import { ActivitiesSection } from "@/components/discovery/ActivitiesSection";
-import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
-import { AchievementsSection } from "@/components/discovery/AchievementsSection";
 import { PhotoGallerySection } from "@/components/discovery/PhotoGallerySection";
-import { AdmissionsSection } from "@/components/admissions/AdmissionsSection";
+import { FacilitiesSection } from "@/components/discovery/FacilitiesSection";
 import { ContactSection } from "@/components/contact/ContactSection";
+import { AdmissionsSection } from "@/components/admissions/AdmissionsSection";
 import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -16,31 +16,31 @@ export default function HomePage() {
       {/* 1. Accessible Preschool Navigation with Official Logo */}
       <Navbar />
 
-      {/* 2. Hero: Full-Screen Cinematic Storybook Kingdom with Parallax Depth */}
+      {/* 2. Hero: Full-Screen Storybook Kingdom with Direct Action CTAs */}
       <CampusHero />
 
-      {/* 3. Three Learning Worlds: Play Group, Nursery, Junior KG, Senior KG */}
-      <AcademicsSection />
-
-      {/* 4. Growing Through Play: Early Childhood Learning Pillars */}
-      <ActivitiesSection />
-
-      {/* 5. Safe, Inspiring Learning Spaces */}
-      <FacilitiesSection />
-
-      {/* 6. A Message from Our Principal (Mrs. Neeta Suresh Jadhav) */}
+      {/* 3. Leadership & Welcome Message from Principal Mrs. Neeta Suresh Jadhav */}
       <AchievementsSection />
 
-      {/* 7. Glimpses of Little Kingdom (Authentic Photos & Video Reels) */}
+      {/* 4. Four Progressive Learning Levels (Play Group to Sr. KG) & Daily Routine Rhythm */}
+      <AcademicsSection />
+
+      {/* 5. Growing Through Play: Early Childhood "Learning by Doing" Pillars */}
+      <ActivitiesSection />
+
+      {/* 6. Authentic Media Showcase: Structured Event Albums & HD Video Reels */}
       <PhotoGallerySection />
 
-      {/* 8. Admissions & Validated Enquiry Form (Saved in Database) */}
-      <AdmissionsSection />
+      {/* 7. Safe, Inspiring Learning Spaces & Child Safety Protocols */}
+      <FacilitiesSection />
 
-      {/* 9. Contact Information & 2 Campus Locations with Maps */}
+      {/* 8. Our Two Campuses in Dombivli West (Ambika Nagar & Rajvaibhav NX) & Maps */}
       <ContactSection />
 
-      {/* 10. Storybook Footer */}
+      {/* 9. Admissions 2026–2027 & Validated Parent Enquiry Form */}
+      <AdmissionsSection />
+
+      {/* 10. Storybook Preschool Footer with Verified Contacts */}
       <Footer />
     </main>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -26,30 +26,129 @@ import {
   Film,
   Video,
   Clock,
-  Volume2,
-  VolumeX,
   PhoneCall,
   Calendar,
+  ChevronLeft,
+  ChevronRight,
+  FolderHeart,
+  Layers,
 } from "lucide-react";
 
+interface EventAlbum {
+  id: string;
+  title: string;
+  category: string;
+  tag: string;
+  icon: string;
+  description: string;
+  coverImage: string;
+  accent: "sunshine" | "coral" | "mint" | "sky";
+  badgeColor: string;
+  matchingVideoId?: string;
+}
+
+const EVENT_ALBUMS: EventAlbum[] = [
+  {
+    id: "all",
+    title: "All Memories",
+    category: "All",
+    tag: "18 Photos • 3 Reels",
+    icon: "🌟",
+    description: "Complete showcase of celebrations, campus inaugurations, and daily play-based learning moments across our 2 campuses.",
+    coverImage: "/images/gallery/janmashtami-radha-krishna-1.jpg",
+    accent: "sky",
+    badgeColor: "bg-sky-100 text-sky-900 border-sky-300",
+  },
+  {
+    id: "janmashtami",
+    title: "Janmashtami Utsav",
+    category: "Janmashtami Utsav",
+    tag: "5 Photos • 1 Live Reel",
+    icon: "🌸",
+    description: "Little Radha & Krishna dressed in traditional festive attire celebrating on decorated flower swings with cultural music.",
+    coverImage: "/images/gallery/janmashtami-flower-swing-2.jpg",
+    accent: "sunshine",
+    badgeColor: "bg-sunshine-100 text-amber-900 border-sunshine-300",
+    matchingVideoId: "janmashtami-celebration-reel",
+  },
+  {
+    id: "branch-opening",
+    title: "Rajvaibhav NX Opening",
+    category: "New Branch Launch",
+    tag: "4 Photos • 1 Tour Video",
+    icon: "🏫",
+    description: "Auspicious inauguration ceremony, modern cheerful classrooms, festive balloon entrance arch, and parent tour.",
+    coverImage: "/images/gallery/branch-opening-inauguration-1.jpg",
+    accent: "coral",
+    badgeColor: "bg-coral-100 text-coral-900 border-coral-300",
+    matchingVideoId: "branch2-opening-ceremony",
+  },
+  {
+    id: "celebrations",
+    title: "Daily Activities & Fun",
+    category: "Celebrations & Activities",
+    tag: "8 Photos • 1 Highlights Reel",
+    icon: "🎨",
+    description: "Sensory discovery, colors day, circle time rhymes, motor coordination games, and hands-on crafts.",
+    coverImage: "/images/gallery/celebration-activity-6.jpg",
+    accent: "mint",
+    badgeColor: "bg-mint-100 text-mint-900 border-mint-300",
+    matchingVideoId: "learning-celebration-highlights",
+  },
+  {
+    id: "admissions-banner",
+    title: "Programs & Admissions Guide",
+    category: "Campus & Admissions",
+    tag: "Official Campus Guide",
+    icon: "📜",
+    description: "Official Little Kingdom banner detailing Play Group, Nursery, Jr. KG, and Sr. KG curriculum highlights.",
+    coverImage: "/images/gallery/school-admission-banner.jpg",
+    accent: "sky",
+    badgeColor: "bg-sky-100 text-sky-900 border-sky-300",
+  },
+];
+
 export function PhotoGallerySection() {
-  const [activeMediaTab, setActiveMediaTab] = useState<"photos" | "videos">("photos");
-  const [selectedPhotoCategory, setSelectedPhotoCategory] = useState("All");
+  const [selectedAlbumId, setSelectedAlbumId] = useState<string>("all");
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const [activeVideo, setActiveVideo] = useState<CampusVideo | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
 
-  // Available photo categories
-  const dynamicPhotoCategories = [
-    "All",
-    ...Array.from(new Set(PRESCHOOL_GALLERY.map((p) => p.category))),
-  ];
+  const selectedAlbum =
+    EVENT_ALBUMS.find((a) => a.id === selectedAlbumId) || EVENT_ALBUMS[0];
 
   const filteredPhotos =
-    selectedPhotoCategory === "All"
+    selectedAlbum.category === "All"
       ? PRESCHOOL_GALLERY
-      : PRESCHOOL_GALLERY.filter((p) => p.category === selectedPhotoCategory);
+      : PRESCHOOL_GALLERY.filter((p) => p.category === selectedAlbum.category);
+
+  // Relevant video for current album
+  const currentAlbumVideo = selectedAlbum.matchingVideoId
+    ? PRESCHOOL_VIDEOS.find((v) => v.id === selectedAlbum.matchingVideoId)
+    : null;
+
+  // Keyboard navigation for photo lightbox
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (activePhotoIndex === null) return;
+      if (e.key === "Escape") {
+        setActivePhotoIndex(null);
+      } else if (e.key === "ArrowLeft") {
+        setActivePhotoIndex((prev) =>
+          prev !== null ? (prev > 0 ? prev - 1 : filteredPhotos.length - 1) : null
+        );
+      } else if (e.key === "ArrowRight") {
+        setActivePhotoIndex((prev) =>
+          prev !== null ? (prev < filteredPhotos.length - 1 ? prev + 1 : 0) : null
+        );
+      }
+    },
+    [activePhotoIndex, filteredPhotos.length]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   const scrapbookTapeColors = [
     "bg-sunshine-300",
@@ -70,314 +169,348 @@ export function PhotoGallerySection() {
           description="Explore authentic photo memories and festival video reels captured directly at Little Kingdom Pre School across our two campuses."
         />
 
-        {/* Media Type Switcher: Photos vs Videos */}
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <div className="bg-white p-1.5 rounded-3xl border-2 border-slate-200 shadow-md inline-flex">
-            <button
-              onClick={() => setActiveMediaTab("photos")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
-                activeMediaTab === "photos"
-                  ? "bg-sky-600 text-white shadow-md shadow-sky-500/25 scale-102"
-                  : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
-              }`}
-            >
-              <Camera className="w-4 h-4" />
-              <span>Campus Photos</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                activeMediaTab === "photos" ? "bg-white/20 text-white" : "bg-slate-100 text-slate-700"
-              }`}>
-                {PRESCHOOL_GALLERY.length} Authentic
-              </span>
-            </button>
+        {/* ================= 1. STRUCTURED EVENT ALBUM SELECTOR ================= */}
+        <div className="mb-12">
+          <div className="text-center max-w-xl mx-auto mb-6">
+            <span className="storybook-sticker bg-white text-slate-700 border-slate-300 shadow-2xs text-xs">
+              <FolderHeart className="w-3.5 h-3.5 text-coral-600" />
+              <span>Select an Event Album</span>
+            </span>
+          </div>
 
-            <button
-              onClick={() => setActiveMediaTab("videos")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
-                activeMediaTab === "videos"
-                  ? "bg-coral-500 text-white shadow-md shadow-coral-500/25 scale-102"
-                  : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
-              }`}
-            >
-              <Film className="w-4 h-4" />
-              <span>Celebration Videos & Reels</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                activeMediaTab === "videos" ? "bg-white/20 text-white" : "bg-coral-100 text-coral-800"
-              }`}>
-                {PRESCHOOL_VIDEOS.length} Reels
-              </span>
-            </button>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-6xl mx-auto">
+            {EVENT_ALBUMS.map((album) => {
+              const isSelected = album.id === selectedAlbumId;
+              return (
+                <button
+                  key={album.id}
+                  onClick={() => setSelectedAlbumId(album.id)}
+                  className={`group relative rounded-3xl p-3 sm:p-4 text-left transition-all duration-300 border-2 cursor-pointer flex flex-col justify-between ${
+                    isSelected
+                      ? "bg-white border-coral-500 shadow-xl ring-4 ring-coral-100 scale-102"
+                      : "bg-white/80 hover:bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md"
+                  }`}
+                >
+                  <div>
+                    {/* Small Thumbnail Preview */}
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-900 mb-3 shadow-inner">
+                      <Image
+                        src={album.coverImage}
+                        alt={album.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, 200px"
+                      />
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[10px] font-bold">
+                        {album.icon}
+                      </span>
+                      {album.matchingVideoId && (
+                        <span className="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-coral-500 text-white flex items-center justify-center shadow-md">
+                          <Play className="w-3 h-3 fill-white ml-0.5" />
+                        </span>
+                      )}
+                    </div>
+
+                    <h4 className={`font-black text-xs sm:text-sm line-clamp-1 ${
+                      isSelected ? "text-coral-600" : "text-slate-900"
+                    }`}>
+                      {album.title}
+                    </h4>
+                  </div>
+
+                  <span className="mt-2 text-[10px] font-bold text-slate-500 font-mono block">
+                    {album.tag}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* ================= PHOTOS TAB ================= */}
-        {activeMediaTab === "photos" && (
-          <div>
-            {/* Real Photo Highlight Banner */}
-            <div className="max-w-3xl mx-auto mb-10">
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-sunshine-50 via-white to-mint-50 border-2 border-sunshine-300/80 text-xs text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-sunshine-200 text-amber-900 flex items-center justify-center shrink-0 shadow-2xs">
-                    <Camera className="w-5 h-5 text-amber-800" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 font-extrabold text-sm block">
-                      100% Authentic School Photographs Only
-                    </strong>
-                    <span className="text-slate-600">
-                      Featuring our real campus banner, Janmashtami swing celebration, and daily learning moments. Zero stock images.
-                    </span>
+        {/* ================= 2. ACTIVE ALBUM HEADER BANNER ================= */}
+        <div className="max-w-4xl mx-auto mb-10">
+          <div className="p-5 sm:p-6 rounded-3xl bg-white border-2 border-slate-200 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-coral-100 border border-coral-200 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
+                {selectedAlbum.icon}
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 font-heading">
+                    {selectedAlbum.title}
+                  </h3>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black border ${selectedAlbum.badgeColor}`}>
+                    {selectedAlbum.tag}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600">
+                  {selectedAlbum.description}
+                </p>
+              </div>
+            </div>
+
+            <span className="storybook-sticker bg-mint-100 text-mint-900 border-mint-300 shrink-0 self-start sm:self-auto text-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-mint-700" />
+              100% Verified Campus Media
+            </span>
+          </div>
+        </div>
+
+        {/* ================= 3. FEATURED EVENT VIDEO REEL (IF ALBUM HAS A VIDEO) ================= */}
+        {currentAlbumVideo && (
+          <div className="max-w-4xl mx-auto mb-12">
+            <div
+              onClick={() => setActiveVideo(currentAlbumVideo)}
+              className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white border-2 border-coral-400/50 shadow-2xl cursor-pointer hover:border-coral-400 transition-all duration-300 flex flex-col md:flex-row items-center gap-6"
+            >
+              {/* Thumbnail with pulsing Play button */}
+              <div className="relative w-full md:w-64 aspect-[16/9] rounded-2xl overflow-hidden shrink-0 shadow-lg bg-black">
+                <Image
+                  src={currentAlbumVideo.thumbnailUrl}
+                  alt={currentAlbumVideo.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-coral-500 text-white flex items-center justify-center shadow-lg shadow-coral-500/50 group-hover:scale-110 transition-transform animate-pulse">
+                    <Play className="w-6 h-6 fill-white ml-0.5" />
                   </div>
                 </div>
-                <span className="storybook-sticker bg-mint-100 text-mint-900 border border-mint-300 shrink-0 self-start sm:self-auto">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-mint-700" />
-                  Verified Campus Photos
+                <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/80 text-[10px] font-mono font-bold text-sunshine-300">
+                  {currentAlbumVideo.duration}
                 </span>
               </div>
-            </div>
 
-            {/* Photo Category Filters */}
-            {dynamicPhotoCategories.length > 2 && (
-              <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-                {dynamicPhotoCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedPhotoCategory(category)}
-                    className={`px-4 sm:px-5 py-2 rounded-2xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
-                      selectedPhotoCategory === category
-                        ? "bg-sky-600 text-white shadow-md shadow-sky-500/25 scale-105"
-                        : "bg-white text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Scrapbook Photos Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
-              {filteredPhotos.map((photo, index) => {
-                const tapeColor = scrapbookTapeColors[index % scrapbookTapeColors.length];
-                const slightRotation = index === 0 ? "rotate-[-0.6deg]" : "rotate-[0.6deg]";
-
-                return (
-                  <div
-                    key={photo.id}
-                    onClick={() => setActivePhotoIndex(index)}
-                    className={`group relative rounded-3xl bg-white p-5 sm:p-6 border-3 border-amber-300 shadow-xl ring-4 ring-sunshine-100/70 hover:shadow-2xl transition-all duration-300 cursor-pointer ${slightRotation} hover:rotate-0 hover:-translate-y-1.5 flex flex-col justify-between`}
-                  >
-                    {/* Scrapbook Washi Tape */}
-                    <div
-                      className={`absolute -top-3.5 left-10 w-16 h-6 rounded-xs ${tapeColor} opacity-90 shadow-2xs rotate-[-3deg] z-10`}
-                    />
-                    <div
-                      className={`absolute -top-3.5 right-10 w-16 h-6 rounded-xs ${scrapbookTapeColors[(index + 1) % scrapbookTapeColors.length]} opacity-90 shadow-2xs rotate-[4deg] z-10`}
-                    />
-
-                    {/* Top Ribbon */}
-                    <div className="flex items-center justify-between mb-3 pt-1">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-sunshine-300 to-amber-400 text-amber-950 font-black text-xs shadow-xs border border-white">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-900 fill-amber-900" />
-                        <span>{photo.tag || "Authentic School Photo"}</span>
-                      </span>
-                      <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5" /> Tap to zoom
-                      </span>
-                    </div>
-
-                    {/* Image Container with Safe Aspect Ratio */}
-                    <div className="relative rounded-2xl overflow-hidden aspect-[3/4] bg-slate-900 mb-4 shadow-inner">
-                      <Image
-                        src={photo.imageUrl}
-                        alt={photo.title}
-                        fill
-                        className="object-contain object-center group-hover:scale-102 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, 500px"
-                        priority
-                      />
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-5">
-                        <span className="text-white text-xs sm:text-sm font-bold flex items-center gap-2">
-                          <Maximize2 className="w-4 h-4 text-sunshine-300" />
-                          <span>Click to expand high-resolution photo</span>
-                        </span>
-                        <span className="w-9 h-9 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-md">
-                          <Maximize2 className="w-4 h-4" />
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Caption & Title */}
-                    <div className="space-y-1.5 px-1">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-[11px] font-extrabold text-sky-700 uppercase tracking-wider">
-                          {photo.category}
-                        </span>
-                        <span className="storybook-sticker bg-amber-100 text-amber-950 border-amber-300 text-[10px]">
-                          <PartyPopper className="w-3 h-3 text-amber-700" />
-                          Verified
-                        </span>
-                      </div>
-                      <h3 className="font-black text-slate-900 text-lg font-heading group-hover:text-sky-700 transition-colors">
-                        {photo.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        {photo.caption}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* School Highlights Companion Card */}
-            <div className="max-w-4xl mx-auto rounded-3xl bg-white p-6 sm:p-8 border-2 border-slate-200/90 shadow-lg">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="space-y-2 text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral-100 text-coral-800 text-xs font-bold">
-                    <Heart className="w-3.5 h-3.5 text-coral-600 fill-coral-500" />
-                    <span>Little Kingdom Campus Experience</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
-                    Learning by Doing Across Both Campuses
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
-                    Admissions are open for Play Group, Nursery, Jr. KG, and Sr. KG across both Branch 1 (Primary Campus) and Branch 2 (Activity Campus).
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
-                  <Link
-                    href="#admissions"
-                    className="text-center py-3 px-6 rounded-2xl bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-sm shadow-md shadow-coral-500/25 transition-transform active:scale-95 flex items-center justify-center gap-2"
-                  >
-                    <span>Enquire for Admission</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  <a
-                    href="tel:+919594681373"
-                    className="text-center py-3 px-5 rounded-2xl bg-mint-100 hover:bg-mint-200 text-mint-900 font-extrabold text-sm transition-colors flex items-center justify-center gap-2 border border-mint-300"
-                  >
-                    <PhoneCall className="w-4 h-4 text-mint-700" />
-                    <span>Call Kalpana Kadam: 9594681373</span>
-                  </a>
+              {/* Video Info */}
+              <div className="flex-1 space-y-2 text-center md:text-left">
+                <span className="px-3 py-1 rounded-full bg-coral-500/30 text-coral-300 text-[10px] font-black uppercase tracking-wider border border-coral-400/30 inline-block">
+                  🎬 Featured Celebration Video
+                </span>
+                <h4 className="text-xl sm:text-2xl font-black font-heading text-white group-hover:text-coral-300 transition-colors">
+                  {currentAlbumVideo.title}
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-300 line-clamp-2">
+                  {currentAlbumVideo.caption}
+                </p>
+                <div className="pt-2 flex items-center justify-center md:justify-start gap-2 text-xs font-bold text-coral-400">
+                  <Play className="w-4 h-4 fill-coral-400" />
+                  <span>Click to Stream High-Definition Celebration Video</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ================= VIDEOS TAB ================= */}
-        {activeMediaTab === "videos" && (
-          <div className="space-y-10">
-            {/* Video Banner */}
-            <div className="max-w-3xl mx-auto">
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-coral-50 via-white to-sunshine-50 border-2 border-coral-200 text-xs text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-coral-200 text-coral-900 flex items-center justify-center shrink-0 shadow-2xs">
-                    <Video className="w-5 h-5 text-coral-800" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 font-extrabold text-sm block">
-                      Campus Celebration Reels & Learning Films
-                    </strong>
-                    <span className="text-slate-600">
-                      Watch how our children learn through music, action songs, and festival celebrations at Little Kingdom Pre School.
-                    </span>
-                  </div>
-                </div>
-                <span className="storybook-sticker bg-coral-100 text-coral-900 border border-coral-300 shrink-0 self-start sm:self-auto">
-                  <Sparkles className="w-3.5 h-3.5 text-coral-700" />
-                  3 Celebration Reels
-                </span>
+        {/* If "All Memories" is selected, show all 3 video reels horizontally */}
+        {selectedAlbum.id === "all" && (
+          <div className="max-w-6xl mx-auto mb-14">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Film className="w-5 h-5 text-coral-600" />
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
+                  Celebration Video Reels ({PRESCHOOL_VIDEOS.length})
+                </h3>
               </div>
+              <span className="text-xs font-bold text-slate-500">
+                Tap any reel to play
+              </span>
             </div>
 
-            {/* Video Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {PRESCHOOL_VIDEOS.map((video) => (
                 <div
                   key={video.id}
                   onClick={() => setActiveVideo(video)}
-                  className="group relative rounded-3xl bg-white p-5 border-2 border-slate-200 shadow-md hover:shadow-2xl hover:border-coral-300 transition-all duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1.5"
+                  className="group relative rounded-3xl bg-white p-4 border-2 border-slate-200 shadow-md hover:shadow-xl hover:border-coral-400 transition-all duration-300 cursor-pointer flex flex-col justify-between"
                 >
                   <div>
-                    {/* Video Thumbnail with Play Button */}
-                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-900 mb-4 shadow-inner">
+                    <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-slate-900 mb-3 shadow-inner">
                       <Image
                         src={video.thumbnailUrl}
                         alt={video.title}
                         fill
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                         sizes="(max-width: 768px) 100vw, 360px"
                       />
-
-                      {/* Play Button Overlay */}
-                      <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
-                        <div className="w-14 h-14 rounded-full bg-coral-500 text-white flex items-center justify-center shadow-lg shadow-coral-500/40 group-hover:scale-110 transition-transform">
-                          <Play className="w-6 h-6 fill-white ml-0.5" />
+                      <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-coral-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                          <Play className="w-5 h-5 fill-white ml-0.5" />
                         </div>
                       </div>
-
-                      {/* Duration Badge */}
-                      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl bg-slate-950/80 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1 shadow-sm">
-                        <Clock className="w-3 h-3 text-coral-300" />
-                        <span>{video.duration}</span>
-                      </div>
-
-                      {/* Top Category Badge */}
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-xs text-slate-900 text-[10px] font-black uppercase tracking-wider shadow-sm">
-                        {video.tag}
-                      </div>
-                    </div>
-
-                    {/* Video Info */}
-                    <div className="space-y-1.5">
-                      <span className="text-[11px] font-extrabold text-coral-600 uppercase tracking-wider block">
-                        {video.category}
+                      <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/80 text-[10px] font-mono font-bold text-white">
+                        {video.duration}
                       </span>
-                      <h4 className="font-black text-slate-900 text-base group-hover:text-coral-600 transition-colors line-clamp-2">
-                        {video.title}
-                      </h4>
-                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                        {video.caption}
-                      </p>
+                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-white/95 text-slate-900 text-[10px] font-black uppercase">
+                        {video.tag}
+                      </span>
                     </div>
+
+                    <h4 className="font-black text-slate-900 text-sm group-hover:text-coral-600 transition-colors line-clamp-1">
+                      {video.title}
+                    </h4>
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
+                      {video.caption}
+                    </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-coral-600">
-                    <span className="flex items-center gap-1.5">
+                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-coral-600">
+                    <span className="flex items-center gap-1">
                       <Play className="w-3.5 h-3.5 fill-coral-600" />
-                      <span>Watch Celebration Reel</span>
+                      <span>Watch Reel</span>
                     </span>
-                    <span className="w-6 h-6 rounded-full bg-coral-50 text-coral-600 flex items-center justify-center">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* Video Upload Note for School Management */}
-            <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-sky-50 border border-sky-200 text-xs text-slate-700 flex items-center gap-3">
-              <Film className="w-5 h-5 text-sky-600 shrink-0" />
-              <p>
-                <strong>Adding School Videos:</strong> You can place any school celebration video file (.mp4) inside the <code className="bg-white px-1.5 py-0.5 rounded text-sky-800 font-mono text-[11px]">public/videos/</code> directory or share YouTube links to play them directly on the website.
-              </p>
-            </div>
           </div>
         )}
+
+        {/* ================= 4. AUTHENTIC SCRAPBOOK PHOTOS GRID ================= */}
+        <div className="max-w-6xl mx-auto mb-14">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <Camera className="w-5 h-5 text-sky-600" />
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
+                Photo Gallery ({filteredPhotos.length} Photos)
+              </h3>
+            </div>
+            <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
+              <Eye className="w-3.5 h-3.5" /> Click any photo to zoom & navigate
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {filteredPhotos.map((photo, index) => {
+              const tapeColor = scrapbookTapeColors[index % scrapbookTapeColors.length];
+
+              return (
+                <div
+                  key={photo.id}
+                  onClick={() => setActivePhotoIndex(index)}
+                  className="group relative rounded-3xl bg-white p-4 sm:p-5 border-2 border-slate-200 shadow-md hover:shadow-2xl hover:border-sky-300 transition-all duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1.5"
+                >
+                  {/* Washi Tape Ribbon Effect */}
+                  <div
+                    className={`absolute -top-3 left-8 w-14 h-5 rounded-xs ${tapeColor} opacity-90 shadow-2xs rotate-[-3deg] z-10`}
+                  />
+
+                  <div>
+                    {/* Image Container with Safe Aspect Ratio */}
+                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-900 mb-3 shadow-inner">
+                      <Image
+                        src={photo.imageUrl}
+                        alt={photo.title}
+                        fill
+                        className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
+                      />
+
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="w-10 h-10 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-lg">
+                          <Maximize2 className="w-5 h-5" />
+                        </span>
+                      </div>
+
+                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-xs text-slate-900 text-[10px] font-black uppercase tracking-wider shadow-sm">
+                        {photo.category}
+                      </span>
+                    </div>
+
+                    <h4 className="font-black text-slate-900 text-sm group-hover:text-sky-700 transition-colors line-clamp-1">
+                      {photo.title}
+                    </h4>
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
+                      {photo.caption}
+                    </p>
+                  </div>
+
+                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-700">
+                    <span className="flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      <span>{photo.tag || "Authentic Photo"}</span>
+                    </span>
+                    <Maximize2 className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-700" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ================= 5. QUICK ENQUIRY CALLOUT ================= */}
+        <div className="max-w-4xl mx-auto rounded-3xl bg-white p-6 sm:p-8 border-2 border-slate-200/90 shadow-lg">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral-100 text-coral-800 text-xs font-bold">
+                <Heart className="w-3.5 h-3.5 text-coral-600 fill-coral-500" />
+                <span>Visit Our Campuses in Person</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
+                Experience Little Kingdom Early Learning
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
+                Admissions are open for Play Group, Nursery, Jr. KG, and Sr. KG across both Branch 1 (Ambika Nagar) and Branch 2 (Rajvaibhav NX).
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
+              <Link
+                href="#admissions"
+                className="text-center py-3 px-6 rounded-2xl bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-sm shadow-md shadow-coral-500/25 transition-transform active:scale-95 flex items-center justify-center gap-2"
+              >
+                <span>Enquire for Admission</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="tel:+917039015296"
+                className="text-center py-3 px-5 rounded-2xl bg-sky-100 hover:bg-sky-200 text-sky-900 font-extrabold text-sm transition-colors flex items-center justify-center gap-2 border border-sky-300"
+              >
+                <PhoneCall className="w-4 h-4 text-sky-700" />
+                <span>Call Neeta Jadhav: 7039015296</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* ================= PHOTO LIGHTBOX MODAL ================= */}
+      {/* ================= PHOTO LIGHTBOX MODAL WITH NEXT / PREV NAVIGATION ================= */}
       {activePhotoIndex !== null && filteredPhotos[activePhotoIndex] && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
           onClick={() => setActivePhotoIndex(null)}
         >
+          {/* Previous Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setActivePhotoIndex((prev) =>
+                prev !== null ? (prev > 0 ? prev - 1 : filteredPhotos.length - 1) : null
+              );
+            }}
+            className="absolute left-3 sm:left-6 z-30 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setActivePhotoIndex((prev) =>
+                prev !== null ? (prev < filteredPhotos.length - 1 ? prev + 1 : 0) : null
+              );
+            }}
+            className="absolute right-3 sm:right-6 z-30 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+            aria-label="Next photo"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
           <div
             className="relative max-w-4xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 p-4 sm:p-6"
             onClick={(e) => e.stopPropagation()}
@@ -390,7 +523,7 @@ export function PhotoGallerySection() {
               <X className="w-5 h-5" />
             </button>
 
-            <div className="relative aspect-[3/4] max-h-[70vh] w-full rounded-2xl overflow-hidden bg-slate-950 mx-auto">
+            <div className="relative aspect-[4/3] max-h-[70vh] w-full rounded-2xl overflow-hidden bg-slate-950 mx-auto">
               <Image
                 src={filteredPhotos[activePhotoIndex].imageUrl}
                 alt={filteredPhotos[activePhotoIndex].title}
@@ -419,7 +552,7 @@ export function PhotoGallerySection() {
                 </p>
               </div>
 
-              <span className="text-[11px] font-mono text-slate-400 self-end sm:self-center">
+              <span className="text-xs font-mono font-bold text-slate-400 self-end sm:self-center bg-slate-100 px-3 py-1 rounded-full">
                 {activePhotoIndex + 1} of {filteredPhotos.length}
               </span>
             </div>
@@ -466,35 +599,8 @@ export function PhotoGallerySection() {
                   autoPlay
                   playsInline
                   className="w-full h-full object-contain"
-                  onError={(e) => {
-                    // Fallback if video file is not yet deployed: show interactive celebration preview
-                    const target = e.currentTarget;
-                    target.style.display = "none";
-                    const fallback = document.getElementById("video-fallback-preview");
-                    if (fallback) fallback.style.display = "flex";
-                  }}
                 />
               )}
-
-              {/* Animated Celebration Video Fallback Preview (when raw file is pending) */}
-              <div
-                id="video-fallback-preview"
-                style={{ display: "none" }}
-                className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"
-              >
-                <div className="w-20 h-20 rounded-full bg-coral-500/20 border-2 border-coral-400 flex items-center justify-center mb-4 animate-pulse">
-                  <Play className="w-9 h-9 text-coral-400 fill-coral-400 ml-1" />
-                </div>
-                <h4 className="text-xl sm:text-2xl font-black text-white font-heading mb-2">
-                  {activeVideo.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-lg mb-4">
-                  {activeVideo.caption}
-                </p>
-                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-xs text-xs text-sunshine-200 border border-white/20 max-w-md">
-                  ✨ <strong>Celebration Video Player Ready:</strong> To stream your exact school recording, simply place <code className="bg-black/40 px-1.5 py-0.5 rounded text-white font-mono">{activeVideo.videoUrl?.replace('/videos/', '')}</code> in the <code className="bg-black/40 px-1.5 py-0.5 rounded text-white font-mono">public/videos/</code> folder!
-                </div>
-              </div>
             </div>
 
             {/* Video Details Bar */}

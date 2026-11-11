@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { SCHOOL_INFO, SCHOOL_BRANCHES, type SchoolBranch } from "@/lib/constants";
 import { SectionHeader } from "../ui/SectionHeader";
 import { MapPreview } from "./MapPreview";
@@ -17,13 +18,49 @@ import {
   ExternalLink,
   Navigation,
   Compass,
+  CheckCircle2,
+  HelpCircle,
+  ChevronDown,
 } from "lucide-react";
 
 export function ContactSection() {
   const [selectedBranchId, setSelectedBranchId] = useState<string>(SCHOOL_BRANCHES[0].id);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const selectedBranch =
     SCHOOL_BRANCHES.find((b) => b.id === selectedBranchId) || SCHOOL_BRANCHES[0];
+
+  const branchPhotos = [
+    {
+      branchId: "branch-1",
+      image: "/images/gallery/school-admission-banner.jpg",
+      caption: "Branch 1 Campus (Ambika Nagar) — Admissions & Primary Foundation Center",
+    },
+    {
+      branchId: "branch-2",
+      image: "/images/gallery/branch-opening-inauguration-1.jpg",
+      caption: "Branch 2 Campus (Rajvaibhav NX) — Modern Activity Center & Play Studios",
+    },
+  ];
+
+  const faqs = [
+    {
+      q: "Which branch should I choose for my child?",
+      a: "Both branches follow the exact same curriculum, safety protocols, and personalized teaching methodology under the direct leadership of Principal Mrs. Neeta Suresh Jadhav. You are encouraged to select the branch most convenient to your residence in Dombivli West.",
+    },
+    {
+      q: "What are the preschool timings for the 2026–2027 session?",
+      a: "Our regular morning batches run from 8:30 AM to 11:30 AM (Play Group & Nursery) and 8:30 AM to 12:30 PM (Jr. KG & Sr. KG). Visiting and enquiry hours for parents are Monday to Friday from 8:30 AM to 1:30 PM (Saturday by appointment).",
+    },
+    {
+      q: "What are the age criteria for admissions?",
+      a: "Play Group: 1.5 to 2.5 Years | Nursery: 2.5 to 3.5 Years | Junior KG: 3.5 to 4.5 Years | Senior KG: 4.5 to 5.5 Years as per government guidelines.",
+    },
+    {
+      q: "How can I schedule a campus walk-through before enrolling?",
+      a: "You can book a walk-through anytime! Call or WhatsApp Admissions Coordinator Mrs. Kalpana Kadam (+91 9594681373) or Principal Mrs. Neeta Suresh Jadhav (+91 7039015296).",
+    },
+  ];
 
   return (
     <section id="branches" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ivory-100 relative overflow-hidden">
@@ -80,9 +117,25 @@ export function ContactSection() {
                   <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 font-heading">
                     {branch.name}
                   </h3>
-                  <p className="text-xs font-extrabold text-sky-700 mb-6 italic">
+                  <p className="text-xs font-extrabold text-sky-700 mb-4 italic">
                     &ldquo;{branch.tagline}&rdquo;
                   </p>
+
+                  {/* Campus Authentic Photo */}
+                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 bg-slate-900 shadow-sm border border-slate-200">
+                    <Image
+                      src={branchPhotos[index].image}
+                      alt={branch.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 550px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3">
+                      <span className="text-white text-[11px] font-bold">
+                        {branchPhotos[index].caption}
+                      </span>
+                    </div>
+                  </div>
 
                   <div className="space-y-5 text-xs sm:text-sm text-slate-700">
                     {/* Address */}
@@ -223,6 +276,54 @@ export function ContactSection() {
               <Phone className="w-4 h-4" />
               <span>Kalpana Kadam: 95946 81373</span>
             </a>
+          </div>
+        </div>
+
+        {/* ================= PARENT FREQUENTLY ASKED QUESTIONS (FAQ) ================= */}
+        <div className="mt-16 pt-16 border-t-2 border-slate-200/80 max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="storybook-sticker bg-sky-100 text-sky-900 border-sky-300 mb-2">
+              <HelpCircle className="w-3.5 h-3.5 text-sky-700" />
+              <span>Parent Help Center</span>
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
+              Frequently Asked Questions
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2">
+              Common questions answered for parents considering admissions for Academic Session 2026–2027.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, fIdx) => {
+              const isOpen = openFaqIndex === fIdx;
+              return (
+                <div
+                  key={fIdx}
+                  className="rounded-3xl bg-white border-2 border-slate-200 overflow-hidden shadow-xs transition-colors"
+                >
+                  <button
+                    onClick={() => setOpenFaqIndex(isOpen ? null : fIdx)}
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors"
+                  >
+                    <span className="font-black text-slate-900 text-sm sm:text-base">
+                      {faq.q}
+                    </span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-slate-500 shrink-0 transition-transform duration-200 ${
+                        isOpen ? "rotate-180 text-sky-600" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-5 sm:px-6 pb-6 pt-1 border-t border-slate-100 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
